@@ -300,6 +300,14 @@
                 </div>
             </div>
 
+                        <!-- Botones de Navegación del Carrusel (Flechas Izquierda y Derecha) -->
+            <button type="button" onclick="prevCenterSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 transition flex items-center justify-center cursor-pointer shadow-lg hover:scale-105" aria-label="Anterior diapositiva">
+                <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button type="button" onclick="nextCenterSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 transition flex items-center justify-center cursor-pointer shadow-lg hover:scale-105" aria-label="Siguiente diapositiva">
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+
             <!-- PUNTOS INDICADORES DE NAVEGACIÓN -->
             <div class="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
                 <button type="button" onclick="setCenterSlide(0)" aria-label="Ver Kiosco Digital" class="c-dot w-2.5 h-2.5 rounded-full bg-amber-500 transition-all"></button>
@@ -341,6 +349,7 @@
         let currentCenterSlide = 0;
         const centerSlides = document.querySelectorAll('.bazar-center-slide');
         const centerDots = document.querySelectorAll('.c-dot');
+        let centerInterval;
 
         function setCenterSlide(index) {
             // Ocultar diapositiva actual
@@ -356,12 +365,33 @@
             centerSlides[currentCenterSlide].classList.add('opacity-100', 'z-10');
             centerDots[currentCenterSlide].classList.remove('bg-slate-400');
             centerDots[currentCenterSlide].classList.add('bg-amber-500');
+
+            // Reiniciar el temporizador automáticamente al cambiar de slide
+            resetCenterInterval();
         }
 
-        setInterval(() => {
+        function resetCenterInterval() {
+            if (centerInterval) {
+                clearInterval(centerInterval);
+            }
+            centerInterval = setInterval(() => {
+                let nextIndex = (currentCenterSlide + 1) % centerSlides.length;
+                setCenterSlide(nextIndex);
+            }, 4500);
+        }
+
+        function nextCenterSlide() {
             let nextIndex = (currentCenterSlide + 1) % centerSlides.length;
             setCenterSlide(nextIndex);
-        }, 4500);
+        }
+
+        function prevCenterSlide() {
+            let prevIndex = (currentCenterSlide - 1 + centerSlides.length) % centerSlides.length;
+            setCenterSlide(prevIndex);
+        }
+
+        // Inicializar el carrusel
+        resetCenterInterval();
 
         // Ajustar velocidad de videos y pausar 5 segundos al finalizar
         document.addEventListener('DOMContentLoaded', () => {
