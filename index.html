@@ -91,7 +91,9 @@
             .site-search { width: calc(100% - 24px); margin-top: 14px; }
             .site-search button { padding: 12px 15px; }
         }
-    </style>
+    
+        #chatbot-window { height: 520px; max-height: 85vh; }
+</style>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -435,5 +437,109 @@
 
     <p>© 2026 Puesto de Revistas & Bazar NFL.GDL. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
 </footer>
+
+    <!-- CHATBOT FLOTANTE -->
+    <div class="fixed bottom-6 right-6 z-[9999] text-slate-100 font-sans">
+        <button id="chatbot-toggle" onclick="toggleChatbot()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 text-white w-16 h-16 rounded-full shadow-2xl shadow-blue-600/50 flex items-center justify-center text-2xl transition-all cursor-pointer">
+            <i id="chatbot-icon" class="fa-solid fa-comments"></i>
+        </button>
+
+        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-80 sm:w-[420px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-slate-950 p-4 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <div>
+                        <span class="font-bold text-sm text-white block">Asistente Virtual // Kiosco de Software IA</span>
+                        <span class="text-xs text-slate-400 font-mono">Responde al instante 24/7</span>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-slate-400 hover:text-white p-1 cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-4 text-sm max-h-[350px]">
+                <div class="bg-slate-800 text-slate-100 p-4 rounded-2xl rounded-tl-none border border-slate-700 leading-relaxed space-y-3">
+                    <p>¡Hola! 👋 Te asistimos con descargas de software y copilotos de IA de Gemini y Anti-Gravity. Cuéntanos tu duda o contáctanos directamente:</p>
+                    <div class="flex flex-col gap-2 pt-1">
+                        <a href="tel:3337271440" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-solid fa-phone"></i> Llamar a Atención Local
+                        </a>
+                        <a href="https://wa.me/523337271440?text=Hola%2C%20quisiera%20cotizar%20o%20consultar%20sobre%20el%20software%20IA..." target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Chatear por WhatsApp
+                        </a>
+                    </div>
+                    <p class="text-slate-400 text-[11px] pt-1 font-mono text-center">O escribe tu mensaje abajo si no cuentas con WhatsApp:</p>
+                </div>
+            </div>
+
+            <div class="p-3 bg-slate-950 border-t border-slate-800 flex gap-2">
+                <input id="chat-input" type="text" placeholder="Escribe aquí tu proyecto o duda..." onkeypress="handleChatKeyPress(event)" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
+                <button onclick="enviarMensajeChatbot()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-3 rounded-xl text-sm transition cursor-pointer"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleChatbot() {
+            document.getElementById('chatbot-window').classList.toggle('hidden');
+        }
+
+        function abrirChatbotConMensaje(mensajeInicial) {
+            document.getElementById('chatbot-window').classList.remove('hidden');
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += `<div class="bg-blue-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] ml-auto font-medium shadow-md">${mensajeInicial}</div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            setTimeout(() => {
+                messages.innerHTML += `<div class="bg-slate-800 text-slate-100 p-4 rounded-2xl rounded-tl-none border border-slate-700 leading-relaxed space-y-3">
+                    <p>¡Excelente! Selecciona cómo deseas continuar:</p>
+                    <div class="flex flex-col gap-2">
+                        <a href="tel:3337271440" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-solid fa-phone"></i> Llamar a Atención Local
+                        </a>
+                        <a href="https://wa.me/523337271440?text=${encodeURIComponent(mensajeInicial)}" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Chatear por WhatsApp
+                        </a>
+                        <a href="mailto:iaworldcenter@gmail.com?subject=Consulta&body=${encodeURIComponent(mensajeInicial)}" class="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-solid fa-envelope"></i> Enviar por Correo Electrónico
+                        </a>
+                    </div>
+                </div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 600);
+        }
+
+        function enviarMensajeChatbot() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += `<div class="bg-blue-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] ml-auto font-medium shadow-md">${text}</div>`;
+            input.value = '';
+
+            setTimeout(() => {
+                messages.innerHTML += `<div class="bg-slate-800 text-slate-100 p-4 rounded-2xl rounded-tl-none border border-slate-700 leading-relaxed space-y-3">
+                    <p>Muchas gracias por escribirnos. Elige la vía para comunicarte con nosotros o enviarnos tu mensaje:</p>
+                    <div class="flex flex-col gap-2">
+                        <a href="tel:3337271440" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-solid fa-phone"></i> Llamar a Atención Local
+                        </a>
+                        <a href="https://wa.me/523337271440?text=${encodeURIComponent(text)}" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Enviar por WhatsApp
+                        </a>
+                        <a href="mailto:iaworldcenter@gmail.com?subject=Consulta&body=${encodeURIComponent(text)}" class="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-md">
+                            <i class="fa-solid fa-envelope"></i> Enviar por Correo Electrónico
+                        </a>
+                    </div>
+                </div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 700);
+        }
+
+        function handleChatKeyPress(e) {
+            if (e.key === 'Enter') enviarMensajeChatbot();
+        }
+    </script>
+
 </body>
 </html>
