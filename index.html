@@ -100,7 +100,7 @@
     <!-- Open Graph para Applebot, Siri, Spotlight, Facebook, Discord -->
     <meta property="og:title" content="Kiosco de Software IA | Google Gemini &amp; Anti-Gravity" />
     <meta property="og:description" content="Ecosistema de copilotos de inteligencia artificial y descargas de software Gemini y Anti-Gravity." />
-    <meta property="og:image" content="https://iaworldcenter-creator.github.io/kiosco-digital/assets/img/mascota_tigre.jpg" />
+    <meta property="og:image" content="https://iaworldcenter-creator.github.io/kiosco-digital/assets/img/mascota_tigre.webp" />
     <meta property="og:url" content="https://iaworldcenter-creator.github.io/kiosco-digital/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Puesto de Revistas &amp; Bazar" />
@@ -119,6 +119,13 @@
 
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="assets/img/Revistas/news-stands-magazines-newspapers-vienna-international-airport-40617590.webp" as="image">
+
+    <style>
+        @media (max-width: 768px) {
+            video { display: none !important; }
+            .mobile-video-fallback { display: block !important; }
+        }
+    </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 <!-- BARRA LATERAL FLOTANTE DE REDES SOCIALES -->
@@ -145,7 +152,7 @@
             
             <!-- Columna central: Logo circular y Marca CENTRADOS -->
             <div class="flex flex-col items-center text-center">
-                <img loading="lazy" decoding="async" src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500 shadow-md shadow-blue-500/30 mb-2">
+                <img loading="lazy" decoding="async" src="assets/img/mascota_tigre.webp" alt="Tigre Logo" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500 shadow-md shadow-blue-500/30 mb-2">
                 <span class="text-xl sm:text-2xl font-black tracking-wider text-blue-500 block leading-tight">Kiosco de Software IA</span>
                 <span class="text-xs font-mono font-bold tracking-widest text-blue-400 block mt-0.5">Google Gemini &amp; Anti-Gravity</span>
             </div>
@@ -220,6 +227,7 @@
         <!-- Panel Izquierdo: Atención en Lectura (Video de Tigre leyendo en escritorio) -->
         <a href="https://wa.me/523337271440?text=Hola,%20quiero%20probar%20Gemini%20y%20el%20copiloto%20Anti-Gravity." target="_blank" rel="noopener noreferrer" class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-2 md:order-1 group block cursor-pointer border-r border-slate-800/40">
             <video autoplay muted playsinline class="absolute inset-0 w-full h-full object-cover object-tech-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none">
+            <img loading="lazy" src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710.webp" class="absolute inset-0 w-full h-full object-cover mobile-video-fallback hidden" style="display: none;" alt="Mobile cover placeholder">
                 <source src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
@@ -253,7 +261,7 @@
 
             <!-- Slide 2: Anti-Gravity Copilot -->
             <div class="bazar-center-slide absolute inset-0 w-full h-full opacity-0 z-0 transition-opacity duration-700 ease-in-out group">
-                <img loading="lazy" decoding="async" src="assets/img/Revistas/istockphoto-609437196-612x612.jpg" alt="Anti-Gravity Copilot" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105">
+                <img loading="lazy" decoding="async" src="assets/img/Revistas/istockphoto-609437196-612x612.webp" alt="Anti-Gravity Copilot" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105">
                 <div class="absolute inset-0 bg-slate-950/60 flex flex-col justify-center items-center text-center p-6 md:p-12 text-white">
                     <span class="text-orange-400 font-mono text-xs uppercase font-bold tracking-widest mb-3">El Asistente Definitivo de DeepMind</span>
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3 max-w-2xl drop-shadow-md leading-tight">Anti-Gravity Copilot IA</h2>
@@ -279,7 +287,7 @@
 
             <!-- Slide 4: IA para Todos -->
             <div class="bazar-center-slide absolute inset-0 w-full h-full opacity-0 z-0 transition-opacity duration-700 ease-in-out group">
-                <img loading="lazy" decoding="async" src="assets/img/Revistas/revistas.jpg" alt="IA para todos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105">
+                <img loading="lazy" decoding="async" src="assets/img/Revistas/revistas.webp" alt="IA para todos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105">
                 <div class="absolute inset-0 bg-slate-950/60 flex flex-col justify-center items-center text-center p-6 md:p-12 text-white">
                     <span class="text-indigo-400 font-mono text-xs uppercase font-bold tracking-widest mb-3">Soluciones Rápidas e Intuitivas</span>
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3 max-w-2xl drop-shadow-md leading-tight">Inteligencia Artificial para Todos</h2>
@@ -324,6 +332,7 @@
         <!-- Panel Derecho: Creado con Google Gemini (Tigre leyendo revista de modas) -->
         <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-3 md:order-3 group block cursor-pointer">
             <video autoplay muted playsinline class="absolute inset-0 w-full h-full object-cover object-tiger-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none">
+            <img loading="lazy" src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710.webp" class="absolute inset-0 w-full h-full object-cover mobile-video-fallback hidden" style="display: none;" alt="Mobile cover placeholder">
                 <source src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
