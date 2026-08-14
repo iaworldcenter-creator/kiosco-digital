@@ -263,6 +263,8 @@ if ('serviceWorker' in navigator) {
 </div>
 </div>
 </header>
+<main id="main-content">
+
 <section class="hero">
 <h1>¿Quieres programar de forma profesional con Inteligencia Artificial?</h1>
 <p>¡Duplica tu velocidad de código! Consigue suscripciones a Gemini Pro y la potencia de Anti-Gravity.</p>
@@ -529,6 +531,8 @@ if ('serviceWorker' in navigator) {
 </div></div></div>
 </section>
 <!-- FOOTER -->
+
+</main>
 <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm font-mono">
 <!-- Íconos de contacto móvil -->
 <div class="md:hidden flex justify-center gap-6 mb-6">
@@ -551,7 +555,7 @@ if ('serviceWorker' in navigator) {
 </footer>
 <!-- CHATBOT FLOTANTE -->
 <div class="fixed bottom-6 right-6 z-[9999] text-slate-100 font-sans">
-<button aria-label="Botón de acción interactiva" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 text-white w-16 h-16 rounded-full shadow-2xl shadow-blue-600/50 flex items-center justify-center text-2xl transition-all cursor-pointer" id="chatbot-toggle" onclick="toggleChatbot()">
+<button aria-label="Botón de acción interactiva" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 text-white w-16 h-16 rounded-full shadow-2xl shadow-blue-600/50 flex items-center justify-center text-2xl transition-all cursor-pointer" id="chatbot-toggle" aria-label="Abrir chat de asistencia" onclick="toggleChatbot()">
 <i class="fa-solid fa-comments" id="chatbot-icon"></i>
 </button>
 <div class="hidden absolute bottom-20 right-0 w-80 sm:w-[420px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col" id="chatbot-window">
