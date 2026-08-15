@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kiosco-digital-cache-v1.0.2';
+const CACHE_NAME = 'kiosco-digital-cache-v1.0.3';
 const ASSETS_TO_CACHE = [
   './index.html',
-  './assets/css/tailwind-built.css?v=1.0.2',
-  './assets/css/fontawesome-all.min.css?v=1.0.2',
-  './assets/img/mascota_tigre_thumb.webp?v=1.0.2'
+  './ofertas.html',
+  './assets/css/tailwind-built.css?v=1.0.3',
+  './assets/css/fontawesome-all.min.css?v=1.0.3'
 ];
 
 self.addEventListener('install', (event) => {
@@ -31,21 +31,41 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin === self.location.origin || url.href.includes('cdnjs.cloudflare.com')) {
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const cacheCopy = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, cacheCopy);
-            });
+    // ESTRATEGIA NETWORK-FIRST PARA HTML Y CSS (Para ver los cambios al instante)
+    if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('.css')) {
+      event.respondWith(
+        fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              const cacheCopy = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, cacheCopy);
+              });
+            }
+            return networkResponse;
+          })
+          .catch(() => {
+            return caches.match(event.request);
+          })
+      );
+    } else {
+      // ESTRATEGIA CACHE-FIRST PARA IMAGENES, FUENTES Y OTROS ESTÁTICOS
+      event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
           }
-          return networkResponse;
-        });
-      })
-    );
+          return fetch(event.request).then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              const cacheCopy = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, cacheCopy);
+              });
+            }
+            return networkResponse;
+          });
+        })
+      );
+    }
   }
 });
