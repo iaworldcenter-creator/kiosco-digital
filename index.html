@@ -5,7 +5,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=1.0.5')
+                navigator.serviceWorker.register('./sw.js?v=1.0.6')
                     .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
                     .catch(err => console.log('Error al registrar el Service Worker:', err));
             
@@ -136,8 +136,8 @@
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" crossorigin />
     <!-- Carga asíncrona de FontAwesome local purgado con font-display: swap -->
-    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.5" /></noscript>
+    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.6" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.6" /></noscript>
 
 <link as="image" href="assets/img/carrusel-cabecera/foto3.webp" rel="preload"/>
 <style>
@@ -188,19 +188,25 @@
         <span class="text-slate-800">|</span>
         <button onclick="openPaymentModal()" class="hover:text-amber-400 transition cursor-pointer">Elige tu forma de pago</button>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="hover:text-amber-400 transition">Cigarros Bazar</a>
+        <button onclick="openOrdersModal()" class="hover:text-amber-400 transition cursor-pointer text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> Mis Pedidos</button>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="hover:text-amber-400 transition">Dulces Bazar</a>
+        
+        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" onclick="const isCig = window.location.pathname.includes('cigarros-bazar'); if (isCig) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Cigarros Bazar</a>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="hover:text-amber-400 transition">Kiosco Digital</a>
+        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" onclick="const isDul = window.location.pathname.includes('dulces-bazar'); if (isDul) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Dulces Bazar</a>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" class="hover:text-amber-400 transition">Puesto Bazar</a>
+        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" onclick="const isKio = window.location.pathname.includes('kiosco-digital'); if (isKio) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Kiosco Digital</a>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="hover:text-amber-400 transition">PC Custom Lab</a>
+        <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" onclick="const isPue = window.location.pathname.includes('mi-puesto-bazar'); if (isPue) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Puesto Bazar</a>
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/" class="hover:text-amber-400 transition">Liquidaciones y Ofertas</a>
+        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" onclick="const isPc = window.location.pathname.includes('pc-custom-lab'); if (isPc) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">PC Custom Lab</a>
+        <span class="text-slate-800">|</span>
+        <a href="https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/" onclick="const isOf = window.location.pathname.includes('ofertas-y-liquidaciones-') || window.location.pathname.includes('ofertas-y-liquidaciones'); if (isOf) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Liquidaciones y Ofertas</a>
+    
         <span class="text-slate-800">|</span>
       <button onclick="goToCatalogCategory(1)" class="hover:text-amber-400 transition cursor-pointer">Revistas & Suscripciones</button>
+      <span class="text-slate-800">|</span>
+      <button onclick="goToCatalogCategory(2)" class="hover:text-amber-400 transition cursor-pointer">Suscripciones Premium</button>
         <span class="text-slate-800">|</span>
         <a href="https://antigravity.google/download" target="_blank" class="hover:text-amber-400 transition">Descargar Anti-Gravity</a>
     </div>
@@ -237,7 +243,7 @@
 
 <!-- CART DRAWER (Slide-in right to left) -->
 <div class="fixed inset-0 z-[250]" id="cartDrawer" style="display: none !important;">
-    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onclick="closeCartDrawer()"></div>
+    <div class="absolute inset-0 bg-slate-950/60" onclick="closeCartDrawer()"></div>
     <div class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col justify-between text-slate-100 p-6 transition-transform duration-300">
         <div>
             <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
@@ -295,7 +301,6 @@
     </div>
 </div>
 
-<!-- PAYMENT METHOD MODAL -->
 <!-- PAYMENT METHOD MODAL (Functional Options) -->
 <div class="fixed inset-0 z-[300] hidden flex items-center justify-center bg-slate-950/80 px-4" id="paymentMethodModal">
     <div class="absolute inset-0 bg-slate-950/80" onclick="closePaymentModal()"></div>
@@ -384,6 +389,29 @@
         </div>
     </div>
 </div>
+
+<!-- ORDERS HISTORY MODAL -->
+<div class="fixed inset-0 z-[300] hidden flex items-center justify-center bg-slate-950/80 px-4" id="ordersHistoryModal">
+    <div class="absolute inset-0 bg-slate-950/80" onclick="closeOrdersModal()"></div>
+    <div class="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-6 text-slate-100 shadow-2xl z-10">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+            <h3 class="text-sm font-black text-white flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-cyan-400"></i> Historial de Mis Pedidos</h3>
+            <button class="text-slate-400 hover:text-white cursor-pointer text-xl" onclick="closeOrdersModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-1" id="orders-modal-content">
+            <!-- Rendered dynamically -->
+        </div>
+    </div>
+</div>
+
+
+
+<!-- CART DRAWER (Slide-in right to left) -->
+
+
+<!-- PAYMENT METHOD MODAL -->
+<!-- PAYMENT METHOD MODAL (Functional Options) -->
+
 
 
 
@@ -3867,6 +3895,7 @@ const CATEGORY_NAMES = {
 
     // Unified Cart Drawer & Modals Logic (Nivel 1 & Drawer)
     // Unified Cart Drawer & Modals Logic (Style-based visibility toggles)
+    // Unified Drawer, Modals and orders history (Reorder manager)
     window.toggleCartDrawer = function() {
         const drawer = document.getElementById("cartDrawer");
         if (drawer) {
@@ -3914,7 +3943,7 @@ const CATEGORY_NAMES = {
         const modal = document.getElementById("paymentMethodModal");
         if (modal) {
             modal.style.setProperty("display", "flex", "important");
-            // Reset modal step views
+            // Reset options layout
             document.getElementById("payment-card-form").classList.add("hidden");
             document.getElementById("payment-spei-info").classList.add("hidden");
             document.getElementById("payment-options").classList.remove("hidden");
@@ -3965,6 +3994,216 @@ const CATEGORY_NAMES = {
         confirmPaymentMethod("Transferencia SPEI");
     };
 
+    // Orders History & Volver a Comprar Manager
+    window.openOrdersModal = function() {
+        const modal = document.getElementById("ordersHistoryModal");
+        if (modal) {
+            modal.style.setProperty("display", "flex", "important");
+            renderOrdersModal();
+        }
+    };
+
+    window.closeOrdersModal = function() {
+        const modal = document.getElementById("ordersHistoryModal");
+        if (modal) {
+            modal.style.setProperty("display", "none", "important");
+        }
+    };
+
+    // Global state for Volver a Comprar items
+    let reorderItems = [];
+
+    window.renderOrdersModal = function() {
+        const content = document.getElementById("orders-modal-content");
+        if (!content) return;
+        
+        let history = [];
+        try {
+            const stored = safeLocalStorage.getItem("user_purchases_history");
+            if (stored) {
+                history = JSON.parse(stored);
+            }
+        } catch(e) {}
+        
+        if (history.length === 0) {
+            const isPc = window.location.pathname.includes('pc-custom-lab');
+            const isDul = window.location.pathname.includes('dulces-bazar');
+            const isCig = window.location.pathname.includes('cigarros-bazar');
+            const isKio = window.location.pathname.includes('kiosco-digital');
+            
+            let simItems = [];
+            if (isPc) {
+                simItems = [
+                    { sku: 'GPU-001', nombre: 'NVIDIA RTX 4060 8GB Ventus 2X OC', precio: 8500, quantity: 1, imagen: 'assets/img/slider_ia_human.webp' }
+                ];
+            } else if (isDul) {
+                simItems = [
+                    { sku: 'DUL-001', nombre: 'Chocolates Turin Conejos 20g', precio: 18, quantity: 5, imagen: 'assets/img/dulces.webp' }
+                ];
+            } else if (isCig) {
+                simItems = [
+                    { sku: 'CIG-001', nombre: 'Marlboro Rojo Caja 20s', precio: 80, quantity: 2, imagen: 'assets/img/cigarros.webp' }
+                ];
+            } else if (isKio) {
+                simItems = [
+                    { sku: 'REV-001', nombre: 'Revista Proceso Edición Semanal', precio: 65, quantity: 1, imagen: 'assets/img/revistas.webp' }
+                ];
+            } else {
+                simItems = [
+                    { sku: 'GAB-001', nombre: 'Gabinete Gamer NZXT H5 Flow', precio: 1950, quantity: 1, imagen: 'assets/img/bazar.webp' }
+                ];
+            }
+            
+            history = [{
+                orderId: 'AGY-4982',
+                date: 'Ayer, 16:30',
+                status: 'Entregado',
+                deliveryTime: 'Entregado en 18 min',
+                items: simItems
+            }];
+        }
+        
+        if (reorderItems.length === 0 && history.length > 0) {
+            reorderItems = JSON.parse(JSON.stringify(history[0].items));
+        }
+        
+        content.innerHTML = "";
+        
+        history.forEach(order => {
+            const orderDiv = document.createElement("div");
+            orderDiv.className = "bg-slate-950/50 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4";
+            
+            let statusClass = "text-green-400 bg-green-500/10 border-green-500/20";
+            if (order.status === "Preparando") statusClass = "text-amber-400 bg-amber-500/10 border-amber-500/20";
+            if (order.status === "En tránsito") statusClass = "text-blue-400 bg-blue-500/10 border-blue-500/20";
+            
+            let itemsHtml = "";
+            order.items.forEach(item => {
+                let imgUrl = item.imagen;
+                if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
+                    imgUrl = 'https://iaworldcenter-creator.github.io/mi-puesto-bazar/' + imgUrl;
+                }
+                itemsHtml += `
+                    <div class="flex items-center gap-3 text-xs">
+                        <img src="${imgUrl}" class="w-8 h-8 object-contain bg-white rounded p-0.5 shrink-0" />
+                        <span class="text-white font-bold flex-1 truncate">${item.nombre}</span>
+                        <span class="text-slate-400 shrink-0">Cant: ${item.quantity}</span>
+                        <span class="text-amber-500 font-bold shrink-0">$${parseFloat(item.precio) * item.quantity} MXN</span>
+                    </div>
+                `;
+            });
+            
+            let reorderHtml = "";
+            if (reorderItems.length > 0) {
+                let reorderRows = "";
+                let reorderSubtotal = 0;
+                reorderItems.forEach(item => {
+                    const sub = parseFloat(item.precio) * item.quantity;
+                    reorderSubtotal += sub;
+                    let imgUrl = item.imagen;
+                    if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
+                        imgUrl = 'https://iaworldcenter-creator.github.io/mi-puesto-bazar/' + imgUrl;
+                    }
+                    reorderRows += `
+                        <div class="flex items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs">
+                            <div class="flex items-center gap-2 min-w-0 flex-1">
+                                <img src="${imgUrl}" class="w-6 h-6 object-contain bg-white rounded p-0.5 shrink-0" />
+                                <span class="text-white font-semibold truncate flex-1">${item.nombre}</span>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded p-0.5">
+                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">-</button>
+                                    <span class="text-white font-black text-[10px] w-3 text-center">${item.quantity}</span>
+                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">+</button>
+                                </div>
+                                <span class="text-amber-500 font-bold min-w-[70px] text-right">$${sub.toFixed(2)} MXN</span>
+                                <button onclick="removeReorderItem('${item.sku}')" class="text-slate-500 hover:text-red-500 p-1 transition" aria-label="Eliminar"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                reorderHtml = `
+                    <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
+                        <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
+                        <div class="flex flex-col gap-2">
+                            ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
+                        </div>
+                        ${reorderItems.length > 0 ? `
+                        <div class="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3 mt-1">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-bold uppercase">Total del Pedido:</span>
+                                <span class="text-sm font-black text-cyan-400">$${reorderSubtotal.toFixed(2)} MXN</span>
+                            </div>
+                            <button onclick="addReorderToCart()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs transition active:scale-95">
+                                Agregar al Carrito <i class="fa-solid fa-plus-circle ml-1"></i>
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            orderDiv.innerHTML = `
+                <div class="flex justify-between items-start border-b border-slate-800/60 pb-3">
+                    <div class="flex flex-col">
+                        <span class="text-white font-black text-sm">Pedido #${order.orderId}</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">${order.date}</span>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusClass}">${order.status}</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">${order.deliveryTime}</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2.5">
+                    ${itemsHtml}
+                </div>
+                ${reorderHtml}
+            `;
+            content.appendChild(orderDiv);
+        });
+    };
+
+    window.changeReorderQty = function(sku, amount) {
+        const item = reorderItems.find(i => i.sku === sku);
+        if (item) {
+            item.quantity += amount;
+            if (item.quantity <= 0) {
+                reorderItems = reorderItems.filter(i => i.sku !== sku);
+            }
+        }
+        renderOrdersModal();
+    };
+
+    window.removeReorderItem = function(sku) {
+        reorderItems = reorderItems.filter(i => i.sku !== sku);
+        renderOrdersModal();
+    };
+
+    window.addReorderToCart = function() {
+        let cart = getCart();
+        reorderItems.forEach(reItem => {
+            const existing = cart.find(i => i.sku === reItem.sku);
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + reItem.quantity;
+            } else {
+                cart.push({
+                    sku: reItem.sku,
+                    nombre: reItem.nombre,
+                    precio: reItem.precio,
+                    imagen: reItem.imagen,
+                    quantity: reItem.quantity
+                });
+            }
+        });
+        saveCart(cart);
+        closeOrdersModal();
+        if (typeof toggleCartDrawer === 'function') {
+            toggleCartDrawer();
+        }
+        alert("¡Productos agregados al carrito!");
+    };
+
     // Contextual internal category navigation
     window.goToCatalogCategory = function(pageNum) {
         if (typeof changePage === 'function') {
@@ -3979,104 +4218,6 @@ const CATEGORY_NAMES = {
         }
     };
 
-    window.renderDrawerCart = function() {
-        const container = document.getElementById("drawer-cart-items");
-        const totalQtyDisplay = document.getElementById("drawer-total-qty");
-        const subtotalDisplay = document.getElementById("drawer-subtotal");
-        const shippingDisplay = document.getElementById("drawer-shipping");
-        const totalCostDisplay = document.getElementById("drawer-total-cost");
-        const deliveryStatus = document.getElementById("drawer-delivery-status");
-        const paymentStatus = document.getElementById("drawer-payment-status");
-        
-        if (!container) return;
-        
-        // Render delivery address status (support both variables)
-        const storedAddr = safeLocalStorage.getItem("user_delivery_address") || safeLocalStorage.getItem("ecosystem_delivery_address") || safeSessionStorage.getItem("ecosystem_delivery_address");
-        if (deliveryStatus) {
-            if (storedAddr) {
-                try {
-                    const addrObj = JSON.parse(storedAddr);
-                    const text = addrObj.direccion || addrObj.street || "Registrado";
-                    deliveryStatus.innerText = text.substring(0, 15) + (text.length > 15 ? "..." : "");
-                    deliveryStatus.className = "text-green-500 font-bold";
-                } catch(e) {
-                    deliveryStatus.innerText = "Registrado";
-                    deliveryStatus.className = "text-green-500 font-bold";
-                }
-            } else {
-                deliveryStatus.innerText = "Pendiente";
-                deliveryStatus.className = "text-amber-500 font-bold";
-            }
-        }
-        
-        // Render payment method status
-        const storedPay = safeSessionStorage.getItem("ecosystem_payment_method");
-        if (paymentStatus) {
-            if (storedPay) {
-                paymentStatus.innerText = storedPay;
-                paymentStatus.className = "text-green-500 font-bold";
-            } else {
-                paymentStatus.innerText = "No seleccionada";
-                paymentStatus.className = "text-amber-500 font-bold";
-            }
-        }
-        
-        const cart = getCart();
-        container.innerHTML = "";
-        
-        if (cart.length === 0) {
-            container.innerHTML = `<div class="text-center py-12 text-slate-500"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
-            if (totalQtyDisplay) totalQtyDisplay.innerText = "0";
-            if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
-            if (shippingDisplay) shippingDisplay.innerText = "$0.00 MXN";
-            if (totalCostDisplay) totalCostDisplay.innerText = "$0.00 MXN";
-            return;
-        }
-        
-        let subtotal = 0;
-        let totalQty = 0;
-        cart.forEach(item => {
-            const price = parseFloat(item.precio);
-            const qty = item.quantity || 1;
-            subtotal += price * qty;
-            totalQty += qty;
-            
-            let imgUrl = item.imagen;
-            if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
-                imgUrl = 'https://iaworldcenter-creator.github.io/mi-puesto-bazar/' + imgUrl;
-            }
-            
-            const div = document.createElement("div");
-            div.className = "flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 rounded-xl";
-            div.innerHTML = `
-                <img src="${imgUrl}" alt="${item.nombre}" class="w-12 h-12 object-contain bg-white rounded-lg p-1 shrink-0" />
-                <div class="flex-1 min-w-0">
-                    <h4 class="text-xs font-bold text-white truncate">${item.nombre}</h4>
-                    <p class="text-[10px] text-slate-400 truncate">${item.descripcion || ''}</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <span class="text-xs font-black text-amber-500">$${price} MXN</span>
-                        <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg p-0.5">
-                            <button onclick="changeQuantity('${item.sku}', -1)" class="w-5 h-5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center text-xs font-bold">-</button>
-                            <span class="text-[10px] font-black text-white w-4 text-center">${qty}</span>
-                            <button onclick="changeQuantity('${item.sku}', 1)" class="w-5 h-5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center text-xs font-bold">+</button>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-500 transition p-1 shrink-0" aria-label="Eliminar"><i class="fa-solid fa-trash-can text-xs"></i></button>
-            `;
-            container.appendChild(div);
-        });
-        
-        const shippingCost = 150.00;
-        const totalCost = subtotal + shippingCost;
-        
-        if (totalQtyDisplay) totalQtyDisplay.innerText = totalQty;
-        if (subtotalDisplay) subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
-        if (shippingDisplay) shippingDisplay.innerText = `$${shippingCost.toFixed(2)} MXN`;
-        if (totalCostDisplay) totalCostDisplay.innerText = `$${totalCost.toFixed(2)} MXN`;
-    };
-
-    // Smart Search Redirection and Logic
     window.handleSearchSubmit = function(event) {
         event.preventDefault();
         const input = document.getElementById('siteSearch');
