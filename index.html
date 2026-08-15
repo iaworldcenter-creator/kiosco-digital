@@ -8,7 +8,22 @@
                 navigator.serviceWorker.register('./sw.js?v=1.0.4')
                     .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
                     .catch(err => console.log('Error al registrar el Service Worker:', err));
-            });
+            
+        // URL Query Parameter check on bootup
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryParam = urlParams.get('q');
+        if (queryParam) {
+            const searchInput = document.getElementById('siteSearch');
+            if (searchInput) {
+                searchInput.value = queryParam;
+            }
+            setTimeout(() => {
+                if (typeof handleSearch === 'function') {
+                    handleSearch(queryParam);
+                }
+            }, 300);
+        }
+                    });
         }
     </script>
 <meta charset="utf-8"/>
@@ -164,22 +179,12 @@
 <a class="w-10 h-10 rounded-xl bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-white transition flex items-center justify-center text-lg relative group" href="https://t.me/pc_custom_lab" rel="noopener noreferrer" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Telegram</span></a>
 </div>
 <header class="w-full bg-slate-950 border-b border-slate-800 pt-3 pb-3 px-4 flex flex-col gap-2.5 relative z-[100] text-slate-100">
-<!-- Nivel 1: Izquierda (Carrito, Sesión, Software) | Centro (Enlaces Ecosistema) | Derecha (Marca, Logo, Dirección) -->
+<!-- Nivel 1: Izquierda (Sesi?n, Software) | Centro (Enlaces Ecosistema) | Derecha (Marca, Logo, Direcci?n) -->
 <div class="w-full flex flex-col xl:flex-row justify-between items-center gap-4 border-b border-slate-800/40 pb-3 px-2">
-<!-- IZQUIERDA: Carrito, Sesión y Descarga -->
+<!-- IZQUIERDA: Sesi?n y Descarga (Carrito removido) -->
 <div class="flex items-center gap-4 shrink-0 flex-wrap justify-center">
-<!-- Letrero dinámico de Domicilio para estimular el registro -->
-<div class="hidden flex items-center gap-1.5 text-[10px] cursor-pointer hover:underline text-slate-300 transition" id="header-delivery-prompt" onclick="const isPc = window.location.pathname.includes('pc-custom-lab'); window.location.href = isPc ? '../mi-puesto-bazar/https://iaworldcenter-creator.github.io/mi-puesto-bazar/checkout.html' : 'https://iaworldcenter-creator.github.io/mi-puesto-bazar/checkout.html'"></div>
-<!-- Carrito de Compras Estilo Amazon -->
-<div class="flex items-center gap-2 cursor-pointer group" onclick="window.location.href='https://iaworldcenter-creator.github.io/mi-puesto-bazar/https://iaworldcenter-creator.github.io/mi-puesto-bazar/checkout.html'">
-<div class="relative">
-<i class="fa-solid fa-cart-shopping text-slate-100 text-lg hover:text-amber-400 transition"></i>
-<span class="absolute -top-2 -right-2 bg-amber-500 text-slate-950 text-[9px] font-black rounded-full px-1.5 py-0.2 min-w-[15px] text-center" id="cart-badge-count">0</span>
-</div>
-<span class="text-[10px] font-bold text-slate-300 group-hover:text-white transition">Carrito</span>
-</div>
-<span class="text-slate-800">|</span>
-<a class="text-[10px] font-bold text-slate-300 hover:text-amber-400 transition" href="https://gemini.google.com" rel="noopener noreferrer" target="_blank">Inicia sesión Gemini</a>
+<div class="hidden flex items-center gap-1.5 text-[10px] cursor-pointer hover:underline text-slate-300 transition" id="header-delivery-prompt" onclick="const isPc = window.location.pathname.includes('pc-custom-lab'); window.location.href = isPc ? '../mi-puesto-bazar/checkout.html' : 'checkout.html'"></div>
+<a class="text-[10px] font-bold text-slate-300 hover:text-amber-400 transition" href="https://gemini.google.com" rel="noopener noreferrer" target="_blank">Inicia sesi?n Gemini</a>
 <span class="text-slate-800">|</span>
 <a class="bg-blue-600 hover:bg-blue-500 text-white font-black px-2.5 py-1 rounded-md transition text-[9px] uppercase tracking-wider" href="https://github.com/google-deepmind" rel="noopener noreferrer" target="_blank">Descargar Anti-Gravity</a>
 </div>
@@ -187,7 +192,7 @@
 <div class="flex flex-wrap justify-center items-center gap-x-2.5 gap-y-1 text-[11px] font-semibold text-slate-400">
 <a class="hover:text-amber-400 transition" href="https://iaworldcenter-creator.github.io/kiosco-digital/">Kiosco Digital</a>
 <span class="text-slate-800">|</span>
-<a class="hover:text-amber-400 transition" href="https://iaworldcenter-creator.github.io/dulces-bazar/">Dulcería &amp; Botanas</a>
+<a class="hover:text-amber-400 transition" href="https://iaworldcenter-creator.github.io/dulces-bazar/">Dulcer?a &amp; Botanas</a>
 <span class="text-slate-800">|</span>
 <a class="hover:text-amber-400 transition" href="https://iaworldcenter-creator.github.io/cigarros-bazar/">Cigarros &amp; Accesorios</a>
 <span class="text-slate-800">|</span>
@@ -195,38 +200,42 @@
 <span class="text-slate-800">|</span>
 <a class="hover:text-amber-400 transition" href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/">Puesto de Revistas &amp; Bazar</a>
 </div>
-<!-- DERECHA: Marca, Logo y Dirección -->
+<!-- DERECHA: Marca, Logo y Direcci?n -->
 <div class="flex items-center gap-4 shrink-0 flex-wrap justify-center">
-<!-- Dirección de Entrega -->
 <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 shadow-md">
 <i class="fa-solid fa-location-dot text-amber-500 text-xs animate-bounce"></i>
 <div class="text-[10px]" id="delivery-address-display">
-<span>📍 ¿En dónde quieres que llegue tu producto? </span>
-<button aria-label="Registrar dirección" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer" onclick="openDeliveryModal()">Registrar dirección</button>
+<span>? ?En d?nde quieres que llegue tu producto? </span>
+<button aria-label="Registrar direcci?n" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer" onclick="openDeliveryModal()">Registrar direcci?n</button>
 </div>
 </div>
-<!-- Logo y Marca -->
 <div class="flex items-center gap-2.5">
 <div class="flex flex-col text-right">
 <span class="text-base font-black text-amber-400 tracking-wide uppercase leading-tight">Anti-Gravity Copilot</span>
-<span class="text-[10px] font-bold text-slate-400 leading-none">Ofertas y Liquidaciones</span>
+<span class="text-[10px] font-bold text-slate-400 leading-none">Revistas & Suscripciones Digitales GDL</span>
 </div>
-<img alt="Computadora Armada Gamer de Alto Rendimiento en PC Custom Lab" class="w-11 h-11 rounded-full object-cover border-2 border-amber-500 shadow-md" decoding="async" loading="lazy" src="../pc-custom-lab/assets/img/mascota_tigre.webp"/>
+<img alt="Mascota del proyecto Anti-Gravity" class="w-11 h-11 rounded-full object-cover border-2 border-amber-500 shadow-md" decoding="async" loading="lazy" src="https://iaworldcenter-creator.github.io/pc-custom-lab/assets/img/mascota_tigre.webp"/>
 </div>
 </div>
 </div>
-<!-- Nivel 2: Barra de Búsqueda Centrada de 6 Columnas -->
-<div class="w-full grid grid-cols-1 md:grid-cols-8 gap-0 mt-1">
-<div class="hidden md:block col-span-1"></div>
-<div class="col-span-1 md:col-span-6 px-4 md:px-0">
-<form class="flex items-center gap-2 p-2.5 rounded-2xl bg-white w-full neon-search-frame" onsubmit="return false;" role="search">
-<label class="sr-only" for="siteSearch">¿Qué deseas buscar hoy?</label>
-<input aria-label="Buscar productos en el catálogo" autocomplete="off" class="flex-1 bg-transparent border-0 outline-none text-slate-900 font-bold text-sm px-3 placeholder-slate-400" id="siteSearch" name="q" placeholder="¿Qué deseas buscar hoy? Escribe aquí..." type="text"/>
-<button type="button" onclick="startVoiceSearch()" id="voice-search-btn" class="text-slate-400 hover:text-amber-500 p-2.5 flex items-center justify-center transition mr-1" aria-label="Dictar búsqueda"><i class="fa-solid fa-microphone text-base"></i></button>
-<button aria-label="Buscar" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition shadow-md hover:scale-103 shrink-0" type="submit">Buscar</button>
-</form>
-</div>
-<div class="hidden md:block col-span-1"></div>
+<!-- Nivel 2: Barra de B?squeda Estilizada y Carrito Unificado -->
+<div class="w-full max-w-4xl mx-auto flex flex-row items-center gap-3 mt-1.5 px-4 md:px-0">
+    <div class="flex-1">
+        <form class="flex items-center gap-2 p-1.5 rounded-xl bg-white w-full border border-slate-800/40 shadow-sm" onsubmit="handleSearchSubmit(event);" role="search">
+            <label class="sr-only" for="siteSearch">?Qu? deseas buscar hoy?</label>
+            <input aria-label="Buscar productos en el cat?logo" autocomplete="off" class="flex-1 bg-transparent border-0 outline-none text-slate-900 font-bold text-xs px-2.5 placeholder-slate-400" id="siteSearch" name="q" placeholder="?Qu? deseas buscar hoy? Escribe aqu?..." type="text"/>
+            <button aria-label="Buscar" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2 rounded-lg text-xs transition shadow-sm hover:scale-103 shrink-0" type="submit">Buscar</button>
+        </form>
+    </div>
+    <div class="shrink-0">
+        <button onclick="toggleCartDrawer()" class="flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-850 text-white border border-slate-800 rounded-xl px-4 py-2 shadow-lg transition active:scale-95 group cursor-pointer h-[38px] min-w-[125px]" id="header-cart-button" aria-label="Ver carrito">
+            <div class="relative">
+                <i class="fa-solid fa-cart-shopping text-base text-amber-500 group-hover:text-amber-400 transition"></i>
+                <span class="absolute -top-2.5 -right-2.5 bg-amber-500 text-slate-950 text-[10px] font-black rounded-full px-1.5 py-0.2 min-w-[16px] text-center shadow-md shadow-amber-500/20" id="cart-badge-count">0</span>
+            </div>
+            <span class="text-xs font-extrabold tracking-wide uppercase text-slate-100 group-hover:text-white transition hidden sm:inline">Mi Carrito</span>
+        </button>
+    </div>
 </div>
 <!-- Nivel 3: Atajos de Categor?a/Departamentos (Sub-Navegaci?n) -->
 <div class="w-full flex justify-center items-center gap-4 text-[10px] font-bold text-slate-400 border-t border-slate-900 pt-2 mt-1 flex-wrap">
@@ -238,7 +247,31 @@
 <button aria-label="? Suscripciones Digitales" class="hover:text-amber-400 transition" onclick="changePage(3, document.querySelectorAll('.pagination-btn')[2])">? Suscripciones Digitales</button>
 </div>
 </header>
-<main id="main-content">
+
+<!-- CART DRAWER (Slide-in right to left) -->
+<div class="fixed inset-0 z-[250] hidden" id="cartDrawer">
+    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onclick="closeCartDrawer()"></div>
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col justify-between text-slate-100 p-6 transition-transform duration-300">
+        <div>
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
+                <h3 class="text-base font-black text-white flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-amber-500"></i> Tu Carrito</h3>
+                <button class="text-2xl text-slate-400 hover:text-white cursor-pointer" onclick="closeCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="flex flex-col gap-4 overflow-y-auto max-h-[60vh] pr-1" id="drawer-cart-items"></div>
+        </div>
+        <div class="border-t border-slate-800 pt-6 mt-6 flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-mono text-slate-400 uppercase font-bold">Subtotal:</span>
+                <span class="text-lg font-black text-white" id="drawer-subtotal">$0.00 MXN</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="bg-slate-850 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:text-white font-bold py-3 rounded-xl text-xs transition" onclick="closeCartDrawer()">Seguir comprando</button>
+                <a class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-xl text-xs text-center transition flex items-center justify-center gap-1.5" href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/checkout.html" id="drawer-checkout-btn">Comprar ahora <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <main id="main-content">
 
@@ -246,11 +279,7 @@
 <h1>¿Viste algo que te interesa? ¡Te lo enviamos por Uber!</h1>
 <p>Pide por WhatsApp, paga el costo de envío y te llega directo a tu domicilio.</p>
 </section>
-<form class="site-search" onsubmit="return false;" role="search">
-<label class="sr-only" for="siteSearch">Buscar productos o secciones</label>
-<input aria-label="Buscar productos en el catálogo" autocomplete="off" id="siteSearch" name="q" placeholder="¿Qué producto, pieza o antojo buscas hoy? Escribe aquí..." type="search"/>
-<button aria-label="Buscar" type="submit">Buscar</button>
-</form>
+
 <!-- MÓDULO REDISEÑADO DE 3 COLUMNAS A PANTALLA COMPLETA (Mayoreo + Carrusel + Contacto) -->
 <section aria-label="Catálogo del Kiosco Digital" class="w-full grid grid-cols-1 md:grid-cols-[30%_40%_30%] gap-0 relative overflow-hidden bg-slate-950 text-white">
 <!-- Panel Izquierdo: Atención en Lectura (Video de Tigre leyendo en escritorio) -->
@@ -3696,6 +3725,157 @@ const CATEGORY_NAMES = {
         safeSessionStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
         updateCartBadge();
     }
+
+
+    // Unified Cart Drawer Logic
+    window.toggleCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            drawer.classList.remove("hidden");
+            renderDrawerCart();
+        }
+    };
+
+    window.closeCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            drawer.classList.add("hidden");
+        }
+    };
+
+    window.removeFromCart = function(sku) {
+        let cart = getCart();
+        cart = cart.filter(item => item.sku !== sku);
+        saveCart(cart);
+        renderDrawerCart();
+    };
+
+    window.changeQuantity = function(sku, amount) {
+        let cart = getCart();
+        const item = cart.find(i => i.sku === sku);
+        if (item) {
+            item.quantity = (item.quantity || 1) + amount;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.sku !== sku);
+            }
+        }
+        saveCart(cart);
+        renderDrawerCart();
+    };
+
+    window.renderDrawerCart = function() {
+        const container = document.getElementById("drawer-cart-items");
+        const subtotalDisplay = document.getElementById("drawer-subtotal");
+        if (!container) return;
+        
+        const cart = getCart();
+        container.innerHTML = "";
+        
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="text-center py-12 text-slate-500"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
+            if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
+            return;
+        }
+        
+        let subtotal = 0;
+        cart.forEach(item => {
+            const price = parseFloat(item.precio);
+            const qty = item.quantity || 1;
+            subtotal += price * qty;
+            
+            let imgUrl = item.imagen;
+            if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
+                imgUrl = 'https://iaworldcenter-creator.github.io/mi-puesto-bazar/' + imgUrl;
+            }
+            
+            const div = document.createElement("div");
+            div.className = "flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 rounded-xl";
+            div.innerHTML = `
+                <img src="${imgUrl}" alt="${item.nombre}" class="w-12 h-12 object-contain bg-white rounded-lg p-1 shrink-0" />
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-xs font-bold text-white truncate">${item.nombre}</h4>
+                    <p class="text-[10px] text-slate-400 truncate">${item.descripcion || ''}</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <span class="text-xs font-black text-amber-500">$${price} MXN</span>
+                        <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg p-0.5">
+                            <button onclick="changeQuantity('${item.sku}', -1)" class="w-5 h-5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center text-xs font-bold">-</button>
+                            <span class="text-[10px] font-black text-white w-4 text-center">${qty}</span>
+                            <button onclick="changeQuantity('${item.sku}', 1)" class="w-5 h-5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center text-xs font-bold">+</button>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-500 transition p-1 shrink-0" aria-label="Eliminar"><i class="fa-solid fa-trash-can text-xs"></i></button>
+            `;
+            container.appendChild(div);
+        });
+        
+        if (subtotalDisplay) {
+            subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
+        }
+    };
+
+    // Smart Search Redirection and Logic
+    window.handleSearchSubmit = function(event) {
+        event.preventDefault();
+        const input = document.getElementById('siteSearch');
+        if (input) {
+            handleSearch(input.value.trim());
+        }
+    };
+
+    window.handleSearch = function(query) {
+        if (!query) return;
+        
+        const isIndex = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || !window.location.pathname.includes('.html');
+        if (!isIndex) {
+            window.location.href = `index.html?q=${encodeURIComponent(query)}`;
+            return;
+        }
+        
+        const queryLower = query.toLowerCase().trim();
+        let matchedCategory = null;
+        for (const cat in CATEGORY_TO_PAGE) {
+            if (cat === 'todos') continue;
+            const catName = (CATEGORY_NAMES[cat] || '').toLowerCase();
+            if (cat === queryLower || catName.includes(queryLower) || queryLower.includes(cat)) {
+                matchedCategory = cat;
+                break;
+            }
+        }
+        
+        if (matchedCategory) {
+            currentPage = CATEGORY_TO_PAGE[matchedCategory];
+            const btns = document.querySelectorAll('.pagination-btn');
+            if (btns.length >= currentPage) {
+                btns.forEach(b => {
+                    b.className = "pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95";
+                });
+                btns[currentPage - 1].className = "pagination-btn px-4 py-2.5 rounded-lg bg-blue-600 border border-blue-500 text-white font-bold text-sm shadow-md shadow-blue-600/30 cursor-pointer transition active:scale-95";
+            }
+            renderProductsGrid("");
+        } else {
+            const productMatch = productCatalog.find(p => p.nombre.toLowerCase().includes(queryLower) || p.sku.toLowerCase() === queryLower);
+            if (productMatch && CATEGORY_TO_PAGE[productMatch.categoria]) {
+                currentPage = CATEGORY_TO_PAGE[productMatch.categoria];
+                const btns = document.querySelectorAll('.pagination-btn');
+                if (btns.length >= currentPage) {
+                    btns.forEach(b => {
+                        b.className = "pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95";
+                    });
+                    btns[currentPage - 1].className = "pagination-btn px-4 py-2.5 rounded-lg bg-blue-600 border border-blue-500 text-white font-bold text-sm shadow-md shadow-blue-600/30 cursor-pointer transition active:scale-95";
+                }
+                renderProductsGrid(query);
+            } else {
+                renderProductsGrid(query);
+            }
+        }
+        
+        const catalogSection = document.getElementById("catalog-section") || document.getElementById("pc-productos-grid");
+        if (catalogSection) {
+            catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     function updateCartBadge() {
         const cart = getCart();
         let totalQty = 0;
@@ -3725,6 +3905,7 @@ const CATEGORY_NAMES = {
             });
         }
         saveCart(cart);
+        if (typeof toggleCartDrawer === 'function') { toggleCartDrawer(); }
         
         // Efecto visual rápido en el badge
         const badge = document.getElementById("cart-badge-count");
