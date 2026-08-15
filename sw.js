@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kiosco-digital-cache-v1.0.4';
+const CACHE_NAME = 'kiosco-digital-cache-v1.0.5';
 const ASSETS_TO_CACHE = [
   './assets/css/tailwind-built.css?v=1.0.4',
   './assets/css/fontawesome-all.min.css?v=1.0.4'
