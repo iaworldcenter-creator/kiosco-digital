@@ -1,9 +1,7 @@
-const CACHE_NAME = 'kiosco-digital-cache-v1.0.3';
+const CACHE_NAME = 'kiosco-digital-cache-v1.0.4';
 const ASSETS_TO_CACHE = [
-  './index.html',
-  './ofertas.html',
-  './assets/css/tailwind-built.css?v=1.0.3',
-  './assets/css/fontawesome-all.min.css?v=1.0.3'
+  './assets/css/tailwind-built.css?v=1.0.4',
+  './assets/css/fontawesome-all.min.css?v=1.0.4'
 ];
 
 self.addEventListener('install', (event) => {
@@ -30,26 +28,15 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  
+  // BYPASS HTML PAGES completely from Service Worker caching to reflect updates instantly
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    return; // Let the browser handle HTML requests directly from the network
+  }
+  
   if (url.origin === self.location.origin || url.href.includes('cdnjs.cloudflare.com')) {
-    // ESTRATEGIA NETWORK-FIRST PARA HTML Y CSS (Para ver los cambios al instante)
-    if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('.css')) {
-      event.respondWith(
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              const cacheCopy = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, cacheCopy);
-              });
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            return caches.match(event.request);
-          })
-      );
-    } else {
-      // ESTRATEGIA CACHE-FIRST PARA IMAGENES, FUENTES Y OTROS ESTÁTICOS
+    // Cache-first strategy for static assets (images, css, js)
+    if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.includes('/assets/')) {
       event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
           if (cachedResponse) {
