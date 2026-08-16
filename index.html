@@ -3,29 +3,29 @@
 <html lang="es">
 <head>
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=1.0.6')
-                    .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
-                    .catch(err => console.log('Error al registrar el Service Worker:', err));
-            
-        // URL Query Parameter check on bootup
-        const urlParams = new URLSearchParams(window.location.search);
-        const queryParam = urlParams.get('q');
-        if (queryParam) {
-            const searchInput = document.getElementById('siteSearch');
-            if (searchInput) {
-                searchInput.value = queryParam;
-            }
-            setTimeout(() => {
-                if (typeof handleSearch === 'function') {
-                    handleSearch(queryParam);
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        console.log('Service Worker registered successfully');
+        reg.onupdatefound = () => {
+          const installingWorker = reg.installing;
+          if (installingWorker) {
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  console.log('New content is available, auto-reloading page...');
+                  window.location.reload();
                 }
-            }, 300);
-        }
-                    });
-        }
-    </script>
+              }
+            };
+          }
+        };
+      })
+      .catch(err => console.log('Service Worker registration failed:', err));
+  });
+}
+</script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="8K2sKSVop9TiESQupe6QkSBIJjwXpli847qEAWCq87I" name="google-site-verification">
@@ -136,8 +136,8 @@
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" crossorigin />
     <!-- Carga asíncrona de FontAwesome local purgado con font-display: swap -->
-    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.6" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.6" /></noscript>
+    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.9" /></noscript>
 
 <link as="image" href="assets/img/carrusel-cabecera/foto3.webp" rel="preload"/>
 <style>
@@ -421,7 +421,7 @@
 <!-- Panel Izquierdo: Atención en Lectura (Video de Tigre leyendo en escritorio) -->
 <a class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-2 md:order-1 group block cursor-pointer border-r border-slate-800/40" href="https://wa.me/523337271440?text=Hola,%20quiero%20probar%20Gemini%20y%20el%20copiloto%20Anti-Gravity." rel="noopener noreferrer" target="_blank">
 <div class="absolute inset-0 w-full h-full object-cover object-tech-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none overflow-hidden" id="video-container-left">
-    <img src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710_thumb.webp?v=1.0.5" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
+    <img src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710_thumb.webp?v=1.0.9" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
 <span class="text-amber-400 font-mono text-[10px] uppercase font-bold tracking-widest mb-2 block">Código Inteligente</span>
@@ -517,7 +517,7 @@
 <!-- Panel Derecho: Creado con Google Gemini (Tigre leyendo revista de modas) -->
 <a class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-3 md:order-3 group block cursor-pointer" href="https://gemini.google.com" rel="noopener noreferrer" target="_blank">
 <div class="absolute inset-0 w-full h-full object-cover object-tiger-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none overflow-hidden" id="video-container-right">
-    <img src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710_thumb.webp?v=1.0.5" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
+    <img src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710_thumb.webp?v=1.0.9" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
 <span class="text-sky-400 font-mono text-[10px] uppercase font-bold tracking-widest mb-2 block">Tecnología del Futuro</span>

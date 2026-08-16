@@ -1,7 +1,8 @@
-const CACHE_NAME = 'kiosco-digital-cache-v1.0.6';
+const CACHE_NAME = 'kiosco-digital-cache-v1.0.9';
 const ASSETS_TO_CACHE = [
-  './assets/css/tailwind-built.css?v=1.0.4',
-  './assets/css/fontawesome-all.min.css?v=1.0.4'
+  './index.html',
+  './assets/css/tailwind-built.css?v=1.0.9',
+  './assets/css/fontawesome-all.min.css?v=1.0.9'
 ];
 
 self.addEventListener('install', (event) => {
@@ -29,30 +30,37 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   
-  // BYPASS HTML PAGES completely from Service Worker caching to reflect updates instantly
+  // Use Network-First for HTML/Navigations to prevent user stuck on old versions
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
-    return; // Let the browser handle HTML requests directly from the network
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const cacheCopy = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cacheCopy));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
   }
   
-  if (url.origin === self.location.origin || url.href.includes('cdnjs.cloudflare.com')) {
-    // Cache-first strategy for static assets (images, css, js)
-    if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.includes('/assets/')) {
-      event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          return fetch(event.request).then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              const cacheCopy = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, cacheCopy);
-              });
-            }
-            return networkResponse;
+  // Cache-First for other assets (CSS, FontAwesome, Images)
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const cacheCopy = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, cacheCopy);
           });
-        })
-      );
-    }
-  }
+        }
+        return networkResponse;
+      });
+    })
+  );
 });
