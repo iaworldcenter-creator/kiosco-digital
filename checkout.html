@@ -1,5 +1,5 @@
 <head>
-    <script>
+<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -23,133 +23,164 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="llms" href="llms.txt" />
+<link rel="llms-txt" href="llms.txt" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="8K2sKSVop9TiESQupe6QkSBIJjwXpli847qEAWCq87I" name="google-site-verification">
-<title>Kiosco Digital | Revistas, Peri?dicos y Lectura</title>
-<style>
-        :root { --fondo: #020617; --azul: #3b82f6; --azul-vivo: #60a5fa; --naranja: #f59e0b; --dorado: #eab308; --texto: #f1f5f9; --crema: #0f172a; }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--fondo); color: var(--texto); font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
-        .main-bar { position: relative; padding: 16px 24px 18px; background: #020617; color: var(--texto); border-bottom: 2px solid rgba(59, 130, 246, 0.4); box-shadow: 0 4px 16px rgba(0, 0, 0, .5); }
-        .gemini-credit { margin: 0 130px 15px; text-align: center; }
-        .gemini-credit .line-1 { display: block; color: rgba(245, 247, 250, .92); font-size: .98rem; font-weight: 500; }
-        .gemini-credit .line-2 { display: inline-block; margin-top: 2px; color: #60a5fa; font-size: 1.04rem; font-weight: 650; text-decoration: none; }
-        .gemini-credit .line-2:hover { color: #FFFFFF; text-decoration: underline; }
-        .section-tag { position: absolute; top: 16px; right: 24px; padding: 6px 12px; border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 999px; background: rgba(30, 41, 59, 0.8); color: rgba(255,253,249,.94); font-size: .82rem; font-weight: 600; letter-spacing: .035em; backdrop-filter: blur(7px); }
-        .desktop-nav { display: flex; align-items: center; justify-content: center; gap: 7px 12px; flex-wrap: wrap; }
-        .nav-group { position: relative; }
-        .nav-item, .brand-name { display: inline-block; padding: 8px 9px; border-radius: 9px; color: rgba(255,253,249,.96); font-size: 1rem; font-weight: 550; text-decoration: none; transition: color .18s ease, background .18s ease, transform .18s ease; }
-        .brand-name { font-size: 1.16rem; font-weight: 670; white-space: nowrap; }
-        .nav-item:hover, .brand-name:hover, .nav-group:hover > .nav-item { background: rgba(255,255,255,.12); color: #FFFFFF; transform: translateY(-1px); }
-        .dropdown-menu { display: none; position: absolute; z-index: 30; top: calc(100% + 8px); left: 0; min-width: 218px; padding: 7px; border: 1px solid rgba(230, 244, 250, .28); border-radius: 12px; background: rgba(18, 42, 57, .82); box-shadow: 0 14px 26px rgba(18, 59, 93, .18); backdrop-filter: blur(13px); }
-        .nav-group:hover .dropdown-menu, .nav-group:focus-within .dropdown-menu { display: block; animation: menu-in .18s ease-out; }
-        @keyframes menu-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        .dropdown-menu a { display: block; padding: 8px 10px; border-radius: 8px; color: rgba(245, 250, 252, .92); font-size: .91rem; font-weight: 400; line-height: 1.25; letter-spacing: .01em; text-decoration: none; transition: color .18s ease, background .18s ease; white-space: nowrap; }
-        .dropdown-menu a:hover { background: rgba(255,255,255,.10); color: #7DD3FC; }
-        .mobile-header, .mobile-menu { display: none; }
-        .hero { padding: 25px 20px; border-bottom: 1px solid #1e293b; background: linear-gradient(110deg, #0f172a, #020617); text-align: center; }
-        .hero h2 { margin: 0 0 6px; color: #3b82f6; font-size: 1.35rem; font-weight: 650; }
-        .hero p { margin: 0; color: #94a3b8; font-size: 1.04rem; font-weight: 400; }
-        /* Estilos obsoletos de .mascot-feature desactivados para dar paso al rediseño responsivo a pantalla completa con Tailwind CSS */
-        .hero-carousel-container { position: relative; width: min(1160px, calc(100% - 32px)); height: min(57vw, 540px); min-height: 330px; margin: 28px auto 46px; overflow: hidden; border: 5px solid rgba(255,253,249,.94); border-radius: 20px; background: #D9E7EC; box-shadow: 0 14px 32px rgba(18,59,93,.16); }
-        .hero-carousel-slide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 950ms ease-in-out; }
-        .hero-carousel-slide.active { opacity: 1; }
-        .hero-carousel-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        .carousel-copy { position: absolute; bottom: clamp(15px, 3.2vw, 34px); left: clamp(15px, 3.2vw, 34px); max-width: min(520px, calc(100% - 30px)); margin: 0; padding: clamp(13px, 2vw, 19px) clamp(15px, 2.5vw, 24px); border: 1px solid rgba(255,255,255,.72); border-radius: 15px; background: rgba(255, 253, 249, .56); box-shadow: 0 8px 22px rgba(18,59,93,.10); color: #173B58; font-size: clamp(1.1rem, 2vw, 1.48rem); font-weight: 590; line-height: 1.38; letter-spacing: .003em; text-align: left; text-shadow: 0 1px 0 rgba(255,255,255,.46); backdrop-filter: blur(4px); animation: copy-in .85s ease-out both; }
-        @keyframes copy-in { from { opacity: 0; transform: translateY(11px); } to { opacity: 1; transform: translateY(0); } }
-        .site-search { 
-            display: flex; 
-            align-items: center; 
-            gap: 9px; 
-            width: min(760px, calc(100% - 32px)); 
-            margin: 18px auto 8px; 
-            padding: 8px; 
-            border: 2px solid rgba(59, 130, 246, 0.6); 
-            border-radius: 15px; 
-            background: #0b1329; 
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); 
-        }
-        .site-search input { 
-            flex: 1; 
-            min-width: 0; 
-            padding: 12px 15px; 
-            border: 1px solid rgba(59, 130, 246, 0.3); 
-            border-radius: 10px; 
-            outline: none; 
-            background: #020617; 
-            color: #f1f5f9; 
-            font: inherit; 
-            font-size: 1rem; 
-        }
-        .site-search input::placeholder { color: #94a3b8; }
-        .site-search input:focus { 
-            border-color: #3b82f6; 
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); 
-        }
-        .site-search button { 
-            padding: 12px 19px; 
-            border: 0; 
-            border-radius: 10px; 
-            background: linear-gradient(135deg, #f59e0b, #eab308); 
-            color: #020617; 
-            font: inherit; 
-            font-weight: 900; 
-            cursor: pointer; 
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .site-search button:hover { 
-            background: linear-gradient(135deg, #fbbf24, #f59e0b); 
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.9);
-            transform: scale(1.03);
-        }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-        .page-content { max-width: 900px; margin: 0 auto; padding: 0 20px 46px; text-align: center; }
-        .page-content p { margin: 0; color: #94a3b8; font-size: 1.08rem; line-height: 1.55; }
-        .object-tech-bazar { object-fit: cover; object-position: 40% center; }
-        .object-tiger-bazar { object-fit: cover; object-position: 75% 15%; }
-        @media (max-width: 900px) {
-            .desktop-nav { display: none; }
-            .mobile-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-            .menu-toggle-btn { padding: 8px 13px; border: 1px solid rgba(255,255,255,.65); border-radius: 9px; background: rgba(255,255,255,.11); color: #FFFDF9; font-size: 1rem; font-weight: 550; cursor: pointer; }
-            .mobile-menu { flex-direction: column; gap: 4px; margin-top: 14px; padding: 9px; border: 1px solid rgba(255,255,255,.16); border-radius: 13px; background: rgba(255,255,255,.09); backdrop-filter: blur(6px); }
-            .mobile-menu.open { display: flex; }
-            .mobile-menu .dropdown-menu { display: flex; position: static; flex-direction: column; min-width: 0; margin: 0 0 5px 9px; padding: 5px; background: rgba(18, 42, 57, .78); box-shadow: none; }
-            .gemini-credit { margin: 0 0 13px; padding-right: 72px; text-align: left; }
-            .section-tag { top: 15px; right: 14px; }
-            .site-search { width: calc(100% - 24px); margin-top: 14px; }
-            .site-search button { padding: 12px 15px; }
-            /* Estilos responsivos antiguos de mascot-feature desactivados */
-            .hero-carousel-container { width: calc(100% - 24px); min-height: 340px; margin-top: 20px; }
-            .carousel-copy { max-width: calc(100% - 26px); bottom: 13px; left: 13px; font-size: clamp(1.04rem, 4.4vw, 1.25rem); }
-        }
-    
-        #chatbot-window { height: 520px; max-height: 85vh; }
+<meta content="BwSy5nNuFFrHJUtxe189nJtPxM4h5QY-SxK1V8wqYDE" name="google-site-verification">
+<title>Kiosco Digital | Revistas, Periódicos y Lectura</title>
+<meta content="Revistas, periódicos, libros y contenido digital con entrega local express en Guadalajara Centro." name="description"/>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+<style id="critical-css">
+/* Critical CSS - Above the Fold rendering (LCP & CLS prevention) */
+body { background-color: #020617; color: #f8fafc; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.overflow-hidden { overflow: hidden; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.hero-slider-container { height: 600px; background-color: #020617; }
+@media (min-width: 640px) { .hero-slider-container { height: 650px; } }@media (max-width: 639px) {
+  .hero-slide { background-image: url('assets/img/slider_ia_human_thumb.webp?v=1.0.9') !important; }
+  .hero-slider-control, .hero-slider-dots { display: none; }
+}
+.object-cover { object-fit: cover; }
+.grid { display: grid; }
+.gap-6 { gap: 1.5rem; }
+.grid-cols-8 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+.col-span-8 { grid-column: span 8 / span 8; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 768px) {
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+    .lg\:col-span-1 { grid-column: span 1 / span 1; }
+    .lg\:col-span-5 { grid-column: span 5 / span 5; }
+    .lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+.bg-slate-950\/80 { background-color: rgba(2, 6, 23, 0.8); }
+.border-slate-800\/80 { border-color: rgba(30, 41, 59, 0.8); }
+.border { border-width: 1px; border-style: solid; }
+.p-3\.5 { padding: 0.875rem; }
+.rounded-2xl { border-radius: 1rem; }
+.h-\[320px\] { height: 320px; }
+@media (min-width: 768px) {
+    .md\:h-\[360px\] { height: 360px; }
+}
+.bg-slate-900 { background-color: #0f172a; }
+.border-slate-800 { border-color: #1e293b; }
+.rounded-xl { border-radius: 0.75rem; }
+.w-1\/3 { width: 33.333333%; }
+.w-3\/4 { width: 75%; }
+.h-3 { height: 0.75rem; }
+.h-4 { height: 1rem; }
+.h-8 { height: 2rem; }
+.h-32 { height: 8rem; }
+@media (min-width: 768px) {
+    .md\:h-40 { height: 10rem; }
+}
+.mt-2 { margin-top: 0.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-4 { margin-top: 1rem; }
+.pt-2\.5 { padding-top: 0.625rem; }
+.border-t { border-top-width: 1px; }
 </style>
-<link rel="preload" href="assets/css/tailwind-built.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/tailwind-built.css" rel="stylesheet" /></noscript>
-<!-- Preload de fuentes críticas de FontAwesome para eliminar FOIT y retrasos visuales (CLS) -->
-    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" crossorigin />
-    <!-- Carga asíncrona de FontAwesome local purgado con font-display: swap -->
-    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.9" /></noscript>
+<link rel="preload" href="assets/css/tailwind-built.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/tailwind-built.css?v=1.0.9" rel="stylesheet" /></noscript>
+<script>
 
-<link as="image" href="assets/img/carrusel-cabecera/foto3.webp" rel="preload"/>
+
+    function updateHeaderDeliveryPrompt() {
+        const promptDiv = document.getElementById("header-delivery-prompt");
+        if (!promptDiv) return;
+        const stored = localStorage.getItem("user_delivery_address");
+        // Check if we are inside pc-custom-lab (uses relative path for checkout)
+        const isPcCustomLab = window.location.pathname.includes("kiosco-digital");
+        const checkoutUrl = isPcCustomLab ? "checkout.html" : "checkout.html";
+        
+        if (stored) {
+            const data = JSON.parse(stored);
+            promptDiv.innerHTML = `<i class="fa-solid fa-location-dot text-emerald-400 animate-bounce"></i> <span class="text-emerald-400 font-bold">Enviar a ${data.name.split(' ')[0]} (${data.city.split(',')[0]})</span>`;
+        } else {
+            promptDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber-500 animate-pulse"></i> <span class="text-amber-500 font-black uppercase tracking-wider text-[9px] bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">¡Registra tu domicilio de entrega aquí!</span>`;
+        }
+        promptDiv.classList.remove("hidden");
+    }
+    
+    // Auto-run on load
+    document.addEventListener("DOMContentLoaded", () => {
+        updateHeaderDeliveryPrompt();
+    });
+
+</script>
+<link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/fontawesome-all.min.css?v=1.0.9" rel="stylesheet" /></noscript>
+
+
+<style>
+        .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%); }
+        .gradient-card-1 { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #334155; }
+        .gradient-card-2 { background: linear-gradient(145deg, #1e1b4b, #0f172a); border: 1px solid #4338ca; }
+        .gradient-card-amber { background: linear-gradient(145deg, #451a03, #18181b); border: 1px solid #f59e0b; }
+        .object-tiger-loyalty { object-fit: cover; object-position: 75% 15%; }
+        
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
+        .menu-closed { transform: translateX(100%); }
+        .menu-open { transform: translateX(0); }
+
+        #chatbot-window { height: 520px; max-height: 85vh; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+<!-- Open Graph para Applebot, Siri, Spotlight, Facebook, Discord -->
+<meta content="Kiosco Digital | Revistas, Periódicos y Lectura" property="og:title">
+<meta content="Revistas, periódicos, libros y contenido digital con entrega local express en Guadalajara Centro." property="og:description">
+<meta content="https://iaworldcenter-creator.github.io/kiosco-digital/assets/img/mascota_tigre.webp" property="og:image"/>
+<meta content="https://iaworldcenter-creator.github.io/kiosco-digital/" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="Puesto de Revistas &amp; Bazar" property="og:site_name"/>
+<!-- Datos estructurados de Schema.org para Google, Bing y Apple Search -->
+
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<link as="image" href="assets/img/mascota_tigre.webp?v=1.0.9" rel="preload"/>
 <style>
         @media (max-width: 768px) {
             video { display: none !important; }
             .mobile-video-fallback { display: block !important; }
         }
     </style>
-</meta><meta content="Kiosco Digital NFL.GDL. Suscripciones digitales, revistas de colecci?n y peri?dicos del d?a con entrega local express en Guadalajara Centro." name="description"/><script type="application/ld+json">{
+</meta></meta></meta><script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Store",
-  "name": "Kiosco Digital NFL.GDL",
-  "image": "https://iaworldcenter-creator.github.io/mi-puesto-bazar/assets/img/mascota_tigre.webp",
+  "name": "Kiosco Digital",
+  "image": "https://iaworldcenter-creator.github.io/kiosco-digital/assets/img/mascota_tigre.webp",
   "telephone": "+52 33 3727 1440",
-  "url": "https://iaworldcenter-creator.github.io/mi-puesto-bazar/",
+  "url": "https://iaworldcenter-creator.github.io/kiosco-digital/",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Pedro Moreno 501 A",
@@ -174,22 +205,24 @@ if ('serviceWorker' in navigator) {
         <button onclick="openOrdersModal()" class="hover:text-amber-400 transition cursor-pointer text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> Mis Pedidos</button>
         <span class="text-slate-800">|</span>
         
-        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" onclick="const isCig = window.location.pathname.includes('cigarros-bazar'); if (isCig) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Cigarros Bazar</a>
+    <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" onclick="const isCig = window.location.pathname.includes('cigarros-bazar'); if (isCig) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Cigarros Bazar</a>
+    <span class="text-slate-800">|</span>
+    <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" onclick="const isDul = window.location.pathname.includes('dulces-bazar'); if (isDul) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Dulces Bazar</a>
+    <span class="text-slate-800">|</span>
+    <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" onclick="const isKio = window.location.pathname.includes('kiosco-digital'); if (isKio) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Kiosco Digital</a>
+    <span class="text-slate-800">|</span>
+    <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" onclick="const isPue = window.location.pathname.includes('mi-puesto-bazar'); if (isPue) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Puesto Bazar</a>
+    <span class="text-slate-800">|</span>
+    <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" onclick="const isPc = window.location.pathname.includes('pc-custom-lab'); if (isPc) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">PC Custom Lab</a>
+    <span class="text-slate-800">|</span>
+    <a href="https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/" onclick="const isOf = window.location.pathname.includes('ofertas-y-liquidaciones-') || window.location.pathname.includes('ofertas-y-liquidaciones'); if (isOf) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Liquidaciones y Ofertas</a>
+
         <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" onclick="const isDul = window.location.pathname.includes('dulces-bazar'); if (isDul) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Dulces Bazar</a>
-        <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" onclick="const isKio = window.location.pathname.includes('kiosco-digital'); if (isKio) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Kiosco Digital</a>
-        <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" onclick="const isPue = window.location.pathname.includes('mi-puesto-bazar'); if (isPue) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Puesto Bazar</a>
-        <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" onclick="const isPc = window.location.pathname.includes('pc-custom-lab'); if (isPc) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">PC Custom Lab</a>
-        <span class="text-slate-800">|</span>
-        <a href="https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/" onclick="const isOf = window.location.pathname.includes('ofertas-y-liquidaciones-') || window.location.pathname.includes('ofertas-y-liquidaciones'); if (isOf) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Liquidaciones y Ofertas</a>
-    
-        <span class="text-slate-800">|</span>
-      <button onclick="goToCatalogCategory(1)" class="hover:text-amber-400 transition cursor-pointer">Revistas & Suscripciones</button>
+      <button onclick="goToCatalogCategory(4)" class="hover:text-amber-400 transition cursor-pointer">Boutique de Refacciones</button>
       <span class="text-slate-800">|</span>
-      <button onclick="goToCatalogCategory(2)" class="hover:text-amber-400 transition cursor-pointer">Suscripciones Premium</button>
+      <a href="#cotizador" class="hover:text-amber-400 transition">Cotizador de Ensambles</a>
+      <span class="text-slate-800">|</span>
+      <button onclick="abrirChatbotConMensaje('Hola, me gustaría solicitar atención técnica directa para un proyecto o soporte.')" class="hover:text-amber-400 transition cursor-pointer">Contacto Soporte</button>
         <span class="text-slate-800">|</span>
         <a href="https://antigravity.google/download" target="_blank" class="hover:text-amber-400 transition">Descargar Anti-Gravity</a>
     </div>
@@ -198,7 +231,7 @@ if ('serviceWorker' in navigator) {
     <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 py-4 px-6 md:px-12">
         <!-- Lado Izquierdo: Logo y Nombre del sitio -->
         <div class="flex items-center gap-3 shrink-0">
-            <img alt="Logo Oficial Anti-Gravity" class="w-11 h-11 rounded-full object-cover border-2 border-cyan-500 shadow-md" src="https://iaworldcenter-creator.github.io/pc-custom-lab/assets/img/mascota_tigre.webp"/>
+            <img alt="Logo Oficial Anti-Gravity" class="w-11 h-11 rounded-full object-cover border-2 border-cyan-500 shadow-md" src="https://iaworldcenter-creator.github.io/kiosco-digital/assets/img/mascota_tigre.webp"/>
             <span class="text-xl md:text-2xl font-black text-white tracking-wider uppercase">KIOSCO DIGITAL</span>
         </div>
         
@@ -279,216 +312,327 @@ if ('serviceWorker' in navigator) {
 <!-- FIN BANDA PROMOCIONAL MARQUEE -->
 
 
+
 <main class="flex-grow py-8 px-4 md:px-12 bg-slate-950 text-slate-100">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Lado Izquierdo: Pasos 1 y 2 (Colapsables) -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- COLUMNA IZQUIERDA: Flujo Secuencial y Productos               -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
         <div class="lg:col-span-7 flex flex-col gap-6">
-            
-            <!-- SECCIÓN 1: Domicilio de Entrega -->
+
+            <!-- ── PASO 1: Domicilio de Entrega ── -->
             <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md transition-all duration-300" id="step-delivery-card">
-                <div class="flex justify-between items-center mb-4 border-b border-slate-850 pb-2">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
                     <h2 class="text-base font-black text-white flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">1</span>
-                        Domicilio de Entrega (Registro Obligatorio)
+                        <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">1</span>
+                        Domicilio de Entrega
                     </h2>
-                    <button onclick="editDelivery()" id="delivery-edit-btn" class="hidden text-xs text-cyan-400 hover:underline font-bold focus:outline-none min-h-[32px]">Editar</button>
+                    <button onclick="editDelivery()" id="delivery-edit-btn" class="hidden text-xs text-cyan-400 hover:underline font-bold focus:outline-none min-h-[32px] cursor-pointer">✏️ Editar</button>
                 </div>
-                
+
                 <!-- Formulario -->
                 <form id="delivery-form" onsubmit="saveDelivery(event)" class="flex flex-col gap-3">
                     <div>
-                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Nombre Completo</label>
-                        <input type="text" id="devName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
+                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Nombre Completo *</label>
+                        <input type="text" id="devName" required placeholder="Nombre y apellidos" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Teléfono (10 dígitos)</label>
-                            <input type="tel" id="devPhone" required pattern="[0-9]{10}" title="Por favor ingresa un número de 10 dígitos sin espacios" placeholder="Ej: 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Teléfono (10 dígitos) *</label>
+                            <input type="tel" id="devPhone" required pattern="[0-9]{10}" title="Ingresa 10 dígitos sin espacios" placeholder="Ej: 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                         </div>
                         <div>
-                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Correo electrónico (Acumula 5% de cashback - Opcional)</label>
-                            <input type="email" id="devEmail" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Correo para Cashback (opcional)</label>
+                            <input type="email" id="devEmail" placeholder="correo@ejemplo.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Calle y Número</label>
-                        <input type="text" id="devStreet" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
+                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Calle y Número *</label>
+                        <input type="text" id="devStreet" required placeholder="Calle, No. Ext / Int" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                     </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="col-span-2">
-                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Colonia</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Colonia *</label>
                             <input type="text" id="devColonia" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                         </div>
                         <div>
-                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Código Postal</label>
-                            <input type="text" id="devCp" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Código Postal *</label>
+                            <input type="text" id="devCp" required pattern="[0-9]{5}" title="Ingresa 5 dígitos" placeholder="44100" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ciudad / Estado</label>
+                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ciudad / Estado *</label>
                         <input type="text" id="devCity" required value="Guadalajara, Jalisco" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                     </div>
-                    <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition mt-2 cursor-pointer min-h-[48px]">Guardar Datos de Entrega</button>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Referencias de Entrega</label>
+                        <textarea id="devRefs" rows="2" placeholder="Ej: Portón negro, entre calle Juárez y Reforma, tocar timbre..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition mt-1 cursor-pointer min-h-[48px] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar Datos de Entrega
+                    </button>
                 </form>
-                
+
                 <!-- Resumen Colapsado -->
-                <div id="delivery-summary" class="hidden flex flex-col gap-1.5 text-xs text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-850">
+                <div id="delivery-summary" class="hidden flex flex-col gap-1.5 text-xs text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
                     <div class="font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-user text-cyan-400"></i> <span id="sum-name"></span></div>
                     <div id="sum-phone-email"></div>
                     <div id="sum-address"></div>
+                    <div id="sum-refs" class="hidden text-slate-500 italic"></div>
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: Método de Pago (Interactivo con Acordeón) -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md transition-all duration-300 opacity-60 flex flex-col gap-4" id="step-payment-card">
-                <div class="flex justify-between items-center border-b border-slate-850 pb-2">
+            <!-- ── PASO 2: Métodos de Pago (Acordeón Desplegable Interactivo) ── -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md transition-all duration-300 flex flex-col gap-4" id="step-payment-card">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h2 class="text-base font-black text-white flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-black" id="step-payment-badge">2</span>
+                        <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black" id="step-payment-badge">2</span>
                         Método de Pago
                     </h2>
-                    <button onclick="editPayment()" id="payment-edit-btn" class="hidden text-xs text-cyan-400 hover:underline font-bold focus:outline-none min-h-[32px]">Editar</button>
+                    <button onclick="editPayment()" id="payment-edit-btn" class="hidden text-xs text-cyan-400 hover:underline font-bold focus:outline-none min-h-[32px] cursor-pointer">✏️ Editar</button>
                 </div>
-                
+
                 <!-- Selector Acordeón Interactivo -->
-                <div id="payment-options" class="hidden flex flex-col gap-4">
+                <div id="payment-options" class="flex flex-col gap-3">
                     <p class="text-[11px] text-slate-400 leading-tight">Elige tu forma de pago preferida:</p>
-                    
-                    <!-- Opción 1: Tarjeta -->
+
+                    <!-- a) Tarjeta de Crédito / Débito -->
                     <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/40">
                         <button type="button" onclick="togglePaymentAccordion('card')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-950/60 transition cursor-pointer text-left min-h-[48px]">
                             <span class="flex items-center gap-2.5 text-xs font-bold text-white">
                                 <i class="fa-solid fa-credit-card text-cyan-400 text-base"></i> Tarjeta de Crédito / Débito
                             </span>
-                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]" id="arrow-card"></i>
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform" id="arrow-card"></i>
                         </button>
-                        <div id="accordion-card-form" class="hidden border-t border-slate-850 p-4 flex flex-col gap-3">
-                            <div>
-                                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Nombre del Titular</label>
-                                <input type="text" id="cardName" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
-                            </div>
+                        <div id="accordion-card-form" class="hidden border-t border-slate-800 p-4 flex flex-col gap-3">
                             <div>
                                 <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Número de Tarjeta</label>
-                                <input type="text" id="cardNum" placeholder="4152 ...." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
+                                <input type="text" id="cardNum" placeholder="4152 XXXX XXXX XXXX" maxlength="19" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px] tracking-widest">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Nombre del Titular</label>
+                                <input type="text" id="cardName" placeholder="Como aparece en la tarjeta" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Vencimiento</label>
-                                    <input type="text" id="cardExp" placeholder="MM/AA" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
+                                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Vencimiento (MM/AA)</label>
+                                    <input type="text" id="cardExp" placeholder="MM/AA" maxlength="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
                                 </div>
                                 <div>
                                     <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">CVV</label>
-                                    <input type="text" id="cardCvv2" placeholder="123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
+                                    <input type="password" id="cardCvv2" placeholder="•••" maxlength="4" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
                                 </div>
                             </div>
                             <button type="button" onclick="saveCardDetails(event)" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer min-h-[48px]">Confirmar Tarjeta</button>
                         </div>
                     </div>
 
-                    <!-- Opción 2: Efectivo OXXO -->
+                    <!-- b) Efectivo en OXXO / Tiendas de Conveniencia -->
                     <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/40">
-                        <button type="button" onclick="togglePaymentAccordion('cash')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-950/60 transition cursor-pointer text-left min-h-[48px]">
+                        <button type="button" onclick="togglePaymentAccordion('oxxo')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-950/60 transition cursor-pointer text-left min-h-[48px]">
                             <span class="flex items-center gap-2.5 text-xs font-bold text-white">
-                                <i class="fa-solid fa-money-bill-1 text-emerald-400 text-base"></i> Efectivo contra entrega / Depósito OXXO
+                                <i class="fa-solid fa-store text-amber-400 text-base"></i> Efectivo en OXXO / Tiendas de Conveniencia
                             </span>
-                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]" id="arrow-cash"></i>
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform" id="arrow-oxxo"></i>
                         </button>
-                        <div id="accordion-cash-form" class="hidden border-t border-slate-850 p-4 flex flex-col gap-2 text-xs text-slate-300">
-                            <p>Realiza tu pago en efectivo directamente al repartidor o genera un código para pagar en caja en cualquier tienda OXXO.</p>
-                            <button type="button" onclick="selectPaymentMethod('Efectivo OXXO')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition mt-2 cursor-pointer min-h-[48px]">Confirmar Efectivo</button>
+                        <div id="accordion-oxxo-form" class="hidden border-t border-slate-800 p-4 flex flex-col gap-3 text-xs text-slate-300">
+                            <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 flex flex-col gap-1.5">
+                                <p class="font-bold text-amber-400 text-[11px] uppercase tracking-wider">Instrucciones de pago en OXXO</p>
+                                <ol class="list-decimal list-inside text-slate-400 text-[11px] leading-relaxed flex flex-col gap-1">
+                                    <li>Al confirmar, se genera un <span class="text-white font-bold">folio de referencia</span>.</li>
+                                    <li>Presenta el folio al cajero de cualquier tienda OXXO o conveniencia.</li>
+                                    <li>Realiza el pago en efectivo por el monto total indicado.</li>
+                                    <li>Tu pedido se procesa al verificar el depósito (máx. 2 horas).</li>
+                                </ol>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
+                                <span class="text-[9px] text-slate-500 uppercase tracking-widest block mb-1">Folio de Referencia (14 dígitos)</span>
+                                <span class="text-lg font-black text-amber-400 tracking-widest" id="oxxo-folio">---</span>
+                                <div id="oxxo-barcode" class="hidden mt-3 flex justify-center items-end gap-[1px] h-14 mx-auto w-full max-w-[220px]"></div>
+                                <p class="text-[9px] text-slate-500 mt-1">Se generará al confirmar</p>
+                            </div>
+                            <button type="button" onclick="generateAndSelectOxxo()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer min-h-[48px]">Confirmar Pago en OXXO</button>
                         </div>
                     </div>
 
-                    <!-- Opción 3: SPEI -->
+                    <!-- c) Transferencia Bancaria SPEI / CoDi / Clip -->
                     <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/40">
                         <button type="button" onclick="togglePaymentAccordion('spei')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-950/60 transition cursor-pointer text-left min-h-[48px]">
                             <span class="flex items-center gap-2.5 text-xs font-bold text-white">
-                                <i class="fa-solid fa-building-columns text-blue-400 text-base"></i> Transferencia Bancaria (SPEI)
+                                <i class="fa-solid fa-building-columns text-blue-400 text-base"></i> Transferencia Bancaria SPEI / CoDi / Clip
                             </span>
-                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]" id="arrow-spei"></i>
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform" id="arrow-spei"></i>
                         </button>
-                        <div id="accordion-spei-form" class="hidden border-t border-slate-850 p-4 flex flex-col gap-2 text-xs text-slate-300">
-                            <p>Transfiere desde tu aplicación bancaria. Te mostraremos la CLABE de 18 dígitos para registrar el depósito de inmediato.</p>
-                            <button type="button" onclick="selectPaymentMethod('Transferencia SPEI')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition mt-2 cursor-pointer min-h-[48px]">Confirmar Transferencia (SPEI)</button>
+                        <div id="accordion-spei-form" class="hidden border-t border-slate-800 p-4 flex flex-col gap-3 text-xs text-slate-300">
+                            <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-3 flex flex-col gap-2">
+                                <p class="font-bold text-blue-400 text-[11px] uppercase tracking-wider">Datos para Transferencia</p>
+                                <div class="grid grid-cols-1 gap-1.5 text-[11px]">
+                                    <div class="flex justify-between"><span class="text-slate-500">Banco:</span><span class="text-white font-bold">BBVA México</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">CLABE (18 dígitos):</span><span class="text-white font-bold tracking-wider">012 180 01542584394 9</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">Beneficiario:</span><span class="text-white font-bold">Kiosco Digital</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">Referencia:</span><span class="text-cyan-400 font-bold" id="spei-ref">---</span></div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-500 leading-relaxed">Realiza la transferencia desde tu app bancaria, CoDi o terminal Clip. Incluye la referencia para identificar tu pago.</p>
+                            <button type="button" onclick="generateAndSelectSpei()" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer min-h-[48px]">Confirmar Transferencia SPEI</button>
+                        </div>
+                    </div>
+
+                    <!-- d) Pago Contra Entrega (Efectivo al recibir) -->
+                    <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/40">
+                        <button type="button" onclick="togglePaymentAccordion('cod')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-950/60 transition cursor-pointer text-left min-h-[48px]">
+                            <span class="flex items-center gap-2.5 text-xs font-bold text-white">
+                                <i class="fa-solid fa-money-bill-wave text-emerald-400 text-base"></i> Pago Contra Entrega (Efectivo)
+                            </span>
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform" id="arrow-cod"></i>
+                        </button>
+                        <div id="accordion-cod-form" class="hidden border-t border-slate-800 p-4 flex flex-col gap-3 text-xs text-slate-300">
+                            <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex flex-col gap-1.5">
+                                <p class="font-bold text-emerald-400 text-[11px] uppercase tracking-wider">Pago al recibir tu paquete</p>
+                                <ul class="text-[11px] text-slate-400 leading-relaxed flex flex-col gap-1">
+                                    <li class="flex items-start gap-1.5"><span>💵</span><span>Paga en efectivo directamente al repartidor al momento de la entrega.</span></li>
+                                    <li class="flex items-start gap-1.5"><span>📋</span><span>Recibirás un recibo impreso como comprobante de tu compra.</span></li>
+                                    <li class="flex items-start gap-1.5"><span>⚡</span><span>Disponible para entregas en zona metropolitana de Guadalajara.</span></li>
+                                    <li class="flex items-start gap-1.5"><span>⚠️</span><span>Ten el monto exacto listo para agilizar la entrega.</span></li>
+                                </ul>
+                            </div>
+                            <button type="button" onclick="selectPaymentMethod('Pago Contra Entrega (Efectivo)')" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer min-h-[48px]">Confirmar Pago Contra Entrega</button>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Resumen Pago -->
-                <div id="payment-summary" class="hidden text-xs text-emerald-400 font-bold bg-slate-950/60 p-4 rounded-xl border border-slate-850"></div>
+
+                <!-- Resumen Pago Colapsado -->
+                <div id="payment-summary" class="hidden text-xs text-emerald-400 font-bold bg-slate-950/60 p-4 rounded-xl border border-slate-800"></div>
             </div>
+
+            <!-- ── PASO 3: Lista de Artículos en el Carrito ── -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md" id="step-cart-card">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
+                    <h2 class="text-base font-black text-white flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">3</span>
+                        Artículos en tu Carrito
+                        <span class="text-[10px] font-bold text-slate-500 bg-slate-950 px-2 py-0.5 rounded-full" id="cart-items-count-label">0 productos</span>
+                    </h2>
+                </div>
+                <div class="flex flex-col gap-2.5 overflow-y-auto max-h-[75vh] pr-1" id="checkout-cart-items">
+                    <!-- Renderizado dinámico de productos -->
+                </div>
+                <div id="cart-empty-msg" class="hidden text-center py-8">
+                    <i class="fa-solid fa-cart-shopping text-3xl text-slate-700 mb-2 block"></i>
+                    <p class="text-xs text-slate-500">Tu carrito está vacío.</p>
+                    <a href="index.html" class="text-xs text-cyan-400 hover:underline mt-1 inline-block">Ir a la tienda →</a>
+                </div>
+            </div>
+
         </div>
-        
-        <!-- Lado Derecho: Carrito y Resumen (Paso 3) -->
-        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md flex flex-col gap-5 text-slate-100 w-full">
-            <h2 class="text-base font-black text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-                <span class="w-6 h-6 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">3</span>
-                Revisión e Importes
-            </h2>
-            
-            <!-- Lista de productos -->
-            <div class="flex flex-col gap-3 overflow-y-auto max-h-[35vh] pr-1" id="checkout-cart-items">
-                <!-- Dinámico -->
-            </div>
-            
-            <!-- Totales y Botones de Cierre -->
-            <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-6 w-full">
-                <!-- Desglose Alineado a la Derecha -->
-                <div class="flex flex-col gap-2.5 w-full text-right border-b border-slate-800/60 pb-4">
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- COLUMNA DERECHA: Resumen Financiero y Acciones                 -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <div class="lg:col-span-5 lg:sticky lg:top-8 flex flex-col gap-5">
+
+            <!-- Panel de Resumen -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-md flex flex-col gap-5 text-slate-100 w-full">
+                <h2 class="text-base font-black text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                    <i class="fa-solid fa-receipt text-cyan-400"></i> Resumen de Compra
+                </h2>
+
+                <!-- Estimación de Entrega -->
+                <div class="flex flex-col gap-2.5 bg-slate-950/60 rounded-xl p-3.5 border border-slate-800">
+                    <p class="text-[10px] uppercase tracking-widest font-black text-slate-500 mb-0.5">Estimación de Entrega</p>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="radio" name="shippingSpeed" value="express" class="accent-cyan-500 w-4 h-4" checked id="ship-express">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-white group-hover:text-cyan-400 transition">⚡ Express 24 horas</span>
+                            <span class="block text-[10px] text-slate-500">Entrega al siguiente día hábil en zona GDL</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="radio" name="shippingSpeed" value="standard" class="accent-cyan-500 w-4 h-4" id="ship-standard">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-white group-hover:text-cyan-400 transition">📦 Estándar 3-5 días</span>
+                            <span class="block text-[10px] text-slate-500">Envío nacional por paquetería</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Desglose Financiero en Tiempo Real -->
+                <div class="flex flex-col gap-2.5 w-full border-b border-slate-800/60 pb-4">
                     <div class="flex justify-between text-xs text-slate-400">
                         <span>Subtotal de Artículos:</span>
-                        <span class="font-bold text-white text-xs" id="co-subtotal">$0.00 MXN</span>
-                    </div>
-                    <div class="flex justify-between text-xs text-amber-500 hidden animate-fade-in" id="co-wholesale-row">
-                        <span>Descuento de Mayoreo (15%):</span>
-                        <span class="font-bold" id="co-wholesale-disc">-$0.00 MXN</span>
+                        <span class="font-bold text-white" id="co-subtotal">$0.00 MXN</span>
                     </div>
                     <div class="flex justify-between text-xs text-slate-400">
-                        <span>Gastos de Envío Local:</span>
-                        <span class="font-bold text-white text-xs" id="co-shipping">$0.00 MXN</span>
+                        <span>Costo de Envío:</span>
+                        <span class="font-bold text-white" id="co-shipping">$0.00 MXN</span>
                     </div>
-                    <div class="flex flex-col gap-1 border-t border-slate-850 pt-2.5 mt-1" id="co-cashback-row">
-                        <!-- Dinámico -->
+                    <div class="text-left" id="co-shipping-note">
+                        <span class="text-[10px] text-emerald-500 font-semibold" id="co-shipping-msg"></span>
                     </div>
-                    <div class="flex justify-between items-center border-t border-slate-850 pt-3 mt-1 text-right">
-                        <span class="text-xs font-black text-white uppercase tracking-wider">TOTAL A PAGAR:</span>
-                        <span class="text-lg font-black text-cyan-400 text-right" id="co-total">$0.00 MXN</span>
+                    <div class="flex justify-between text-xs text-amber-500 hidden" id="co-wholesale-row">
+                        <span>Descuento Mayoreo (15%):</span>
+                        <span class="font-bold" id="co-wholesale-disc">-$0.00 MXN</span>
+                    </div>
+                    <div class="flex flex-col gap-1 border-t border-slate-800 pt-2.5 mt-1" id="co-cashback-row">
+                        <!-- Dinámico: Cashback -->
                     </div>
                 </div>
 
-                <!-- Botones de Acción Alineados a la Izquierda -->
-                <div class="flex flex-row gap-3 w-full items-center justify-start">
-                    <button onclick="window.location.href='index.html'" class="bg-slate-800 hover:bg-slate-750 text-white font-bold px-4 py-3.5 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-95 min-h-[48px]">
-                        Seguir comprando
-                    </button>
-                    <button onclick="finalizePurchase()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-5 py-3.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-95 shadow-md shadow-amber-500/10 min-h-[48px]">
-                        Autorizar Cargo y Completar Compra <i class="fa-solid fa-circle-check"></i>
-                    </button>
+                <!-- TOTAL A PAGAR -->
+                <div class="flex justify-between items-center bg-slate-950/60 rounded-xl p-4 border border-cyan-500/30">
+                    <span class="text-sm font-black text-white uppercase tracking-wider">TOTAL A PAGAR:</span>
+                    <span class="text-2xl font-black text-cyan-400" id="co-total">$0.00 MXN</span>
+                </div>
+
+                <!-- Botón de Acción Principal -->
+                <button onclick="finalizePurchase()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-2xl text-sm uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-amber-500/20 min-h-[50px]">
+                    <i class="fa-solid fa-lock text-base"></i> AUTORIZAR CARGO Y COMPLETAR COMPRA
+                </button>
+
+                <!-- Botón Secundario -->
+                <button onclick="window.location.href='index.html'" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+                    <i class="fa-solid fa-arrow-left"></i> Seguir comprando
+                </button>
+            </div>
+
+            <!-- Banner Comercial Inferior -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md flex flex-col gap-3.5">
+                <div class="flex items-center gap-2.5 text-xs">
+                    <div class="w-9 h-9 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-tags text-amber-400 text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-amber-400 block text-[11px] uppercase tracking-wider">15% Descuento Mayoreo</span>
+                        <span class="text-[10px] text-slate-500">Automático a partir de 10 piezas en el carrito.</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2.5 text-xs">
+                    <div class="w-9 h-9 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-emerald-400 block text-[11px] uppercase tracking-wider">Compra Protegida</span>
+                        <span class="text-[10px] text-slate-500">Todos los pagos están encriptados y protegidos.</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2.5 text-xs">
+                    <div class="w-9 h-9 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-certificate text-cyan-400 text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-cyan-400 block text-[11px] uppercase tracking-wider">Garantía Directa</span>
+                        <span class="text-[10px] text-slate-500">Soporte y garantía de Kiosco Digital en Pedro Moreno 501 A, Centro GDL.</span>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </main>
 
 <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm font-mono">
-<!-- Íconos de contacto móvil -->
-<div class="md:hidden flex justify-center gap-6 mb-6">
-<a aria-label="Contactar al soporte de ventas por WhatsApp" class="w-12 h-12 rounded-full bg-emerald-600/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center text-2xl shadow-lg transition-transform hover:scale-105" href="https://wa.me/523337271440" rel="noopener noreferrer" target="_blank" title="WhatsApp">
-<i class="fa-brands fa-whatsapp"></i>
-</a>
-<a aria-label="Enlace de navegación" class="w-12 h-12 rounded-full bg-indigo-600/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-2xl shadow-lg transition-transform hover:scale-105" href="mailto:iaworldcenter@gmail.com" title="Correo">
-<i class="fa-solid fa-envelope"></i>
-</a>
-<a aria-label="Enlace de navegación" class="w-12 h-12 rounded-full bg-blue-600/10 border border-blue-500/30 text-blue-400 flex items-center justify-center text-2xl shadow-lg transition-transform hover:scale-105" href="#contacto" title="Contacto">
-<i class="fa-solid fa-phone"></i>
-</a>
-</div>
-<!-- Crédito Gemini en móviles (después de contacto) -->
-<div class="block md:hidden text-center mb-6 px-4 font-sans">
-<span class="block text-slate-400 text-xs">✦ Este sitio fue creado por la IA de Google</span>
-<a class="inline-block mt-1 text-blue-400 text-xs font-bold hover:underline" href="https://gemini.google.com" rel="noopener noreferrer" target="_blank">Gemini. Iniciar sesión aquí ↗</a>
-</div>
-<p>© 2026 Puesto de Revistas &amp; Bazar NFL.GDL. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
+<p>© 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
 </footer>
 
 <!-- CHATBOT FLOTANTE -->
@@ -515,221 +659,21 @@ if ('serviceWorker' in navigator) {
 
 <script>
     // BASE DE DATOS DE IMÁGENES
-    
+    const IMG = {
+    gpu: 'assets/img/tigre_gamer_thumb.webp?v=1.0.9',
+    motherboards: 'assets/img/Female_technician_assembling_gam_202608041518_thumb.webp?v=1.0.9',
+    ram: 'assets/img/tigre_mosaico_thumb.webp?v=1.0.9',
+    procesadores: 'assets/img/tigre_atlas_thumb.webp?v=1.0.9',
+    almacenamiento: 'assets/img/slider_warehouse_thumb.webp?v=1.0.9',
+    gabinetes: 'assets/img/tigre_gemini_thumb.webp?v=1.0.9',
+    fuentes: 'assets/img/tigre_corporativo_thumb.webp?v=1.0.9',
+    enfriamiento: 'assets/img/tigre_mantenimiento_thumb.webp?v=1.0.9',
+    monitores: 'assets/img/slider_ia_human_thumb.webp?v=1.0.9',
+    perifericos: 'assets/img/tigre_software_thumb.webp?v=1.0.9',
+};
 
     // BASE DE DATOS DE PRODUCTOS DE LA TIENDA LOCAL
-    const productCatalog = [
-        // ========== CATEGORÍA: Ciencia y Espacio ==========
-        {sku:'RCI-001',nombre:'Revista Muy Interesante Mensual',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-002',nombre:'Revista National Geographic',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-003',nombre:'Revista Scientific American',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'130',precio_original:'175',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-004',nombre:'Revista Muy Interesante Ciencia',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-005',nombre:'NatGeo Coleccionista Espacio',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-006',nombre:'Revista Cómo Funciona Especial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-007',nombre:'Revista Astronomía Práctica',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-008',nombre:'Revista Arqueología Mexicana',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'98',precio_original:'132',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-009',nombre:'Muy Interesante Especial Historia',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-010',nombre:'NatGeo Especial Antiguo Egipto',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-011',nombre:'Revista Ciencia y Desarrollo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-012',nombre:'Revista Quo Ciencia Moderna',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'70',precio_original:'94',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-013',nombre:'Revista Aeroespacio Militar',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-014',nombre:'Revista Geo Mundo de la Tierra',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-015',nombre:'Muy Interesante Preguntas y Respuestas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-016',nombre:'NatGeo Especial Dinosaurios',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-017',nombre:'Revista Scientific American Especial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'140',precio_original:'189',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-018',nombre:'Revista Historia de Iberia',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-019',nombre:'Muy Interesante Especial Cerebro',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RCI-020',nombre:'NatGeo Especial Volcanes',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-ciencia',descripcion:'Producto premium garantizado de la categoría Ciencia y Espacio. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RCI-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Moda y Tendencias ==========
-        {sku:'RMD-001',nombre:'Revista Vogue Edición México',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-002',nombre:'Revista Cosmopolitan Moda',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-003',nombre:'Revista Elle Moda Contemporánea',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-004',nombre:'Revista Harper\'s Bazaar',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-005',nombre:'Revista Marie Claire Tendencias',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-006',nombre:'Revista Vogue Colecciones Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'160',precio_original:'216',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-007',nombre:'Revista Cosmopolitan Belleza',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-008',nombre:'Revista Elle Especial Accesorios',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-009',nombre:'Revista Glamour Estilo de Vida',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'65',precio_original:'87',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-010',nombre:'Revista InStyle Tendencias Moda',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-011',nombre:'Revista Vogue Hombres Colección',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-012',nombre:'Revista Cosmopolitan Especial Novias',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-013',nombre:'Revista Elle Decoración Interiores',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-014',nombre:'Revista Harper\'s Bazaar Especial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'130',precio_original:'175',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-015',nombre:'Revista Marie Claire Novias Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-016',nombre:'Revista Vogue Novias Colección',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'160',precio_original:'216',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-017',nombre:'Revista Cosmopolitan Hombres',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-018',nombre:'Revista Elle Colecciones París',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-019',nombre:'Revista Glamour Especial Piel',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'65',precio_original:'87',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RMD-020',nombre:'Revista InStyle Especial Cabello',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-moda',descripcion:'Producto premium garantizado de la categoría Moda y Tendencias. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RMD-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Viajes y Cultura ==========
-        {sku:'RVJ-001',nombre:'Revista NatGeo Viajes Completa',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-002',nombre:'Revista Viajar Destinos Exóticos',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-003',nombre:'Revista Condé Nast Traveler',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-004',nombre:'Revista Lonely Planet México',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-005',nombre:'Revista México Desconocido',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-006',nombre:'NatGeo Viajes Especial Playas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-007',nombre:'Revista Viajar Rutas de Europa',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-008',nombre:'Revista Condé Nast Especial Hoteles',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'140',precio_original:'189',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-009',nombre:'Revista Lonely Planet Especial Asia',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-010',nombre:'Revista México Desconocido Rutas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-011',nombre:'NatGeo Viajes Especial Sudamérica',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-012',nombre:'Revista Viajar Guía de Cruceros',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-013',nombre:'Revista Traveler Especial Gourmet',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-014',nombre:'Revista Lonely Planet Europa',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-015',nombre:'Revista México Desconocido Pueblos Magicos',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-016',nombre:'NatGeo Viajes Especial Ciudades',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-017',nombre:'Revista Viajar Especial Aventura',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-018',nombre:'Revista Traveler Destinos 2026',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-019',nombre:'Revista Lonely Planet Especial América',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RVJ-020',nombre:'Revista México Desconocido Especial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-viajes',descripcion:'Producto premium garantizado de la categoría Viajes y Cultura. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RVJ-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Tecnología y Motor ==========
-        {sku:'RTE-001',nombre:'Revista Wired Edición Global',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'140',precio_original:'189',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-002',nombre:'Revista PC Magazine Hardware',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-003',nombre:'Revista Automóvil Especial Motor',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-004',nombre:'Revista Wired Inteligencia Artificial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-005',nombre:'Revista PC Magazine Especial Redes',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-006',nombre:'Revista Car and Driver Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-007',nombre:'Revista Gadget Innovación Diaria',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-008',nombre:'Revista T3 Tecnología de Consumo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-009',nombre:'Revista Motores y Pilotos Carrera',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-010',nombre:'Revista Wired Futuro Digital',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'140',precio_original:'189',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-011',nombre:'Revista PC Magazine Ciberseguridad',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-012',nombre:'Revista Automóvil Superdeportivos',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-013',nombre:'Revista Gadget Especial Gaming',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-014',nombre:'Revista T3 Guía de Compras Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-015',nombre:'Revista Motociclismo Aventura',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'70',precio_original:'94',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-016',nombre:'Revista Wired Especial Robótica',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-017',nombre:'Revista PC Magazine Guía de Software',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-018',nombre:'Revista Automóvil Clásicos Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-019',nombre:'Revista Gadget Smart Home Guía',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RTE-020',nombre:'Revista Car and Driver F1 Especial',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'90',precio_original:'121',descuento:'25% OFF',existencias:'12',categoria:'revistas-tecnologia',descripcion:'Producto premium garantizado de la categoría Tecnología y Motor. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RTE-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Hogar y Cocina ==========
-        {sku:'RHG-001',nombre:'Revista Vanidades Entretenimiento',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'70',precio_original:'94',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-002',nombre:'Revista BuenHogar Ideas Prácticas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'65',precio_original:'87',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-003',nombre:'Revista Cocina Fácil Recetas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-004',nombre:'Revista Vanidades Especial Realeza',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-005',nombre:'Revista BuenHogar Decoración',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'65',precio_original:'87',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-006',nombre:'Revista Cocina Fácil Repostería',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-007',nombre:'Revista Casa y Jardín Paisajismo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-008',nombre:'Revista Arquitectura y Diseño',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-009',nombre:'Revista Cocina Saludable Dieta',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-010',nombre:'Revista Vanidades Especial Recetas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-011',nombre:'Revista BuenHogar Organización',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'65',precio_original:'87',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-012',nombre:'Revista Cocina Fácil Antojitos',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-013',nombre:'Revista Casa y Jardín Interiores',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-014',nombre:'Revista Arquitectura y Diseño Lujo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'130',precio_original:'175',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-015',nombre:'Revista Cocina Italiana Recetas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-016',nombre:'Revista Vanidades Especial Moda',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-017',nombre:'Revista BuenHogar Especial Navidad',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-018',nombre:'Revista Cocina Fácil Rápida',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'55',precio_original:'74',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-019',nombre:'Revista Casa y Jardín Piscinas',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'80',precio_original:'108',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'RHG-020',nombre:'Revista Arquitectura Sustentable',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'revistas-hogar',descripcion:'Producto premium garantizado de la categoría Hogar y Cocina. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'RHG-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Marvel y DC ==========
-        {sku:'CMV-001',nombre:'Comic Spider-Man No. 1 Edición 2026',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-002',nombre:'Comic Batman: Detective Comics 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-003',nombre:'Comic Avengers Assemble Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-004',nombre:'Comic Superman: Action Comics 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-005',nombre:'Comic X-Men: First Class Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-006',nombre:'Comic Wonder Woman: Rebirth 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-007',nombre:'Comic Iron Man: Extremis Classic',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'95',precio_original:'128',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-008',nombre:'Comic Flash: Rebirth Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-009',nombre:'Comic Thor: God of Thunder 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-010',nombre:'Comic Justice League: Origin 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-011',nombre:'Comic Spider-Man Miles Morales 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-012',nombre:'Comic Batman: The Dark Knight 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-013',nombre:'Comic Avengers World Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-014',nombre:'Comic Superman: Son of Kal-El 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-015',nombre:'Comic X-Men: Mutant Genesis 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-016',nombre:'Comic Green Lantern: Rebirth 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-017',nombre:'Comic Captain America: Ryo 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-018',nombre:'Comic Aquaman: The Trench 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'75',precio_original:'101',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-019',nombre:'Comic Guardians of the Galaxy 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CMV-020',nombre:'Comic Justice League: War Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'85',precio_original:'114',descuento:'25% OFF',existencias:'12',categoria:'comics-marvel',descripcion:'Producto premium garantizado de la categoría Marvel y DC. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CMV-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Cómics Independientes ==========
-        {sku:'CIN-001',nombre:'Comic Saga Vol. 1 Image Comics',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-002',nombre:'Comic Spawn Classic No. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'99',precio_original:'133',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-003',nombre:'Comic Invincible Vol. 1 Colección',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-004',nombre:'Comic The Walking Dead Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'180',precio_original:'243',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-005',nombre:'Comic Hellboy: Seed of Destruction',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'249',precio_original:'336',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-006',nombre:'Comic Saga Vol. 2 Image Comics',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-007',nombre:'Comic Spawn Resurrection No. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'99',precio_original:'133',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-008',nombre:'Comic Invincible Vol. 2 Colección',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-009',nombre:'Comic The Walking Dead Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'180',precio_original:'243',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-010',nombre:'Comic Hellboy: Wake the Devil',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'249',precio_original:'336',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-011',nombre:'Comic Something is Killing Children 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-012',nombre:'Comic Paper Girls Vol. 1 Complete',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-013',nombre:'Comic Locke & Key Vol. 1 Welcome',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'210',precio_original:'283',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-014',nombre:'Comic Monstress Vol. 1 Awakening',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-015',nombre:'Comic The Umbrella Academy Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-016',nombre:'Comic Something is Killing Children 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-017',nombre:'Comic Paper Girls Vol. 2 Complete',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-018',nombre:'Comic Locke & Key Vol. 2 Head Games',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'210',precio_original:'283',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-019',nombre:'Comic Monstress Vol. 2 Blood',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'CIN-020',nombre:'Comic The Umbrella Academy Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'comics-indie',descripcion:'Producto premium garantizado de la categoría Cómics Independientes. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'CIN-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Manga Shonen ==========
-        {sku:'MSN-001',nombre:'Manga One Piece Vol. 100',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'149',precio_original:'201',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-002',nombre:'Manga Naruto Gold Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-003',nombre:'Manga Demon Slayer Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-004',nombre:'Manga Jujutsu Kaisen Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-005',nombre:'Manga My Hero Academia Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-006',nombre:'Manga One Piece Vol. 101',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'149',precio_original:'201',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-007',nombre:'Manga Naruto Gold Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-008',nombre:'Manga Demon Slayer Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-009',nombre:'Manga Jujutsu Kaisen Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-010',nombre:'Manga My Hero Academia Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-011',nombre:'Manga Chainsaw Man Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-012',nombre:'Manga Attack on Titan Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'149',precio_original:'201',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-013',nombre:'Manga Hunter x Hunter Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-014',nombre:'Manga Bleach Gold Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-015',nombre:'Manga Dragon Ball Super Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-016',nombre:'Manga Chainsaw Man Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-017',nombre:'Manga Attack on Titan Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'149',precio_original:'201',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-018',nombre:'Manga Hunter x Hunter Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-019',nombre:'Manga Bleach Gold Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSN-020',nombre:'Manga Dragon Ball Super Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shonen',descripcion:'Producto premium garantizado de la categoría Manga Shonen. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSN-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Manga Shojo ==========
-        {sku:'MSJ-001',nombre:'Manga Sailor Moon Eternal Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'249',precio_original:'336',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-002',nombre:'Manga Fruits Basket Collector 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'299',precio_original:'403',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-003',nombre:'Manga Kimi ni Todoke Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-004',nombre:'Manga Ao Haru Ride Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-005',nombre:'Manga Orange Collector Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-006',nombre:'Manga Sailor Moon Eternal Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'249',precio_original:'336',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-007',nombre:'Manga Fruits Basket Collector 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'299',precio_original:'403',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-008',nombre:'Manga Kimi ni Todoke Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-009',nombre:'Manga Ao Haru Ride Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-010',nombre:'Manga Orange Collector Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'220',precio_original:'297',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-011',nombre:'Manga Nana Vol. 1 Yazawa Class',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-012',nombre:'Manga Cardcaptor Sakura Clow 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'189',precio_original:'255',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-013',nombre:'Manga Ouran High Host Club Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-014',nombre:'Manga Maid Sama! Vol. 1 Double',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'169',precio_original:'228',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-015',nombre:'Manga Yona of the Dawn Vol. 1',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-016',nombre:'Manga Nana Vol. 2 Yazawa Class',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'139',precio_original:'187',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-017',nombre:'Manga Cardcaptor Sakura Clow 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'189',precio_original:'255',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-018',nombre:'Manga Ouran High Host Club Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-019',nombre:'Manga Maid Sama! Vol. 2 Double',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'169',precio_original:'228',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'MSJ-020',nombre:'Manga Yona of the Dawn Vol. 2',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'129',precio_original:'174',descuento:'25% OFF',existencias:'12',categoria:'manga-shojo',descripcion:'Producto premium garantizado de la categoría Manga Shojo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'MSJ-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        // ========== CATEGORÍA: Libros de Bolsillo ==========
-        {sku:'LBR-001',nombre:'Libro Cien Años de Soledad',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'240',precio_original:'324',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-001',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-002',nombre:'Libro El Alquimista Coelho',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'180',precio_original:'243',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-002',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-003',nombre:'Novela 1984 George Orwell',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-003',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-004',nombre:'Libro Rebelión en la Granja',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-004',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-005',nombre:'Libro El Principito Saint-Exupéry',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'99',precio_original:'133',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-005',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-006',nombre:'Novela Pedro Páramo Juan Rulfo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'130',precio_original:'175',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-006',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-007',nombre:'Libro El Llano en Llamas Rulfo',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'130',precio_original:'175',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-007',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-008',nombre:'Libro Crónica Muerte Anunciada',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-008',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-009',nombre:'Libro Un Mundo Feliz Huxley',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'160',precio_original:'216',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-009',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-010',nombre:'Novela El Amor Tiempos Colera',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'240',precio_original:'324',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-010',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-011',nombre:'Libro Frankenstein Mary Shelley',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'140',precio_original:'189',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-011',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-012',nombre:'Libro Drácula Bram Stoker',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'170',precio_original:'229',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-012',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-013',nombre:'Novela Farenheit 451 Bradbury',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'180',precio_original:'243',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-013',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-014',nombre:'Libro Metamorfosis Franz Kafka',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'99',precio_original:'133',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-014',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-015',nombre:'Libro El Retrato de Dorian Gray',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'150',precio_original:'202',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-015',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-016',nombre:'Novela Rayuela Julio Cortázar',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'260',precio_original:'351',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-016',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-017',nombre:'Libro Ficciones Jorge Luis Borges',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-017',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-018',nombre:'Libro El Aleph Jorge Luis Borges',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'199',precio_original:'268',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-018',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-019',nombre:'Novela Aura Carlos Fuentes',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'110',precio_original:'148',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-019',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-        {sku:'LBR-020',nombre:'Libro Las Batallas en el Desierto',imagen:'assets/img/Revistas/istockphoto-609437196-612x612.webp',precio:'120',precio_original:'162',descuento:'25% OFF',existencias:'12',categoria:'libros',descripcion:'Producto premium garantizado de la categoría Libros de Bolsillo. Disfruta de la mejor calidad, servicio y garantía en nuestro portal.',modelo_caja:'LBR-020',tamano_altavoz:'N/A',caracteristicas:'Garantía oficial del ecosistema, empaque de seguridad y entrega inmediata.'},
-    ];
+    const productCatalog = [];  // Products loaded from each store's index.html into ecosystem_global_cart
 
     function getCart() {
         const stored = localStorage.getItem("ecosystem_global_cart");
@@ -751,21 +695,23 @@ if ('serviceWorker' in navigator) {
         const colonia = document.getElementById("devColonia").value;
         const cp = document.getElementById("devCp").value;
         const city = document.getElementById("devCity").value;
-        
-        const data = { name, phone, email, street, colonia, cp, city };
+        const refs = document.getElementById("devRefs") ? document.getElementById("devRefs").value : "";
+
+        const data = { name, phone, email, street, colonia, cp, city, refs };
         localStorage.setItem("user_delivery_address", JSON.stringify(data));
-        
+
         showDeliverySummary();
         unlockPaymentStep();
         renderCheckout();
+        if (typeof updateHeaderDeliveryPrompt === "function") updateHeaderDeliveryPrompt();
     };
-    
+
     window.editDelivery = function() {
         document.getElementById("delivery-form").classList.remove("hidden");
         document.getElementById("delivery-summary").classList.add("hidden");
         document.getElementById("delivery-edit-btn").classList.add("hidden");
     };
-    
+
     function showDeliverySummary() {
         const stored = localStorage.getItem("user_delivery_address");
         if (stored) {
@@ -773,19 +719,29 @@ if ('serviceWorker' in navigator) {
             document.getElementById("delivery-form").classList.add("hidden");
             document.getElementById("delivery-summary").classList.remove("hidden");
             document.getElementById("delivery-edit-btn").classList.remove("hidden");
-            
+
             document.getElementById("sum-name").innerText = data.name;
             const displayEmail = data.email ? data.email : "No registrado";
             document.getElementById("sum-phone-email").innerHTML = `📞 ${data.phone}  |  ✉️ ${displayEmail}`;
             document.getElementById("sum-address").innerText = `📍 ${data.street}, Col. ${data.colonia}, CP ${data.cp}, ${data.city}`;
+
+            const refsEl = document.getElementById("sum-refs");
+            if (refsEl) {
+                if (data.refs && data.refs.trim()) {
+                    refsEl.innerText = `📝 Ref: ${data.refs}`;
+                    refsEl.classList.remove("hidden");
+                } else {
+                    refsEl.classList.add("hidden");
+                }
+            }
         }
     }
-    
+
     function unlockPaymentStep() {
         const stepCard = document.getElementById("step-payment-card");
         const badge = document.getElementById("step-payment-badge");
         const options = document.getElementById("payment-options");
-        
+
         if (stepCard && badge && options) {
             stepCard.classList.remove("opacity-60");
             badge.classList.remove("bg-slate-800", "text-slate-400");
@@ -794,9 +750,45 @@ if ('serviceWorker' in navigator) {
         }
     }
 
-    // ACCORDION TOGGLE METHOD
+    // REFERENCE CODE GENERATORS
+    function generateOxxoFolio() {
+        const digits = Array.from({length:14}, () => Math.floor(Math.random()*10));
+        const folio = digits.join('');
+        const el = document.getElementById('oxxo-folio');
+        if (el) el.innerText = folio.replace(/(\d{4})(?=\d)/g, '$1-');
+        const bc = document.getElementById('oxxo-barcode');
+        if (bc) {
+            bc.innerHTML = folio.split('').map(function(d, i) {
+                var n = parseInt(d) || 0;
+                var h = 26 + n * 2;
+                var w = (n % 3) + 1;
+                return '<div style="width:'+w+'px;height:'+h+'px;background:#f59e0b"></div>';
+            }).join('');
+            bc.classList.remove('hidden');
+        }
+        return folio;
+    }
+
+    function generateSpeiRef() {
+        const ref = 'SP-' + Math.floor(10000 + Math.random() * 90000);
+        const el = document.getElementById('spei-ref');
+        if (el) el.innerText = ref;
+        return ref;
+    }
+
+    window.generateAndSelectOxxo = function() {
+        generateOxxoFolio();
+        selectPaymentMethod('Efectivo OXXO / Tienda de Conveniencia');
+    };
+
+    window.generateAndSelectSpei = function() {
+        generateSpeiRef();
+        selectPaymentMethod('Transferencia SPEI / CoDi / Clip');
+    };
+
+    // ACCORDION TOGGLE METHOD (4 opciones)
     window.togglePaymentAccordion = function(type) {
-        const sections = ['card', 'cash', 'spei'];
+        const sections = ['card', 'oxxo', 'spei', 'cod'];
         sections.forEach(s => {
             const form = document.getElementById(`accordion-${s}-form`);
             const arrow = document.getElementById(`arrow-${s}`);
@@ -823,7 +815,7 @@ if ('serviceWorker' in navigator) {
         localStorage.setItem("user_payment_method", method);
         showPaymentSummary();
     };
-    
+
     window.saveCardDetails = function(event) {
         event.preventDefault();
         const name = document.getElementById("cardName").value;
@@ -834,29 +826,36 @@ if ('serviceWorker' in navigator) {
         }
         const last4 = num.replace(/\s/g, '').slice(-4) || "4152";
         const type = num.startsWith("5") ? "Mastercard" : "Visa";
-        
+
         localStorage.setItem("user_payment_method", `${type} (**** ${last4}) - ${name}`);
         showPaymentSummary();
     };
-    
+
     window.editPayment = function() {
         document.getElementById("payment-options").classList.remove("hidden");
         document.getElementById("payment-summary").classList.add("hidden");
         document.getElementById("payment-edit-btn").classList.add("hidden");
     };
-    
+
     function showPaymentSummary() {
         const method = localStorage.getItem("user_payment_method");
         if (method) {
             document.getElementById("payment-options").classList.add("hidden");
             document.getElementById("payment-summary").classList.remove("hidden");
             document.getElementById("payment-edit-btn").classList.remove("hidden");
-            
+
+            let icon = 'fa-circle-check';
+            let iconColor = 'text-emerald-400';
+            if (method.includes('OXXO')) { icon = 'fa-store'; iconColor = 'text-amber-400'; }
+            else if (method.includes('SPEI') || method.includes('CoDi')) { icon = 'fa-building-columns'; iconColor = 'text-blue-400'; }
+            else if (method.includes('Contra Entrega')) { icon = 'fa-money-bill-wave'; iconColor = 'text-emerald-400'; }
+            else if (method.includes('Visa') || method.includes('Mastercard')) { icon = 'fa-credit-card'; iconColor = 'text-cyan-400'; }
+
             document.getElementById("payment-summary").innerHTML = `
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+                    <i class="fa-solid ${icon} ${iconColor} text-base"></i>
                     <div>
-                        <span class="text-[9px] text-slate-500 uppercase tracking-wider block font-bold">Forma Registrada</span>
+                        <span class="text-[9px] text-slate-500 uppercase tracking-wider block font-bold">Forma de Pago Registrada</span>
                         <span class="text-white font-bold text-xs">${method}</span>
                     </div>
                 </div>
@@ -878,7 +877,7 @@ if ('serviceWorker' in navigator) {
         }
         saveCart(cart);
     };
-    
+
     window.deleteItem = function(sku) {
         let cart = getCart();
         const item = cart.find(i => i.sku === sku);
@@ -887,88 +886,117 @@ if ('serviceWorker' in navigator) {
         }
         saveCart(cart);
     };
-    
+
     window.renderCheckout = function() {
         const container = document.getElementById("checkout-cart-items");
         const subtotalDisp = document.getElementById("co-subtotal");
         const wholesaleRow = document.getElementById("co-wholesale-row");
         const wholesaleDiscDisp = document.getElementById("co-wholesale-disc");
         const shippingDisp = document.getElementById("co-shipping");
+        const shippingMsg = document.getElementById("co-shipping-msg");
         const cashbackRow = document.getElementById("co-cashback-row");
         const totalDisp = document.getElementById("co-total");
-        
+        const cartCountLabel = document.getElementById("cart-items-count-label");
+        const cartEmptyMsg = document.getElementById("cart-empty-msg");
+
         if (!container) return;
-        
+
         const cart = getCart();
         container.innerHTML = "";
-        
+
         let subtotal = 0;
         let totalItemsQty = 0;
-        
+        let activeCount = 0;
+
         cart.forEach(item => {
             const isInactive = (item.quantity === 0);
             const sub = parseFloat(item.precio) * item.quantity;
             subtotal += sub;
-            
+
             if (!isInactive) {
                 totalItemsQty += item.quantity;
+                activeCount++;
             }
-            
+
             let imgUrl = item.imagen;
             if (imgUrl && imgUrl.startsWith('assets/img')) {
                 imgUrl = './' + imgUrl;
             }
-            
-            let rowClass = "flex items-center justify-between gap-3 bg-slate-950/40 p-2.5 rounded-xl border border-slate-850 transition-all duration-300 animate-fade-in";
+
+            let rowClass = "flex flex-row items-center gap-4 p-4 bg-slate-900/80 rounded-xl border border-slate-800 mb-3 transition-all duration-300";
             let controlsHtml = "";
             let statusTagHtml = "";
-            
+
             if (isInactive) {
                 rowClass += " opacity-40 grayscale";
-                statusTagHtml = `<span class="bg-red-500/10 border border-red-500/30 text-red-500 font-bold px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider block mt-0.5 w-max">Producto desactivado</span>`;
+                statusTagHtml = `<span class="bg-red-500/10 border border-red-500/30 text-red-500 font-bold px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider block mt-0.5 w-max">Desactivado</span>`;
                 controlsHtml = `
-                    <button onclick="changeQty('${item.sku}', 1)" class="px-2.5 py-1.5 rounded bg-emerald-500 hover:bg-emerald-450 text-slate-950 font-black text-[10px] transition cursor-pointer flex items-center gap-1 active:scale-95 min-h-[32px]">
+                    <button onclick="changeQty('${item.sku}', 1)" class="px-2.5 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[10px] transition cursor-pointer flex items-center gap-1 active:scale-95 min-h-[32px]">
                         Reactivar <i class="fa-solid fa-plus text-[9px]"></i>
                     </button>
                 `;
             } else {
                 let minusButtonHtml = `<button onclick="changeQty('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">-</button>`;
                 if (item.quantity === 1) {
-                    minusButtonHtml = `<button onclick="deleteItem('${item.sku}')" class="w-8 h-8 rounded bg-red-650 text-white hover:bg-red-600 transition flex items-center justify-center text-[10px] cursor-pointer min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>`;
+                    minusButtonHtml = `<button onclick="deleteItem('${item.sku}')" class="w-8 h-8 rounded bg-red-950 text-red-400 hover:bg-red-900 hover:text-red-300 transition flex items-center justify-center text-[10px] cursor-pointer min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>`;
                 }
-                
+
                 controlsHtml = `
                     <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded p-0.5">
                         ${minusButtonHtml}
-                        <span class="text-white font-black text-xs w-4 text-center">${item.quantity}</span>
+                        <span class="text-white font-black text-xs w-6 text-center">${item.quantity}</span>
                         <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">+</button>
                     </div>
-                    <span class="text-cyan-400 font-bold min-w-[70px] text-right text-xs">$${sub.toFixed(2)}</span>
-                    <button onclick="deleteItem('${item.sku}')" class="text-slate-500 hover:text-red-500 text-xs cursor-pointer shrink-0 transition min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
+                    <div class="flex flex-col items-end min-w-[65px]">
+                        <span class="text-[9px] text-slate-500">$${parseFloat(item.precio).toLocaleString()} c/u</span>
+                        <span class="text-cyan-400 font-bold text-xs">$${sub.toFixed(2)}</span>
+                    </div>
+                    <button onclick="deleteItem('${item.sku}')" class="text-slate-600 hover:text-red-500 text-xs cursor-pointer shrink-0 transition min-w-[28px] min-h-[28px] flex items-center justify-center" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                 `;
             }
-            
+
             const div = document.createElement("div");
             div.className = rowClass;
             div.innerHTML = `
-                <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                    <img src="${imgUrl}" class="w-8 h-8 object-contain bg-white rounded p-0.5 shrink-0" />
-                    <div class="min-w-0 flex-1">
-                        <span class="text-white font-bold block truncate text-xs">${item.nombre}</span>
-                        <span class="text-[9px] font-mono text-slate-500 uppercase block">${item.sku}</span>
-                        ${statusTagHtml}
-                    </div>
+                <img src="${imgUrl}" style="width:150px;height:150px;min-width:150px;max-width:150px;max-height:150px;object-fit:contain;" class="bg-slate-950 p-2 rounded-xl border border-slate-700 shrink-0" alt="${item.nombre}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div style="display:none;width:150px;height:150px;min-width:150px" class="bg-slate-900 rounded-xl border border-slate-700 items-center justify-center shrink-0">
+                    <i class="fa-solid fa-image text-slate-600 text-3xl"></i>
                 </div>
-                <div class="flex items-center gap-2.5 shrink-0">
-                    ${controlsHtml}
+                <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                    <span class="text-white font-bold text-sm leading-snug">${item.nombre}</span>
+                    <span class="text-[10px] font-mono text-slate-500 uppercase">${item.sku}</span>
+                    ${statusTagHtml}
+                    <div class="flex items-center gap-3 flex-wrap mt-1">
+                        ${controlsHtml}
+                    </div>
                 </div>
             `;
             container.appendChild(div);
         });
-        
+
+        // Update cart count label
+        if (cartCountLabel) {
+            cartCountLabel.innerText = `${activeCount} producto${activeCount !== 1 ? 's' : ''}`;
+        }
+
+        // Update header cart badge
+        const badge = document.getElementById("cart-badge-count");
+        if (badge) badge.innerText = totalItemsQty;
+
+        // Show/hide empty message
+        if (cartEmptyMsg) {
+            if (cart.length === 0) {
+                cartEmptyMsg.classList.remove("hidden");
+                container.classList.add("hidden");
+            } else {
+                cartEmptyMsg.classList.add("hidden");
+                container.classList.remove("hidden");
+            }
+        }
+
         subtotalDisp.innerText = `$${subtotal.toFixed(2)} MXN`;
-        
-        // Wholesale check
+
+        // Wholesale check (15% a partir de 10 piezas)
         let wholesaleDiscount = 0;
         if (totalItemsQty >= 10) {
             wholesaleDiscount = subtotal * 0.15;
@@ -977,13 +1005,24 @@ if ('serviceWorker' in navigator) {
         } else {
             wholesaleRow.classList.add("hidden");
         }
-        
-        // Shipping check
+
+        // Shipping check (GRATIS >= $1,500 MXN; $49 MXN si menor)
         const baseSub = subtotal - wholesaleDiscount;
         const shippingFee = (baseSub >= 1500 || subtotal === 0) ? 0 : 49;
         shippingDisp.innerText = shippingFee === 0 ? "GRATIS" : `$${shippingFee.toFixed(2)} MXN`;
-        
-        // Cashback check
+
+        if (shippingMsg) {
+            if (subtotal === 0) {
+                shippingMsg.innerText = "";
+            } else if (shippingFee === 0) {
+                shippingMsg.innerText = "🎉 ¡Envío GRATIS aplicado! (Compra ≥ $1,500 MXN)";
+            } else {
+                const faltan = 1500 - baseSub;
+                shippingMsg.innerText = `💡 Agrega $${Math.ceil(faltan)} MXN más para envío GRATIS`;
+            }
+        }
+
+        // Cashback check (5% con registro activo de correo y teléfono)
         const storedAddress = localStorage.getItem("user_delivery_address");
         let hasRegister = false;
         if (storedAddress) {
@@ -992,12 +1031,12 @@ if ('serviceWorker' in navigator) {
                 hasRegister = true;
             }
         }
-        
+
         let cashbackVal = 0;
         if (hasRegister) {
             cashbackVal = baseSub * 0.05;
             cashbackRow.innerHTML = `
-                <div class="flex justify-between text-emerald-400 font-black">
+                <div class="flex justify-between text-emerald-400 font-black text-xs">
                     <span>Cashback 5% Aplicado:</span>
                     <span>-$${cashbackVal.toFixed(2)} MXN</span>
                 </div>
@@ -1005,14 +1044,14 @@ if ('serviceWorker' in navigator) {
             `;
         } else {
             cashbackRow.innerHTML = `
-                <div class="flex justify-between text-slate-500 font-bold">
-                    <span>Cashback Acumulable:</span>
+                <div class="flex justify-between text-slate-500 font-bold text-xs">
+                    <span>Cashback Acumulable 5%:</span>
                     <span>$0.00 MXN</span>
                 </div>
-                <span class="text-[9px] text-amber-500 font-semibold leading-tight">⚠️ Sin registro no aplica cashback. Completa el Paso 1 para activar tu 5%.</span>
+                <span class="text-[9px] text-amber-500 font-semibold leading-tight">⚠️ Registra correo y teléfono en el Paso 1 para activar tu 5% de cashback. ¡Suscríbete al newsletter!</span>
             `;
         }
-        
+
         const totalCost = Math.max(0, baseSub - cashbackVal + shippingFee);
         totalDisp.innerText = `$${totalCost.toFixed(2)} MXN`;
     };
@@ -1023,7 +1062,7 @@ if ('serviceWorker' in navigator) {
         const method = localStorage.getItem("user_payment_method");
         const cart = getCart();
         const activeItems = cart.filter(i => i.quantity > 0);
-        
+
         if (activeItems.length === 0) {
             alert("⚠️ El carrito de compras no contiene productos activos.");
             return;
@@ -1036,32 +1075,35 @@ if ('serviceWorker' in navigator) {
             alert("⚠️ Selecciona un Método de Pago (Paso 2) antes de continuar.");
             return;
         }
-        
+
         // Create order history item
         const orderId = "EC-" + Math.floor(1000 + Math.random() * 9000);
         const dateStr = "Hoy, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
+
+        const shipSpeed = document.querySelector('input[name="shippingSpeed"]:checked');
+        const deliveryTime = shipSpeed && shipSpeed.value === 'express' ? "Express 24h" : "Estándar 3-5 días";
+
         const newOrder = {
             orderId: orderId,
             date: dateStr,
             status: "Preparando",
-            deliveryTime: "Listo para entrega en 30 min",
+            deliveryTime: deliveryTime,
             items: activeItems
         };
-        
+
         let history = [];
         try {
             const stored = localStorage.getItem("user_purchases_history");
             if (stored) history = JSON.parse(stored);
         } catch(e) {}
-        
+
         history.unshift(newOrder);
         localStorage.setItem("user_purchases_history", JSON.stringify(history));
-        
+
         // Clear cart
         localStorage.setItem("ecosystem_global_cart", JSON.stringify([]));
-        
-        alert(`🎉 ¡COMPRA COMPLETADA CON ÉXITO!\\n\\nPedido #${orderId} registrado.\\nForma de Pago: ${method}\\n\\nEl repartidor llegará en menos de 30 minutos.`);
+
+        alert(`🎉 ¡COMPRA COMPLETADA CON ÉXITO!\n\nPedido #${orderId} registrado.\nForma de Pago: ${method}\nEntrega: ${deliveryTime}\n\nGracias por tu compra en Kiosco Digital.`);
         window.location.href = "index.html";
     };
 
@@ -1070,25 +1112,25 @@ if ('serviceWorker' in navigator) {
         const win = document.getElementById("chatbot-window");
         if (win) win.classList.toggle("hidden");
     };
-    
+
     window.handleChatKeyPress = function(event) {
         if (event.key === "Enter") enviarMensajeChatbot();
     };
-    
+
     window.enviarMensajeChatbot = function() {
         const input = document.getElementById("chatInput");
         const messages = document.getElementById("chat-messages");
         if (!input || !messages || !input.value.trim()) return;
-        
+
         const txt = input.value.trim();
         input.value = "";
-        
+
         const uDiv = document.createElement("div");
         uDiv.className = "bg-cyan-500/10 border border-cyan-500/20 p-2.5 rounded-2xl text-slate-200 self-end max-w-[85%]";
         uDiv.innerText = txt;
         messages.appendChild(uDiv);
         messages.scrollTop = messages.scrollHeight;
-        
+
         setTimeout(() => {
             let resp = "Hola, estoy para ayudarte en el proceso de pago. Asegúrate de registrar tu dirección en el Paso 1 para activar el cashback.";
             const low = txt.toLowerCase();
@@ -1098,8 +1140,14 @@ if ('serviceWorker' in navigator) {
                 resp = "Ofrecemos un 5% de cashback sobre el total de tu compra, descontándose de inmediato si tienes registrada tu dirección, teléfono y correo.";
             } else if (low.includes("mayoreo") || low.includes("mayorista")) {
                 resp = "¡Sí! Si compras 10 o más artículos en total, obtendrás un descuento del 15% automático en tu subtotal.";
+            } else if (low.includes("oxxo") || low.includes("efectivo")) {
+                resp = "Puedes pagar en efectivo en cualquier OXXO con tu folio de referencia, o directamente al repartidor con Pago Contra Entrega.";
+            } else if (low.includes("spei") || low.includes("transferencia") || low.includes("clabe")) {
+                resp = "Para pagar por SPEI, selecciona Transferencia Bancaria en el Paso 2. Te proporcionaremos la CLABE y referencia única.";
+            } else if (low.includes("tarjeta") || low.includes("visa") || low.includes("mastercard")) {
+                resp = "Aceptamos Visa y Mastercard. Ingresa los datos de tu tarjeta en el Paso 2 para completar el pago de forma segura.";
             }
-            
+
             const bDiv = document.createElement("div");
             bDiv.className = "bg-slate-950 border border-slate-800 p-2.5 rounded-2xl text-slate-300 self-start max-w-[85%]";
             bDiv.innerText = resp;
@@ -1109,6 +1157,22 @@ if ('serviceWorker' in navigator) {
     };
 
     document.addEventListener("DOMContentLoaded", () => {
+        // Restore saved delivery data if exists
+        const savedAddr = localStorage.getItem("user_delivery_address");
+        if (savedAddr) {
+            try {
+                const data = JSON.parse(savedAddr);
+                if (document.getElementById("devName")) document.getElementById("devName").value = data.name || "";
+                if (document.getElementById("devPhone")) document.getElementById("devPhone").value = data.phone || "";
+                if (document.getElementById("devEmail")) document.getElementById("devEmail").value = data.email || "";
+                if (document.getElementById("devStreet")) document.getElementById("devStreet").value = data.street || "";
+                if (document.getElementById("devColonia")) document.getElementById("devColonia").value = data.colonia || "";
+                if (document.getElementById("devCp")) document.getElementById("devCp").value = data.cp || "";
+                if (document.getElementById("devCity")) document.getElementById("devCity").value = data.city || "";
+                if (document.getElementById("devRefs")) document.getElementById("devRefs").value = data.refs || "";
+            } catch(e) {}
+        }
+
         showDeliverySummary();
         const address = localStorage.getItem("user_delivery_address");
         if (address) {
@@ -1116,6 +1180,10 @@ if ('serviceWorker' in navigator) {
             showPaymentSummary();
         }
         renderCheckout();
+
+        // Pre-generate reference codes
+        generateOxxoFolio();
+        generateSpeiRef();
     });
 </script>
 
