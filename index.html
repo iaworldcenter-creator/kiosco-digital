@@ -32,6 +32,21 @@ if ('serviceWorker' in navigator) {
 <meta content="8K2sKSVop9TiESQupe6QkSBIJjwXpli847qEAWCq87I" name="google-site-verification">
 <title>Kiosco Digital | Revistas, Peri?dicos y Lectura</title>
 <style>
+
+/* BANDA MARQUEE CONTINUA UNIVERSAL */
+@keyframes marqueeContinuous {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+.marquee-track {
+    display: inline-flex;
+    width: max-content;
+    animation: marqueeContinuous 35s linear infinite;
+}
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
         :root { --fondo: #020617; --azul: #3b82f6; --azul-vivo: #60a5fa; --naranja: #f59e0b; --dorado: #eab308; --texto: #f1f5f9; --crema: #0f172a; }
         * { box-sizing: border-box; }
         body { margin: 0; background: var(--fondo); color: var(--texto); font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -137,8 +152,8 @@ if ('serviceWorker' in navigator) {
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" crossorigin />
     <!-- Carga asíncrona de FontAwesome local purgado con font-display: swap -->
-    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.9" /></noscript>
+    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.1.0" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.1.0" /></noscript>
 
 <link as="image" href="assets/img/carrusel-cabecera/foto3.webp" rel="preload"/>
 <style>
@@ -259,6 +274,34 @@ if ('serviceWorker' in navigator) {
         </div>
     </div>
 </header>
+<!-- BANDA PROMOCIONAL MARQUEE UNIVERSAL -->
+<div class="w-full bg-[#f0c14b] border-b border-[#ddb347] text-slate-950 py-2 overflow-hidden">
+    <div class="marquee-track flex gap-8 items-center text-xs font-black uppercase tracking-wider">
+        <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $499!</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">💳 5% DE CASHBACK acumulable con registro</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo al llevar 3+</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔔 CONDICIÓN: Sin registro no hay cashback</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🏬 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔒 Pagos con tarjeta y transferencia</span>
+        <!-- Bucle continuo -->
+        <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $499!</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">💳 5% DE CASHBACK acumulable con registro</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo al llevar 3+</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔔 CONDICIÓN: Sin registro no hay cashback</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🏬 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔒 Pagos con tarjeta y transferencia</span>
+    </div>
+</div>
 
 <!-- BANDA PROMOCIONAL MARQUEE -->
 <div class="w-full bg-[#f0c14b] border-b border-[#ddb347] text-slate-950 py-2.5 overflow-hidden relative z-50 select-none shadow-sm">
@@ -497,7 +540,7 @@ if ('serviceWorker' in navigator) {
 <!-- Panel Izquierdo: Atención en Lectura (Video de Tigre leyendo en escritorio) -->
 <a class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-2 md:order-1 group block cursor-pointer border-r border-slate-800/40" href="https://wa.me/523337271440?text=Hola,%20quiero%20probar%20Gemini%20y%20el%20copiloto%20Anti-Gravity." rel="noopener noreferrer" target="_blank">
 <div class="absolute inset-0 w-full h-full object-cover object-tech-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none overflow-hidden" id="video-container-left">
-    <img src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710_thumb.webp?v=1.0.9" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
+    <img src="assets/img/Revistas/Tiger_reading_book_at_desk_202608080710_thumb.webp?v=1.1.0" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
 <span class="text-amber-400 font-mono text-[10px] uppercase font-bold tracking-widest mb-2 block">Código Inteligente</span>
@@ -593,7 +636,7 @@ if ('serviceWorker' in navigator) {
 <!-- Panel Derecho: Creado con Google Gemini (Tigre leyendo revista de modas) -->
 <a class="relative overflow-hidden w-full h-[380px] md:h-[600px] order-3 md:order-3 group block cursor-pointer" href="https://gemini.google.com" rel="noopener noreferrer" target="_blank">
 <div class="absolute inset-0 w-full h-full object-cover object-tiger-bazar transition-transform duration-[1200ms] ease-out group-hover:scale-105 pointer-events-none overflow-hidden" id="video-container-right">
-    <img src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710_thumb.webp?v=1.0.9" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
+    <img src="assets/img/Revistas/Tiger_reading_fashion_magazine_202608080710_thumb.webp?v=1.1.0" alt="Kiosco Digital" class="w-full h-full object-cover" loading="lazy" width="300" height="168" />
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
 <span class="text-sky-400 font-mono text-[10px] uppercase font-bold tracking-widest mb-2 block">Tecnología del Futuro</span>
