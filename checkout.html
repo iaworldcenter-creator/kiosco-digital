@@ -1,522 +1,517 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
 <head>
-
-<script>
-// ============================================================
-// MOTOR UNIFICADO DE CHECKOUT CON PURGA INMEDIATA DE PRODUCTOS
-// ============================================================
-
-function getCleanCart() {
-    try {
-        const raw = localStorage.getItem('ecosystem_global_cart');
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter(item => item && item.sku && parseInt(item.quantity) > 0);
-    } catch(e) {
-        return [];
-    }
-}
-
-function saveCleanCart(cart) {
-    const valid = cart.filter(item => item && item.sku && parseInt(item.quantity) > 0);
-    localStorage.setItem('ecosystem_global_cart', JSON.stringify(valid));
-    window.dispatchEvent(new Event('storage'));
-}
-
-function clearUrlSkuParam() {
-    try {
-        if (window.location.search.includes('sku=')) {
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIOSCO DIGITAL | Caja y Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        @keyframes marqueeContinuousMove {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
         }
-    } catch(e) {}
-}
-
-function resolveProductImage(sku, localImg) {
-    if (localImg && (localImg.startsWith('http://') || localImg.startsWith('https://'))) return localImg;
-    const cleanSku = (sku || '').toUpperCase();
-    let storeDomain = 'pc-custom-lab';
-    if (cleanSku.startsWith('GPU-') || cleanSku.startsWith('PC-')) storeDomain = 'pc-custom-lab';
-    else if (cleanSku.startsWith('CN-') || cleanSku.startsWith('CB-')) storeDomain = 'cigarros-bazar';
-    else if (cleanSku.startsWith('DB-') || cleanSku.startsWith('DUL-')) storeDomain = 'dulces-bazar';
-    else if (cleanSku.startsWith('KD-') || cleanSku.startsWith('KIO-')) storeDomain = 'kiosco-digital';
-    else if (cleanSku.startsWith('PB-') || cleanSku.startsWith('PUE-')) storeDomain = 'mi-puesto-bazar';
-    else if (cleanSku.startsWith('OLG-') || cleanSku.startsWith('LIQ-')) storeDomain = 'ofertas-y-liquidaciones';
-    else if (cleanSku.startsWith('NFL-') || cleanSku.startsWith('VIA-')) storeDomain = 'bazar-viamx-nfl.gdl';
-
-    let path = localImg || 'assets/img/slider_ia_human_thumb.webp';
-    path = path.replace(/^(\.\/|\/)/, '');
-    return 'https://iaworldcenter-creator.github.io/' + storeDomain + '/' + path;
-}
-
-// 1. ELIMINACIÓN TOTAL Y DEFINITIVA
-window.deleteItem = function(sku) {
-    if (!sku) return;
-    clearUrlSkuParam();
-    let cart = getCleanCart();
-    cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
-    saveCleanCart(cart);
-    renderSmartCheckout();
-};
-window.removeItem = window.deleteItem;
-
-// 2. MODIFICACIÓN DE CANTIDADES
-window.changeQty = function(sku, delta) {
-    if (!sku) return;
-    let cart = getCleanCart();
-    let item = cart.find(i => (i.sku || '').toUpperCase().trim() === sku.toUpperCase().trim());
-    if (item) {
-        item.quantity = (parseInt(item.quantity) || 1) + delta;
-        if (item.quantity <= 0) {
-            clearUrlSkuParam();
-            cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
+        .marquee-track-active {
+            display: flex;
+            width: max-content;
+            animation: marqueeContinuousMove 30s linear infinite;
+            will-change: transform;
         }
-    }
-    saveCleanCart(cart);
-    renderSmartCheckout();
-};
+        .marquee-track-active:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
 
-// 3. ACORDEÓN PASO 1 (DOMICILIO) Y PASO 2 (PAGO)
-window.guardarDomicilio = function(e) {
-    if (e) e.preventDefault();
-    const nombre = document.getElementById('input-nombre')?.value || document.querySelector('input[placeholder*="Juan"]')?.value || 'Cliente Registrado';
-    const tel = document.getElementById('input-tel')?.value || document.querySelector('input[placeholder*="33"]')?.value || '';
-    const calle = document.getElementById('input-calle')?.value || document.querySelector('input[placeholder*="Moreno"]')?.value || 'Av. Pedro Moreno';
-    const col = document.getElementById('input-colonia')?.value || 'Centro';
-    const cd = document.getElementById('input-ciudad')?.value || 'Guadalajara';
+    <!-- HEADER -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition">
+                <div class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 font-black shadow-md">
+                    <i class="fa-solid fa-shop"></i>
+                </div>
+                <div>
+                    <span class="font-black text-lg text-white tracking-wider block leading-tight">KIOSCO DIGITAL</span>
+                    <span class="text-[10px] font-mono text-cyan-400 uppercase tracking-widest block">Ecosistema Seguro 2026</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Seguir comprando
+                </a>
+            </div>
+        </div>
+    </header>
 
-    localStorage.setItem('ecosystem_shipping_data', JSON.stringify({ nombre, tel, calle, col, cd }));
-    toggleDomicilioView(true);
-};
+    <!-- MARQUEE ANIMADA -->
+    <div class="w-full bg-[#f0c14b] border-b border-[#ddb347] text-slate-950 py-2.5 overflow-hidden select-none shadow-sm relative z-40">
+        <div class="marquee-track-active flex gap-8 items-center text-xs font-black uppercase tracking-wider whitespace-nowrap">
+            <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $1,500 MXN!</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">💰 5% DE CASHBACK acumulable con registro activo.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo a partir de 10 piezas.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">⚠️ CONDICIÓN: Sin registro no hay cashback acumulable.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">🛒 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO GLOBAL.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">💳 Pagos con tarjeta bancaria y transferencias SPEI.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <!-- Ciclo Continuo -->
+            <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $1,500 MXN!</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">💰 5% DE CASHBACK acumulable con registro activo.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo a partir de 10 piezas.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">⚠️ CONDICIÓN: Sin registro no hay cashback acumulable.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">🛒 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO GLOBAL.</span>
+            <span class="text-slate-900 font-bold">•</span>
+            <span class="flex items-center gap-1.5">💳 Pagos con tarjeta bancaria y transferencias SPEI.</span>
+        </div>
+    </div>
 
-window.toggleDomicilioView = function(colapsar) {
-    const formBox = document.querySelector('[data-step="1-form"]') || document.getElementById('step-1-form');
-    const summaryBox = document.querySelector('[data-step="1-summary"]') || document.getElementById('step-1-summary');
-    if (formBox && summaryBox) {
-        if (colapsar) {
-            formBox.classList.add('hidden');
-            summaryBox.classList.remove('hidden');
-            const data = JSON.parse(localStorage.getItem('ecosystem_shipping_data') || '{}');
-            summaryBox.innerHTML = `
-                <div class="flex items-center justify-between p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs">
-                    <div class="flex items-center gap-2.5 min-w-0">
-                        <i class="fa-solid fa-location-dot text-amber-400 text-sm"></i>
-                        <div class="truncate text-slate-200">
-                            <strong>${data.nombre || 'Datos guardados'}</strong> &bull; ${data.calle || ''}, ${data.col || ''} (${data.tel || ''})
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- COLUMNA IZQUIERDA: PASOS 1, 2 Y ARTÍCULOS -->
+            <div class="lg:col-span-8 flex flex-col gap-6">
+
+                <!-- PASO 1: DOMICILIO DE ENTREGA (ACORDEÓN) -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 font-black text-xs flex items-center justify-center">1</span>
+                            <h2 class="text-lg font-bold text-white">Domicilio de Entrega</h2>
                         </div>
                     </div>
-                    <button onclick="toggleDomicilioView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
+
+                    <!-- Resumen colapsado -->
+                    <div id="step-1-summary" class="hidden"></div>
+
+                    <!-- Formulario desplegado -->
+                    <form id="step-1-form" onsubmit="guardarDomicilio(event)" class="flex flex-col gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Nombre Completo *</label>
+                                <input id="input-nombre" required type="text" placeholder="Ej. Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Teléfono (WhatsApp) *</label>
+                                <input id="input-tel" required type="tel" placeholder="Ej. 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="sm:col-span-2">
+                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Calle y Número *</label>
+                                <input id="input-calle" required type="text" placeholder="Ej. Pedro Moreno 501" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Colonia / Zona *</label>
+                                <input id="input-colonia" required type="text" placeholder="Ej. Centro" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 active:scale-95 shadow-md mt-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar datos de entrega
+                        </button>
+                    </form>
                 </div>
-            `;
-        } else {
-            formBox.classList.remove('hidden');
-            summaryBox.classList.add('hidden');
-        }
-    }
-};
 
-window.seleccionarPago = function(metodo) {
-    localStorage.setItem('ecosystem_payment_method', metodo);
-    togglePagoView(true);
-};
-
-window.togglePagoView = function(colapsar) {
-    const formBox = document.querySelector('[data-step="2-form"]') || document.getElementById('step-2-form');
-    const summaryBox = document.querySelector('[data-step="2-summary"]') || document.getElementById('step-2-summary');
-    if (formBox && summaryBox) {
-        if (colapsar) {
-            formBox.classList.add('hidden');
-            summaryBox.classList.remove('hidden');
-            const metodo = localStorage.getItem('ecosystem_payment_method') || 'Tarjeta de Crédito / Débito';
-            summaryBox.innerHTML = `
-                <div class="flex items-center justify-between p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-credit-card text-emerald-400 text-sm"></i>
-                        <span class="text-slate-200">Método: <strong>${metodo}</strong></span>
-                    </div>
-                    <button onclick="togglePagoView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
-                </div>
-            `;
-        } else {
-            formBox.classList.remove('hidden');
-            summaryBox.classList.add('hidden');
-        }
-    }
-};
-
-// 4. RENDERIZADO VISUAL
-window.renderSmartCheckout = function() {
-    const cart = getCleanCart();
-    const container = document.getElementById('cart-items-container') || document.querySelector('[data-cart-container]') || document.querySelector('#cart-items');
-    const countBadge = document.querySelector('[data-item-count]') || document.getElementById('cart-count-badge');
-    
-    const totalItems = cart.reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
-    if (countBadge) countBadge.innerText = `${totalItems} producto${totalItems === 1 ? '' : 's'}`;
-
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (cart.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-12 px-4 bg-slate-900/40 border border-slate-800/80 rounded-2xl">
-                <i class="fa-solid fa-cart-shopping text-4xl text-slate-600 mb-3 block"></i>
-                <p class="text-slate-400 font-semibold text-sm">Tu carrito está vacío.</p>
-                <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Ir a la tienda</a>
-            </div>
-        `;
-        actualizarTotales(0, 0);
-        return;
-    }
-
-    let subtotal = 0;
-    cart.forEach(item => {
-        const itemSub = (parseFloat(item.precio) || 0) * (parseInt(item.quantity) || 1);
-        subtotal += itemSub;
-        const imgUrl = resolveProductImage(item.sku, item.imagen);
-
-        const minusAction = item.quantity === 1 
-            ? `deleteItem('${item.sku}')` 
-            : `changeQty('${item.sku}', -1)`;
-
-        const minusIcon = item.quantity === 1 
-            ? `<i class="fa-solid fa-trash-can pointer-events-none"></i>` 
-            : `-`;
-
-        const minusBtnClass = item.quantity === 1
-            ? `w-8 h-8 rounded-lg bg-red-950/80 text-red-400 hover:bg-red-900 hover:text-red-200 transition flex items-center justify-center text-xs cursor-pointer`
-            : `w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer`;
-
-        const div = document.createElement('div');
-        div.className = "flex flex-col sm:flex-row items-center sm:items-stretch gap-4 p-4 bg-slate-900 border border-slate-800 rounded-2xl mb-3 shadow-md transition-all";
-        div.innerHTML = `
-            <div class="w-[170px] h-[170px] min-w-[170px] max-w-[170px] min-h-[170px] max-h-[170px] rounded-xl overflow-hidden bg-slate-950 border border-slate-700/80 shrink-0 p-2 flex items-center justify-center">
-                <img src="${imgUrl}" class="w-full h-full object-contain rounded-lg" alt="${item.nombre}" loading="lazy" onerror="this.onerror=null;this.src='https://iaworldcenter-creator.github.io/pc-custom-lab/assets/img/slider_ia_human_thumb.webp';" />
-            </div>
-            <div class="flex-1 flex flex-col justify-between min-w-0 w-full py-1">
-                <div>
-                    <h3 class="text-white font-bold text-sm sm:text-base leading-snug">${item.nombre}</h3>
-                    <span class="text-[10px] font-mono text-slate-400 uppercase font-bold tracking-wider block mt-1">${item.sku}</span>
-                </div>
-                <div class="flex items-center justify-between w-full mt-3 pt-3 border-t border-slate-800">
-                    <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-xl p-1">
-                        <button onclick="${minusAction}" class="${minusBtnClass}" title="Reducir / Eliminar">${minusIcon}</button>
-                        <span class="text-white font-black text-xs w-7 text-center font-mono">${item.quantity}</span>
-                        <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer">+</button>
-                    </div>
-                    <div class="flex flex-col items-end">
-                        <span class="text-[10px] text-slate-400 font-semibold">$${parseFloat(item.precio).toLocaleString()} c/u</span>
-                        <span class="text-cyan-400 font-black text-sm">$${itemSub.toFixed(2)} MXN</span>
-                    </div>
-                    <button onclick="deleteItem('${item.sku}')" class="text-slate-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
-                </div>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    actualizarTotales(subtotal, totalItems);
-};
-
-function actualizarTotales(subtotal, totalItems) {
-    const envio = subtotal >= 1500 || subtotal === 0 ? 0 : 49;
-    const mayoreoDesc = totalItems >= 10 ? subtotal * 0.15 : 0;
-    const subConDescuento = subtotal - mayoreoDesc;
-    const total = subConDescuento > 0 ? subConDescuento + envio : 0;
-    const cashback = subConDescuento * 0.05;
-
-    document.querySelectorAll('[data-subtotal]').forEach(el => el.innerText = `$${subtotal.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-envio]').forEach(el => el.innerText = envio === 0 ? 'GRATIS' : `$${envio.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-total]').forEach(el => el.innerText = `$${total.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-cashback]').forEach(el => el.innerText = `$${cashback.toFixed(2)} MXN`);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Si viene SKU por URL, añadirlo únicamente si no fue borrado previamente
-    const urlParams = new URLSearchParams(window.location.search);
-    const skuParam = urlParams.get('sku');
-    if (skuParam) {
-        let cart = getCleanCart();
-        let existing = cart.find(i => (i.sku || '').toUpperCase() === skuParam.toUpperCase());
-        if (!existing) {
-            let prod = (typeof productCatalog !== 'undefined') ? productCatalog.find(p => (p.sku || '').toUpperCase() === skuParam.toUpperCase()) : null;
-            if (prod) {
-                cart.push({ ...prod, quantity: 1 });
-            } else {
-                cart.push({ sku: skuParam, nombre: 'Producto ' + skuParam, precio: 100, imagen: '', quantity: 1 });
-            }
-            saveCleanCart(cart);
-        }
-    }
-
-    renderSmartCheckout();
-
-    const savedShipping = localStorage.getItem('ecosystem_shipping_data');
-    if (savedShipping) toggleDomicilioView(true);
-    const savedPayment = localStorage.getItem('ecosystem_payment_method');
-    if (savedPayment) togglePagoView(true);
-});
-</script>
-
-
-
-
-<script>
-// ============================================================
-// MOTOR UNIFICADO DE CHECKOUT CON PURGA INMEDIATA DE PRODUCTOS
-// ============================================================
-
-function getCleanCart() {
-    try {
-        const raw = localStorage.getItem('ecosystem_global_cart');
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter(item => item && item.sku && parseInt(item.quantity) > 0);
-    } catch(e) {
-        return [];
-    }
-}
-
-function saveCleanCart(cart) {
-    const valid = cart.filter(item => item && item.sku && parseInt(item.quantity) > 0);
-    localStorage.setItem('ecosystem_global_cart', JSON.stringify(valid));
-    window.dispatchEvent(new Event('storage'));
-}
-
-function clearUrlSkuParam() {
-    try {
-        if (window.location.search.includes('sku=')) {
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-        }
-    } catch(e) {}
-}
-
-function resolveProductImage(sku, localImg) {
-    if (localImg && (localImg.startsWith('http://') || localImg.startsWith('https://'))) return localImg;
-    const cleanSku = (sku || '').toUpperCase();
-    let storeDomain = 'pc-custom-lab';
-    if (cleanSku.startsWith('GPU-') || cleanSku.startsWith('PC-')) storeDomain = 'pc-custom-lab';
-    else if (cleanSku.startsWith('CN-') || cleanSku.startsWith('CB-')) storeDomain = 'cigarros-bazar';
-    else if (cleanSku.startsWith('DB-') || cleanSku.startsWith('DUL-')) storeDomain = 'dulces-bazar';
-    else if (cleanSku.startsWith('KD-') || cleanSku.startsWith('KIO-')) storeDomain = 'kiosco-digital';
-    else if (cleanSku.startsWith('PB-') || cleanSku.startsWith('PUE-')) storeDomain = 'mi-puesto-bazar';
-    else if (cleanSku.startsWith('OLG-') || cleanSku.startsWith('LIQ-')) storeDomain = 'ofertas-y-liquidaciones';
-    else if (cleanSku.startsWith('NFL-') || cleanSku.startsWith('VIA-')) storeDomain = 'bazar-viamx-nfl.gdl';
-
-    let path = localImg || 'assets/img/slider_ia_human_thumb.webp';
-    path = path.replace(/^(\.\/|\/)/, '');
-    return 'https://iaworldcenter-creator.github.io/' + storeDomain + '/' + path;
-}
-
-// 1. ELIMINACIÓN TOTAL Y DEFINITIVA
-window.deleteItem = function(sku) {
-    if (!sku) return;
-    clearUrlSkuParam();
-    let cart = getCleanCart();
-    cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
-    saveCleanCart(cart);
-    renderSmartCheckout();
-};
-window.removeItem = window.deleteItem;
-
-// 2. MODIFICACIÓN DE CANTIDADES
-window.changeQty = function(sku, delta) {
-    if (!sku) return;
-    let cart = getCleanCart();
-    let item = cart.find(i => (i.sku || '').toUpperCase().trim() === sku.toUpperCase().trim());
-    if (item) {
-        item.quantity = (parseInt(item.quantity) || 1) + delta;
-        if (item.quantity <= 0) {
-            clearUrlSkuParam();
-            cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
-        }
-    }
-    saveCleanCart(cart);
-    renderSmartCheckout();
-};
-
-// 3. ACORDEÓN PASO 1 (DOMICILIO) Y PASO 2 (PAGO)
-window.guardarDomicilio = function(e) {
-    if (e) e.preventDefault();
-    const nombre = document.getElementById('input-nombre')?.value || document.querySelector('input[placeholder*="Juan"]')?.value || 'Cliente Registrado';
-    const tel = document.getElementById('input-tel')?.value || document.querySelector('input[placeholder*="33"]')?.value || '';
-    const calle = document.getElementById('input-calle')?.value || document.querySelector('input[placeholder*="Moreno"]')?.value || 'Av. Pedro Moreno';
-    const col = document.getElementById('input-colonia')?.value || 'Centro';
-    const cd = document.getElementById('input-ciudad')?.value || 'Guadalajara';
-
-    localStorage.setItem('ecosystem_shipping_data', JSON.stringify({ nombre, tel, calle, col, cd }));
-    toggleDomicilioView(true);
-};
-
-window.toggleDomicilioView = function(colapsar) {
-    const formBox = document.querySelector('[data-step="1-form"]') || document.getElementById('step-1-form');
-    const summaryBox = document.querySelector('[data-step="1-summary"]') || document.getElementById('step-1-summary');
-    if (formBox && summaryBox) {
-        if (colapsar) {
-            formBox.classList.add('hidden');
-            summaryBox.classList.remove('hidden');
-            const data = JSON.parse(localStorage.getItem('ecosystem_shipping_data') || '{}');
-            summaryBox.innerHTML = `
-                <div class="flex items-center justify-between p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs">
-                    <div class="flex items-center gap-2.5 min-w-0">
-                        <i class="fa-solid fa-location-dot text-amber-400 text-sm"></i>
-                        <div class="truncate text-slate-200">
-                            <strong>${data.nombre || 'Datos guardados'}</strong> &bull; ${data.calle || ''}, ${data.col || ''} (${data.tel || ''})
+                <!-- PASO 2: MÉTODO DE PAGO (ACORDEÓN) -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 font-black text-xs flex items-center justify-center">2</span>
+                            <h2 class="text-lg font-bold text-white">Método de Pago</h2>
                         </div>
                     </div>
-                    <button onclick="toggleDomicilioView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
+
+                    <!-- Resumen colapsado -->
+                    <div id="step-2-summary" class="hidden"></div>
+
+                    <!-- Opciones de pago -->
+                    <div id="step-2-form" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="seleccionarPago('Tarjeta de Crédito / Débito')" class="p-4 bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500 rounded-xl flex items-center gap-3 text-left transition cursor-pointer group">
+                            <i class="fa-solid fa-credit-card text-cyan-400 text-xl group-hover:scale-110 transition"></i>
+                            <div>
+                                <span class="text-xs font-bold text-white block">Tarjeta Bancaria</span>
+                                <span class="text-[10px] text-slate-400 block">Crédito o Débito</span>
+                            </div>
+                        </button>
+                        <button onclick="seleccionarPago('Transferencia SPEI / CoDi')" class="p-4 bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-emerald-500 rounded-xl flex items-center gap-3 text-left transition cursor-pointer group">
+                            <i class="fa-solid fa-building-columns text-emerald-400 text-xl group-hover:scale-110 transition"></i>
+                            <div>
+                                <span class="text-xs font-bold text-white block">Transferencia SPEI</span>
+                                <span class="text-[10px] text-slate-400 block">Acreditación Inmediata</span>
+                            </div>
+                        </button>
+                        <button onclick="seleccionarPago('Efectivo en OXXO')" class="p-4 bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-amber-500 rounded-xl flex items-center gap-3 text-left transition cursor-pointer group">
+                            <i class="fa-solid fa-store text-amber-400 text-xl group-hover:scale-110 transition"></i>
+                            <div>
+                                <span class="text-xs font-bold text-white block">Efectivo en OXXO</span>
+                                <span class="text-[10px] text-slate-400 block">Tiendas de Conveniencia</span>
+                            </div>
+                        </button>
+                        <button onclick="seleccionarPago('Pago Contra Entrega (Efectivo)')" class="p-4 bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-purple-500 rounded-xl flex items-center gap-3 text-left transition cursor-pointer group">
+                            <i class="fa-solid fa-hand-holding-dollar text-purple-400 text-xl group-hover:scale-110 transition"></i>
+                            <div>
+                                <span class="text-xs font-bold text-white block">Contra Entrega</span>
+                                <span class="text-[10px] text-slate-400 block">Efectivo al recibir</span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
-            `;
-        } else {
-            formBox.classList.remove('hidden');
-            summaryBox.classList.add('hidden');
+
+                <!-- PASO 3: ARTÍCULOS ACTIVOS EN TU CARRITO -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-full bg-cyan-500 text-slate-950 font-black text-xs flex items-center justify-center">3</span>
+                            <h2 class="text-lg font-bold text-white">Artículos en tu Carrito</h2>
+                        </div>
+                        <span id="cart-count-badge" class="text-xs font-mono bg-slate-800 text-cyan-400 font-bold px-3 py-1 rounded-full">0 productos</span>
+                    </div>
+
+                    <!-- Lista de productos -->
+                    <div id="cart-items-container" class="flex flex-col gap-3"></div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: RESUMEN FINANCIERO -->
+            <div class="lg:col-span-4 sticky top-24">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl flex flex-col gap-5">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i class="fa-solid fa-receipt text-cyan-400"></i> Resumen de Compra
+                    </h3>
+
+                    <div class="flex flex-col gap-3 text-xs">
+                        <div class="flex justify-between text-slate-300">
+                            <span>Subtotal de Artículos:</span>
+                            <span id="txt-subtotal" class="font-bold font-mono">$0.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-slate-300">
+                            <span>Costo de Envío:</span>
+                            <span id="txt-envio" class="font-bold text-emerald-400 font-mono">GRATIS</span>
+                        </div>
+                        <div id="row-mayoreo" class="hidden justify-between text-amber-400 font-bold">
+                            <span>Descuento Mayoreo (15%):</span>
+                            <span id="txt-mayoreo" class="font-mono">-$0.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-cyan-400">
+                            <span>Cashback Acumulable (5%):</span>
+                            <span id="txt-cashback" class="font-bold font-mono">$0.00 MXN</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 flex justify-between items-baseline">
+                        <span class="text-sm font-bold text-white uppercase tracking-wider">Total a Pagar:</span>
+                        <span id="txt-total" class="text-2xl font-black text-cyan-400 font-mono tracking-tight">$0.00 MXN</span>
+                    </div>
+
+                    <button onclick="finalizarCompra()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 active:scale-95 shadow-lg">
+                        <i class="fa-solid fa-lock"></i> Autorizar cargo y completar compra
+                    </button>
+
+                    <a href="index.html" class="text-center text-xs text-slate-400 hover:text-white font-bold transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i> Seguir comprando
+                    </a>
+
+                    <!-- GARANTÍAS -->
+                    <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-2.5 text-[11px] text-slate-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+                            <span>Compra 100% Protegida y Encriptada</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-boxes-packing text-amber-400"></i>
+                            <span>Empaque Sellado y Garantía Local Directa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900/90 border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-12">
+        <p>&copy; 2026 KIOSCO DIGITAL. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- LÓGICA DE JAVASCRIPT ROBUSTA -->
+    <script>
+    function getCleanCart() {
+        try {
+            const raw = localStorage.getItem('ecosystem_global_cart');
+            if (!raw) return [];
+            const parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed)) return [];
+            return parsed.filter(item => item && item.sku && parseInt(item.quantity) > 0);
+        } catch(e) {
+            return [];
         }
     }
-};
 
-window.seleccionarPago = function(metodo) {
-    localStorage.setItem('ecosystem_payment_method', metodo);
-    togglePagoView(true);
-};
-
-window.togglePagoView = function(colapsar) {
-    const formBox = document.querySelector('[data-step="2-form"]') || document.getElementById('step-2-form');
-    const summaryBox = document.querySelector('[data-step="2-summary"]') || document.getElementById('step-2-summary');
-    if (formBox && summaryBox) {
-        if (colapsar) {
-            formBox.classList.add('hidden');
-            summaryBox.classList.remove('hidden');
-            const metodo = localStorage.getItem('ecosystem_payment_method') || 'Tarjeta de Crédito / Débito';
-            summaryBox.innerHTML = `
-                <div class="flex items-center justify-between p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-credit-card text-emerald-400 text-sm"></i>
-                        <span class="text-slate-200">Método: <strong>${metodo}</strong></span>
-                    </div>
-                    <button onclick="togglePagoView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
-                </div>
-            `;
-        } else {
-            formBox.classList.remove('hidden');
-            summaryBox.classList.add('hidden');
-        }
-    }
-};
-
-// 4. RENDERIZADO VISUAL
-window.renderSmartCheckout = function() {
-    const cart = getCleanCart();
-    const container = document.getElementById('cart-items-container') || document.querySelector('[data-cart-container]') || document.querySelector('#cart-items');
-    const countBadge = document.querySelector('[data-item-count]') || document.getElementById('cart-count-badge');
-    
-    const totalItems = cart.reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
-    if (countBadge) countBadge.innerText = `${totalItems} producto${totalItems === 1 ? '' : 's'}`;
-
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (cart.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-12 px-4 bg-slate-900/40 border border-slate-800/80 rounded-2xl">
-                <i class="fa-solid fa-cart-shopping text-4xl text-slate-600 mb-3 block"></i>
-                <p class="text-slate-400 font-semibold text-sm">Tu carrito está vacío.</p>
-                <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Ir a la tienda</a>
-            </div>
-        `;
-        actualizarTotales(0, 0);
-        return;
+    function saveCleanCart(cart) {
+        const valid = cart.filter(item => item && item.sku && parseInt(item.quantity) > 0);
+        localStorage.setItem('ecosystem_global_cart', JSON.stringify(valid));
+        window.dispatchEvent(new Event('storage'));
     }
 
-    let subtotal = 0;
-    cart.forEach(item => {
-        const itemSub = (parseFloat(item.precio) || 0) * (parseInt(item.quantity) || 1);
-        subtotal += itemSub;
-        const imgUrl = resolveProductImage(item.sku, item.imagen);
+    function resolveProductImage(sku, localImg) {
+        if (localImg && (localImg.startsWith('http://') || localImg.startsWith('https://'))) return localImg;
+        const cleanSku = (sku || '').toUpperCase();
+        let storeDomain = 'kiosco-digital';
+        if (cleanSku.startsWith('GPU-') || cleanSku.startsWith('PC-')) storeDomain = 'pc-custom-lab';
+        else if (cleanSku.startsWith('CN-') || cleanSku.startsWith('CB-')) storeDomain = 'cigarros-bazar';
+        else if (cleanSku.startsWith('DB-') || cleanSku.startsWith('DUL-')) storeDomain = 'dulces-bazar';
+        else if (cleanSku.startsWith('KD-') || cleanSku.startsWith('KIO-')) storeDomain = 'kiosco-digital';
+        else if (cleanSku.startsWith('PB-') || cleanSku.startsWith('PUE-')) storeDomain = 'mi-puesto-bazar';
+        else if (cleanSku.startsWith('OLG-') || cleanSku.startsWith('LIQ-')) storeDomain = 'ofertas-y-liquidaciones';
+        else if (cleanSku.startsWith('NFL-') || cleanSku.startsWith('VIA-')) storeDomain = 'bazar-viamx-nfl.gdl';
 
-        const minusAction = item.quantity === 1 
-            ? `deleteItem('${item.sku}')` 
-            : `changeQty('${item.sku}', -1)`;
+        let path = localImg || 'assets/img/slider_ia_human_thumb.webp';
+        path = path.replace(/^(\.\/|\/)/, '');
+        return 'https://iaworldcenter-creator.github.io/' + storeDomain + '/' + path;
+    }
 
-        const minusIcon = item.quantity === 1 
-            ? `<i class="fa-solid fa-trash-can pointer-events-none"></i>` 
-            : `-`;
-
-        const minusBtnClass = item.quantity === 1
-            ? `w-8 h-8 rounded-lg bg-red-950/80 text-red-400 hover:bg-red-900 hover:text-red-200 transition flex items-center justify-center text-xs cursor-pointer`
-            : `w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer`;
-
-        const div = document.createElement('div');
-        div.className = "flex flex-col sm:flex-row items-center sm:items-stretch gap-4 p-4 bg-slate-900 border border-slate-800 rounded-2xl mb-3 shadow-md transition-all";
-        div.innerHTML = `
-            <div class="w-[170px] h-[170px] min-w-[170px] max-w-[170px] min-h-[170px] max-h-[170px] rounded-xl overflow-hidden bg-slate-950 border border-slate-700/80 shrink-0 p-2 flex items-center justify-center">
-                <img src="${imgUrl}" class="w-full h-full object-contain rounded-lg" alt="${item.nombre}" loading="lazy" onerror="this.onerror=null;this.src='https://iaworldcenter-creator.github.io/pc-custom-lab/assets/img/slider_ia_human_thumb.webp';" />
-            </div>
-            <div class="flex-1 flex flex-col justify-between min-w-0 w-full py-1">
-                <div>
-                    <h3 class="text-white font-bold text-sm sm:text-base leading-snug">${item.nombre}</h3>
-                    <span class="text-[10px] font-mono text-slate-400 uppercase font-bold tracking-wider block mt-1">${item.sku}</span>
-                </div>
-                <div class="flex items-center justify-between w-full mt-3 pt-3 border-t border-slate-800">
-                    <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-xl p-1">
-                        <button onclick="${minusAction}" class="${minusBtnClass}" title="Reducir / Eliminar">${minusIcon}</button>
-                        <span class="text-white font-black text-xs w-7 text-center font-mono">${item.quantity}</span>
-                        <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer">+</button>
-                    </div>
-                    <div class="flex flex-col items-end">
-                        <span class="text-[10px] text-slate-400 font-semibold">$${parseFloat(item.precio).toLocaleString()} c/u</span>
-                        <span class="text-cyan-400 font-black text-sm">$${itemSub.toFixed(2)} MXN</span>
-                    </div>
-                    <button onclick="deleteItem('${item.sku}')" class="text-slate-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
-                </div>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    actualizarTotales(subtotal, totalItems);
-};
-
-function actualizarTotales(subtotal, totalItems) {
-    const envio = subtotal >= 1500 || subtotal === 0 ? 0 : 49;
-    const mayoreoDesc = totalItems >= 10 ? subtotal * 0.15 : 0;
-    const subConDescuento = subtotal - mayoreoDesc;
-    const total = subConDescuento > 0 ? subConDescuento + envio : 0;
-    const cashback = subConDescuento * 0.05;
-
-    document.querySelectorAll('[data-subtotal]').forEach(el => el.innerText = `$${subtotal.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-envio]').forEach(el => el.innerText = envio === 0 ? 'GRATIS' : `$${envio.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-total]').forEach(el => el.innerText = `$${total.toFixed(2)} MXN`);
-    document.querySelectorAll('[data-cashback]').forEach(el => el.innerText = `$${cashback.toFixed(2)} MXN`);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Si viene SKU por URL, añadirlo únicamente si no fue borrado previamente
-    const urlParams = new URLSearchParams(window.location.search);
-    const skuParam = urlParams.get('sku');
-    if (skuParam) {
+    window.deleteItem = function(sku) {
+        if (!sku) return;
         let cart = getCleanCart();
-        let existing = cart.find(i => (i.sku || '').toUpperCase() === skuParam.toUpperCase());
-        if (!existing) {
-            let prod = (typeof productCatalog !== 'undefined') ? productCatalog.find(p => (p.sku || '').toUpperCase() === skuParam.toUpperCase()) : null;
-            if (prod) {
-                cart.push({ ...prod, quantity: 1 });
-            } else {
-                cart.push({ sku: skuParam, nombre: 'Producto ' + skuParam, precio: 100, imagen: '', quantity: 1 });
+        cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
+        saveCleanCart(cart);
+        if (window.location.search.includes('sku=')) {
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+        renderSmartCheckout();
+    };
+
+    window.changeQty = function(sku, delta) {
+        if (!sku) return;
+        let cart = getCleanCart();
+        let item = cart.find(i => (i.sku || '').toUpperCase().trim() === sku.toUpperCase().trim());
+        if (item) {
+            item.quantity = (parseInt(item.quantity) || 1) + delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => (i.sku || '').toUpperCase().trim() !== sku.toUpperCase().trim());
+                if (window.location.search.includes('sku=')) {
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
             }
-            saveCleanCart(cart);
+        }
+        saveCleanCart(cart);
+        renderSmartCheckout();
+    };
+
+    window.guardarDomicilio = function(e) {
+        if (e) e.preventDefault();
+        const nombre = document.getElementById('input-nombre')?.value || 'Cliente Registrado';
+        const tel = document.getElementById('input-tel')?.value || '';
+        const calle = document.getElementById('input-calle')?.value || '';
+        const col = document.getElementById('input-colonia')?.value || '';
+
+        localStorage.setItem('ecosystem_shipping_data', JSON.stringify({ nombre, tel, calle, col }));
+        toggleDomicilioView(true);
+    };
+
+    window.toggleDomicilioView = function(colapsar) {
+        const formBox = document.getElementById('step-1-form');
+        const summaryBox = document.getElementById('step-1-summary');
+        if (formBox && summaryBox) {
+            if (colapsar) {
+                formBox.classList.add('hidden');
+                summaryBox.classList.remove('hidden');
+                const data = JSON.parse(localStorage.getItem('ecosystem_shipping_data') || '{}');
+                summaryBox.innerHTML = `
+                    <div class="flex items-center justify-between p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-xs">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <i class="fa-solid fa-location-dot text-amber-400 text-base"></i>
+                            <div class="truncate text-slate-200">
+                                <strong>${data.nombre || 'Datos guardados'}</strong> &bull; ${data.calle || ''}, ${data.col || ''} (${data.tel || ''})
+                            </div>
+                        </div>
+                        <button onclick="toggleDomicilioView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
+                    </div>
+                `;
+            } else {
+                formBox.classList.remove('hidden');
+                summaryBox.classList.add('hidden');
+            }
+        }
+    };
+
+    window.seleccionarPago = function(metodo) {
+        localStorage.setItem('ecosystem_payment_method', metodo);
+        togglePagoView(true);
+    };
+
+    window.togglePagoView = function(colapsar) {
+        const formBox = document.getElementById('step-2-form');
+        const summaryBox = document.getElementById('step-2-summary');
+        if (formBox && summaryBox) {
+            if (colapsar) {
+                formBox.classList.add('hidden');
+                summaryBox.classList.remove('hidden');
+                const metodo = localStorage.getItem('ecosystem_payment_method') || 'Tarjeta de Crédito / Débito';
+                summaryBox.innerHTML = `
+                    <div class="flex items-center justify-between p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-xs">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-credit-card text-emerald-400 text-base"></i>
+                            <span class="text-slate-200">Método de pago: <strong>${metodo}</strong></span>
+                        </div>
+                        <button onclick="togglePagoView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
+                    </div>
+                `;
+            } else {
+                formBox.classList.remove('hidden');
+                summaryBox.classList.add('hidden');
+            }
+        }
+    };
+
+    window.renderSmartCheckout = function() {
+        const cart = getCleanCart();
+        const container = document.getElementById('cart-items-container');
+        const countBadge = document.getElementById('cart-count-badge');
+        
+        const totalItems = cart.reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0);
+        if (countBadge) countBadge.innerText = `${totalItems} producto${totalItems === 1 ? '' : 's'}`;
+
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 px-4 bg-slate-950/60 border border-slate-800/80 rounded-2xl">
+                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-600 mb-3 block"></i>
+                    <p class="text-slate-400 font-semibold text-sm">Tu carrito está vacío.</p>
+                    <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Explorar catálogo</a>
+                </div>
+            `;
+            actualizarTotales(0, 0);
+            return;
+        }
+
+        let subtotal = 0;
+        cart.forEach(item => {
+            const qty = parseInt(item.quantity) || 1;
+            const price = parseFloat(item.precio) || 0;
+            const itemSub = price * qty;
+            subtotal += itemSub;
+            const imgUrl = resolveProductImage(item.sku, item.imagen);
+
+            const minusAction = qty === 1 
+                ? `deleteItem('${item.sku}')` 
+                : `changeQty('${item.sku}', -1)`;
+
+            const minusIcon = qty === 1 
+                ? `<i class="fa-solid fa-trash-can pointer-events-none text-red-400"></i>` 
+                : `-`;
+
+            const minusBtnClass = qty === 1
+                ? `w-8 h-8 rounded-lg bg-red-950/80 hover:bg-red-900 transition flex items-center justify-center text-xs cursor-pointer`
+                : `w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer`;
+
+            const div = document.createElement('div');
+            div.className = "flex flex-col sm:flex-row items-center sm:items-stretch gap-4 p-4 bg-slate-950 border border-slate-800/90 rounded-2xl mb-3 shadow-md transition-all";
+            div.innerHTML = `
+                <div class="w-[170px] h-[170px] min-w-[170px] max-w-[170px] min-h-[170px] max-h-[170px] rounded-xl overflow-hidden bg-slate-900 border border-slate-700/80 shrink-0 p-2 flex items-center justify-center">
+                    <img src="${imgUrl}" class="w-full h-full object-contain rounded-lg" alt="${item.nombre}" loading="lazy" onerror="this.onerror=null;this.src='https://iaworldcenter-creator.github.io/pc-custom-lab/assets/img/slider_ia_human_thumb.webp';" />
+                </div>
+                <div class="flex-1 flex flex-col justify-between min-w-0 w-full py-1">
+                    <div>
+                        <h3 class="text-white font-bold text-sm sm:text-base leading-snug">${item.nombre}</h3>
+                        <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider block mt-1">${item.sku}</span>
+                    </div>
+                    <div class="flex items-center justify-between w-full mt-3 pt-3 border-t border-slate-800">
+                        <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl p-1">
+                            <button onclick="${minusAction}" class="${minusBtnClass}" title="Reducir / Eliminar">${minusIcon}</button>
+                            <span class="text-white font-black text-xs w-7 text-center font-mono">${qty}</span>
+                            <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer">+</button>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[10px] text-slate-400 font-semibold">$${price.toLocaleString()} c/u</span>
+                            <span class="text-cyan-400 font-black text-sm">$${itemSub.toFixed(2)} MXN</span>
+                        </div>
+                        <button onclick="deleteItem('${item.sku}')" class="text-slate-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        actualizarTotales(subtotal, totalItems);
+    };
+
+    function actualizarTotales(subtotal, totalItems) {
+        const envio = subtotal >= 1500 || subtotal === 0 ? 0 : 49;
+        const mayoreoDesc = totalItems >= 10 ? subtotal * 0.15 : 0;
+        const subConDescuento = subtotal - mayoreoDesc;
+        const total = subConDescuento > 0 ? subConDescuento + envio : 0;
+        const cashback = subConDescuento * 0.05;
+
+        document.getElementById('txt-subtotal').innerText = `$${subtotal.toFixed(2)} MXN`;
+        document.getElementById('txt-envio').innerText = envio === 0 ? 'GRATIS' : `$${envio.toFixed(2)} MXN`;
+        document.getElementById('txt-total').innerText = `$${total.toFixed(2)} MXN`;
+        document.getElementById('txt-cashback').innerText = `$${cashback.toFixed(2)} MXN`;
+
+        const rowMayoreo = document.getElementById('row-mayoreo');
+        if (rowMayoreo) {
+            if (mayoreoDesc > 0) {
+                rowMayoreo.classList.remove('hidden');
+                rowMayoreo.classList.add('flex');
+                document.getElementById('txt-mayoreo').innerText = `-$${mayoreoDesc.toFixed(2)} MXN`;
+            } else {
+                rowMayoreo.classList.add('hidden');
+                rowMayoreo.classList.remove('flex');
+            }
         }
     }
 
-    renderSmartCheckout();
+    window.finalizarCompra = function() {
+        const cart = getCleanCart();
+        if (cart.length === 0) {
+            alert('Tu carrito está vacío.');
+            return;
+        }
+        const shipping = localStorage.getItem('ecosystem_shipping_data');
+        if (!shipping) {
+            alert('Por favor ingresa y guarda tu Domicilio de Entrega (Paso 1).');
+            return;
+        }
+        alert('¡Pedido registrado con éxito! Procesando orden en el Ecosistema...');
+    };
 
-    const savedShipping = localStorage.getItem('ecosystem_shipping_data');
-    if (savedShipping) toggleDomicilioView(true);
-    const savedPayment = localStorage.getItem('ecosystem_payment_method');
-    if (savedPayment) togglePagoView(true);
-});
-</script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const skuParam = urlParams.get('sku');
+        if (skuParam) {
+            let cart = getCleanCart();
+            let existing = cart.find(i => (i.sku || '').toUpperCase() === skuParam.toUpperCase());
+            if (!existing) {
+                let prod = (typeof productCatalog !== 'undefined') ? productCatalog.find(p => (p.sku || '').toUpperCase() === skuParam.toUpperCase()) : null;
+                if (prod) {
+                    cart.push({ ...prod, quantity: 1 });
+                } else {
+                    cart.push({ sku: skuParam, nombre: 'Producto ' + skuParam, precio: 100, imagen: '', quantity: 1 });
+                }
+                saveCleanCart(cart);
+            }
+        }
 
+        renderSmartCheckout();
 
+        const savedShipping = localStorage.getItem('ecosystem_shipping_data');
+        if (savedShipping) toggleDomicilioView(true);
+        const savedPayment = localStorage.getItem('ecosystem_payment_method');
+        if (savedPayment) togglePagoView(true);
+    });
+    </script>
 </body>
 </html>
