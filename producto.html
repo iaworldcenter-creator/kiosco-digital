@@ -167,14 +167,14 @@ window.comprarAhoraDirecto = function() {
     
         #chatbot-window { height: 520px; max-height: 85vh; }
 </style>
-<link rel="preload" href="assets/css/tailwind-built.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/tailwind-built.css" rel="stylesheet" /></noscript>
+
+<noscript></noscript>
 <!-- Preload de fuentes críticas de FontAwesome para eliminar FOIT y retrasos visuales (CLS) -->
-    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" crossorigin />
+    
+    
     <!-- Carga asíncrona de FontAwesome local purgado con font-display: swap -->
-    <link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="assets/css/fontawesome-all.min.css?v=1.0.9" /></noscript>
+    
+    <noscript></noscript>
 
 <link as="image" href="assets/img/carrusel-cabecera/foto3.webp" rel="preload"/>
 <style>
@@ -198,8 +198,10 @@ window.comprarAhoraDirecto = function() {
     "postalCode": "44100",
     "addressCountry": "MX"
   }
-}</script></head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+}</script><link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 
 <header class="w-full bg-slate-950 border-b border-slate-900 flex flex-col relative z-[100] text-slate-100">
     <!-- Nivel 1: Barra Superior Deslizable Universal (Top Bar Racional) -->
