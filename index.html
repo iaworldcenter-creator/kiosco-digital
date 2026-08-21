@@ -162,7 +162,25 @@ if ('serviceWorker' in navigator) {
     "postalCode": "44100",
     "addressCountry": "MX"
   }
-}</script></head>
+}</script><script>
+(function() {
+    try {
+        const vKey = "ecosystem_reset_v2026_clean";
+        if (!localStorage.getItem(vKey)) {
+            const cart = localStorage.getItem("ecosystem_global_cart");
+            if (cart && (cart.includes("GPU-001") || cart === "[object Object]")) {
+                localStorage.setItem("ecosystem_global_cart", "[]");
+            }
+            const history = localStorage.getItem("user_purchases_history");
+            if (history && history.includes("AGY-4982")) {
+                localStorage.setItem("user_purchases_history", "[]");
+            }
+            localStorage.setItem(vKey, "true");
+        }
+    } catch(e) {}
+})();
+</script>
+</head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 <!-- BARRA LATERAL FLOTANTE DE REDES SOCIALES -->
 <div class="hidden md:flex fixed left-0 top-1/2 -translate-y-1/2 z-50 flex-col gap-3 bg-slate-950/80 backdrop-blur-md border-y border-r border-slate-800 p-2.5 rounded-r-2xl shadow-2xl">
@@ -1564,47 +1582,7 @@ const CATEGORY_NAMES = {
             }
         } catch(e) {}
         
-        if (history.length === 0) {
-            const isPc = window.location.pathname.includes('pc-custom-lab');
-            const isDul = window.location.pathname.includes('dulces-bazar');
-            const isCig = window.location.pathname.includes('cigarros-bazar');
-            const isKio = window.location.pathname.includes('kiosco-digital');
-            
-            let simItems = [];
-            if (isPc) {
-                simItems = [
-                    { sku: 'GPU-001', nombre: 'NVIDIA RTX 4060 8GB Ventus 2X OC', precio: 8500, quantity: 1, imagen: 'assets/img/slider_ia_human.webp' }
-                ];
-            } else if (isDul) {
-                simItems = [
-                    { sku: 'DUL-001', nombre: 'Chocolates Turin Conejos 20g', precio: 18, quantity: 5, imagen: 'assets/img/dulces.webp' }
-                ];
-            } else if (isCig) {
-                simItems = [
-                    { sku: 'CIG-001', nombre: 'Marlboro Rojo Caja 20s', precio: 80, quantity: 2, imagen: 'assets/img/cigarros.webp' }
-                ];
-            } else if (isKio) {
-                simItems = [
-                    { sku: 'REV-001', nombre: 'Revista Proceso Edición Semanal', precio: 65, quantity: 1, imagen: 'assets/img/revistas.webp' }
-                ];
-            } else {
-                simItems = [
-                    { sku: 'GAB-001', nombre: 'Gabinete Gamer NZXT H5 Flow', precio: 1950, quantity: 1, imagen: 'assets/img/bazar.webp' }
-                ];
-            }
-            
-            history = [{
-                orderId: 'AGY-4982',
-                date: 'Ayer, 16:30',
-                status: 'Entregado',
-                deliveryTime: 'Entregado en 18 min',
-                items: simItems
-            }];
-        }
         
-        if (reorderItems.length === 0 && history.length > 0) {
-            reorderItems = JSON.parse(JSON.stringify(history[0].items));
-        }
         
         content.innerHTML = "";
         
