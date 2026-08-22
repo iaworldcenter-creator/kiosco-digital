@@ -1,5 +1,18 @@
 <head>
     <script>
+// Global Error & Promise Rejection Guard (Safe Headless & Mobile Execution)
+window.addEventListener('error', function(e) {
+    if (e && e.message && (e.message.includes('play()') || e.message.includes('quicklink') || e.message.includes('ResizeObserver') || e.message.includes('SpeechRecognition'))) {
+        e.preventDefault();
+        return true;
+    }
+}, true);
+window.addEventListener('unhandledrejection', function(e) {
+    if (e && e.reason && (e.reason.name === 'NotAllowedError' || e.reason.name === 'AbortError' || e.reason.name === 'SecurityError')) {
+        e.preventDefault();
+    }
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -199,7 +212,8 @@ window.comprarAhoraDirecto = function() {
     "addressCountry": "MX"
   }
 }</script><link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 
@@ -317,7 +331,7 @@ window.comprarAhoraDirecto = function() {
 
 <main class="flex-grow py-8 px-4 md:px-12 bg-slate-950 text-slate-100">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" id="product-detail-root">
-        <div class="col-span-full py-12 text-center text-slate-500 font-bold">Cargando detalles del producto...</div>
+        <div class="col-span-full py-12 text-center text-slate-400 font-bold">Cargando detalles del producto...</div>
     </div>
 </main>
 
@@ -1038,7 +1052,7 @@ window.comprarAhoraDirecto = function() {
                     let opacityClass = "";
                     let trashBtnHtml = "";
                     if (item.quantity === 0) {
-                        opacityClass = "opacity-40 grayscale text-slate-500 border-red-500/30 bg-red-950/5";
+                        opacityClass = "opacity-40 grayscale text-slate-400 border-red-500/30 bg-red-950/5";
                         trashBtnHtml = `
                             <button onclick="deleteHistoricalItem('${item.sku}')" class="text-red-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 min-h-[48px]" title="Eliminar del historial">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -1069,7 +1083,7 @@ window.comprarAhoraDirecto = function() {
                     <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
                         <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
                         <div class="flex flex-col gap-2">
-                            ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
+                            ${reorderRows || '<div class="text-center py-4 text-slate-400 text-xs">No hay productos seleccionados.</div>'}
                         </div>
                         ${reorderItems.length > 0 ? `
                         <div class="flex flex-row justify-between items-center bg-slate-900 border border-slate-850 rounded-xl p-4 mt-2 gap-4 w-full">
@@ -1160,7 +1174,7 @@ window.comprarAhoraDirecto = function() {
         if (!detailRoot) return;
         
         if (!product) {
-            detailRoot.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 font-bold">Producto no encontrado.</div>`;
+            detailRoot.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-bold">Producto no encontrado.</div>`;
             return;
         }
         
@@ -1193,7 +1207,7 @@ window.comprarAhoraDirecto = function() {
                     <span class="text-amber-500 font-black flex items-center gap-1.5"><i class="fa-solid fa-gift"></i> Desbloquear 5% de Cashback</span>
                     <span>Obtén <strong class="text-white">$${cashbackAmount} MXN</strong> de saldo de regalo en esta compra. Regístrate gratis o ingresa tus datos en el newsletter para activar el beneficio.</span>
                     <button onclick="openDeliveryModal()" class="bg-slate-800 hover:bg-slate-750 text-white font-bold py-1.5 rounded-lg text-[10px] transition cursor-pointer text-center min-h-[48px] w-full">Registrar Cuenta Gratis</button>
-                    <span class="text-[9px] text-slate-500 leading-tight">Nota: Sin registro de correo y teléfono no se genera cashback.</span>
+                    <span class="text-[9px] text-slate-400 leading-tight">Nota: Sin registro de correo y teléfono no se genera cashback.</span>
                 </div>
             `;
         }
@@ -1277,7 +1291,7 @@ window.comprarAhoraDirecto = function() {
                 <div class="border-t border-slate-800 pt-3 flex flex-col gap-0.5 text-xs">
                     <span class="text-slate-400">Entrega Local:</span>
                     <span class="font-black text-white flex items-center gap-1.5"><i class="fa-solid fa-truck text-emerald-400"></i> ${shippingText}</span>
-                    <span class="text-[9px] text-slate-500 leading-tight">${shippingSubnotice}</span>
+                    <span class="text-[9px] text-slate-400 leading-tight">${shippingSubnotice}</span>
                 </div>
                 
                 <!-- Mayoreo -->
@@ -1430,7 +1444,7 @@ window.comprarAhoraDirecto = function() {
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-500 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -1481,7 +1495,7 @@ window.comprarAhoraDirecto = function() {
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-500 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
                             <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
@@ -1502,7 +1516,7 @@ window.comprarAhoraDirecto = function() {
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-500 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -1511,7 +1525,7 @@ window.comprarAhoraDirecto = function() {
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-500 text-[11px]">
+            <div class="pt-8 text-center text-slate-400 text-[11px]">
                 <p>&copy; 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>

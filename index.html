@@ -4,6 +4,19 @@
 <head>
     <meta name="google-site-verification" content="2xIPYIU_imoZjFogZhoFRuepS7PFhXQloOamPV7ex6Q" />
     <script>
+// Global Error & Promise Rejection Guard (Safe Headless & Mobile Execution)
+window.addEventListener('error', function(e) {
+    if (e && e.message && (e.message.includes('play()') || e.message.includes('quicklink') || e.message.includes('ResizeObserver') || e.message.includes('SpeechRecognition'))) {
+        e.preventDefault();
+        return true;
+    }
+}, true);
+window.addEventListener('unhandledrejection', function(e) {
+    if (e && e.reason && (e.reason.name === 'NotAllowedError' || e.reason.name === 'AbortError' || e.reason.name === 'SecurityError')) {
+        e.preventDefault();
+    }
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -196,7 +209,8 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 <link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 <!-- BARRA LATERAL FLOTANTE DE REDES SOCIALES -->
@@ -601,23 +615,23 @@ if ('serviceWorker' in navigator) {
           <h4 class="text-xs lg:text-sm font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-filter"></i> <span class="hidden lg:inline">Filtros</span></h4>
           <ul class="flex flex-row lg:flex-col gap-2 lg:space-y-1.5 lg:gap-0 pl-0 lg:pl-2 shrink-0 list-none p-0 m-0">
             <li><a href="#productos" onclick="filterByCategory('todos', event)" class="text-xs text-blue-400 hover:text-blue-300 transition cursor-pointer flex items-center gap-1.5 font-bold bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-border-all text-[8px]"></i> Ver todo</a></li>
-            <li><a href="#productos" onclick="filterByCategory('revistas-ciencia', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Ciencia y Espacio</a></li>
-            <li><a href="#productos" onclick="filterByCategory('revistas-moda', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Moda y Tendencias</a></li>
-            <li><a href="#productos" onclick="filterByCategory('revistas-viajes', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Viajes y Cultura</a></li>
-            <li><a href="#productos" onclick="filterByCategory('revistas-tecnologia', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Tecnología y Motor</a></li>
-            <li><a href="#productos" onclick="filterByCategory('revistas-hogar', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Hogar y Cocina</a></li>
-            <li><a href="#productos" onclick="filterByCategory('comics-marvel', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Marvel y DC</a></li>
-            <li><a href="#productos" onclick="filterByCategory('comics-indie', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Cómics Independientes</a></li>
-            <li><a href="#productos" onclick="filterByCategory('manga-shonen', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Manga Shonen</a></li>
-            <li><a href="#productos" onclick="filterByCategory('manga-shojo', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Manga Shojo</a></li>
-            <li><a href="#productos" onclick="filterByCategory('libros', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-500"></i> Libros de Bolsillo</a></li>
+            <li><a href="#productos" onclick="filterByCategory('revistas-ciencia', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Ciencia y Espacio</a></li>
+            <li><a href="#productos" onclick="filterByCategory('revistas-moda', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Moda y Tendencias</a></li>
+            <li><a href="#productos" onclick="filterByCategory('revistas-viajes', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Viajes y Cultura</a></li>
+            <li><a href="#productos" onclick="filterByCategory('revistas-tecnologia', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Tecnología y Motor</a></li>
+            <li><a href="#productos" onclick="filterByCategory('revistas-hogar', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Hogar y Cocina</a></li>
+            <li><a href="#productos" onclick="filterByCategory('comics-marvel', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Marvel y DC</a></li>
+            <li><a href="#productos" onclick="filterByCategory('comics-indie', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Cómics Independientes</a></li>
+            <li><a href="#productos" onclick="filterByCategory('manga-shonen', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Manga Shonen</a></li>
+            <li><a href="#productos" onclick="filterByCategory('manga-shojo', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Manga Shojo</a></li>
+            <li><a href="#productos" onclick="filterByCategory('libros', event)" class="text-xs text-slate-300 hover:text-blue-400 transition cursor-pointer flex items-center gap-1.5 bg-slate-900/60 lg:bg-transparent px-2.5 py-1 rounded lg:p-0 border border-slate-800 lg:border-none"><i class="hidden lg:inline fa-solid fa-chevron-right text-[8px] text-slate-400"></i> Libros de Bolsillo</a></li>
           </ul>
         </div>
       </div>
       <div class="pt-4 border-t border-slate-800 hidden lg:block shrink-0">
-        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider mb-1">Inventario Total</div>
-        <div class="text-xl font-black text-amber-400">200 <span class="text-xs text-slate-500 font-normal">productos</span></div>
-        <div class="text-[10px] text-slate-600 font-mono">10 páginas • 20 por página</div>
+        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Inventario Total</div>
+        <div class="text-xl font-black text-amber-400">200 <span class="text-xs text-slate-400 font-normal">productos</span></div>
+        <div class="text-[10px] text-slate-400 font-mono">10 páginas • 20 por página</div>
       </div>
     </aside>
 
@@ -684,18 +698,18 @@ if ('serviceWorker' in navigator) {
 
       <!-- PAGINACIÓN INFERIOR (4 PÁGINAS) -->
       <div class="mt-12 flex justify-center items-center gap-2 flex-wrap" id="pagination-container">
-         <button onclick="changePage(1, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-blue-600 border border-blue-500 text-white font-bold text-sm shadow-md shadow-blue-600/30 cursor-pointer transition active:scale-95">Página 1</button>
-         <button onclick="changePage(2, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 2</button>
-         <button onclick="changePage(3, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 3</button>
-         <button onclick="changePage(4, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 4</button>
-         <button onclick="changePage(5, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 5</button>
-         <button onclick="changePage(6, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 6</button>
-         <button onclick="changePage(7, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 7</button>
-         <button onclick="changePage(8, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 8</button>
-         <button onclick="changePage(9, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 9</button>
-         <button onclick="changePage(10, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95">Página 10</button>
+         <button onclick="changePage(1, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-blue-600 border border-blue-500 text-white font-bold text-sm shadow-md shadow-blue-600/30 cursor-pointer transition active:scale-95 min-h-[44px] min-w-[44px]">Página 1</button>
+         <button onclick="changePage(2, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 2</button>
+         <button onclick="changePage(3, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 3</button>
+         <button onclick="changePage(4, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 4</button>
+         <button onclick="changePage(5, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 5</button>
+         <button onclick="changePage(6, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 6</button>
+         <button onclick="changePage(7, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 7</button>
+         <button onclick="changePage(8, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 8</button>
+         <button onclick="changePage(9, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 9</button>
+         <button onclick="changePage(10, this)" class="pagination-btn px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-blue-600 hover:border-blue-500 hover:text-white transition font-bold text-sm shadow-md cursor-pointer active:scale-95 min-h-[44px] min-w-[44px]">Página 10</button>
       </div>
-      <div class="text-center mt-4 text-xs text-slate-500 font-mono" id="pagination-status">
+      <div class="text-center mt-4 text-xs text-slate-400 font-mono" id="pagination-status">
         Mostrando página 1 de 4 • Electrónica &amp; Gadgets
       </div>
     </div>
@@ -1384,7 +1398,7 @@ const CATEGORY_NAMES = {
         container.innerHTML = "";
         
         if (cart.length === 0) {
-            container.innerHTML = `<div class="text-center py-12 text-slate-500"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
+            container.innerHTML = `<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
             if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
             return;
         }
@@ -1400,7 +1414,7 @@ const CATEGORY_NAMES = {
             const isZero = qty === 0;
             const div = document.createElement("div");
             if (isZero) {
-                div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-900 rounded-2xl p-3 shadow-md opacity-40 text-slate-500";
+                div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-900 rounded-2xl p-3 shadow-md opacity-40 text-slate-400";
             } else {
                 div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-800/80 rounded-2xl p-3 shadow-md";
             }
@@ -1411,11 +1425,11 @@ const CATEGORY_NAMES = {
                 </div>
                 <div class="flex-1 flex flex-col justify-between min-h-[50px]">
                     <div class="flex justify-between items-start gap-1">
-                        <h4 class="text-[11px] font-black ${isZero ? 'text-slate-500' : 'text-white'} leading-tight line-clamp-2">${item.nombre}</h4>
-                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-400 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                        <h4 class="text-[11px] font-black ${isZero ? 'text-slate-400' : 'text-white'} leading-tight line-clamp-2">${item.nombre}</h4>
+                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-400 hover:text-red-400 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
                     <div class="flex justify-between items-center mt-1">
-                        <span class="text-xs font-black ${isZero ? 'text-slate-500 line-through' : 'text-amber-400'}">$${price.toFixed(2)}</span>
+                        <span class="text-xs font-black ${isZero ? 'text-slate-400 line-through' : 'text-amber-400'}">$${price.toFixed(2)}</span>
                         <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-0.5">
                             <button onclick="changeQuantity('${item.sku}', -1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-minus"></i></button>
                             <span class="text-[11px] font-mono font-bold w-3 text-center ${isZero ? 'text-red-400 font-black' : 'text-slate-300'}">${qty}</span>
@@ -1571,7 +1585,7 @@ const CATEGORY_NAMES = {
                                     <button onclick="changeReorderQty('${item.sku}', 1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">+</button>
                                 </div>
                                 <span class="text-amber-500 font-bold min-w-[70px] text-right">$${sub.toFixed(2)} MXN</span>
-                                <button onclick="removeReorderItem('${item.sku}')" class="text-slate-500 hover:text-red-500 p-1 transition" aria-label="Eliminar"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                                <button onclick="removeReorderItem('${item.sku}')" class="text-slate-400 hover:text-red-500 p-1 transition" aria-label="Eliminar"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
                             </div>
                         </div>
                     `;
@@ -1581,7 +1595,7 @@ const CATEGORY_NAMES = {
                     <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
                         <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
                         <div class="flex flex-col gap-2">
-                            ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
+                            ${reorderRows || '<div class="text-center py-4 text-slate-400 text-xs">No hay productos seleccionados.</div>'}
                         </div>
                         ${reorderItems.length > 0 ? `
                         <div class="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3 mt-1">
@@ -1836,10 +1850,10 @@ const CATEGORY_NAMES = {
         }
 
         if (pageProducts.length === 0) {
-            grid.innerHTML = `<div class="col-span-full py-12 flex flex-col items-center justify-center text-slate-500">
-                <i class="fa-solid fa-magnifying-glass text-4xl mb-3 text-slate-600"></i>
+            grid.innerHTML = `<div class="col-span-full py-12 flex flex-col items-center justify-center text-slate-400">
+                <i class="fa-solid fa-magnifying-glass text-4xl mb-3 text-slate-400"></i>
                 <p class="font-bold text-sm uppercase tracking-wider">No se encontraron productos</p>
-                <p class="text-xs mt-1 text-slate-600">Intenta buscando otro artículo o palabra clave</p>
+                <p class="text-xs mt-1 text-slate-400">Intenta buscando otro artículo o palabra clave</p>
             </div>`;
             return;
         }
@@ -1857,21 +1871,21 @@ const CATEGORY_NAMES = {
             card.innerHTML = `
                 <div class="flex flex-col gap-2">
                     <div class="w-full h-32 md:h-40 overflow-hidden rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center p-1.5">
-                        <img loading="lazy" src="https://iaworldcenter-creator.github.io/mi-puesto-bazar/${p.imagen}" alt="${p.nombre}" class="w-full h-full object-contain p-2 bg-slate-950 group-hover:scale-103 transition duration-300" width="150" height="150" onerror="this.onerror=null;this.parentNode.innerHTML='<div class=&quot;flex flex-col items-center justify-center w-full h-full text-slate-500&quot;><i class=&quot;fa-solid fa-box-open text-3xl mb-2&quot;></i><span class=&quot;text-[9px] font-mono uppercase tracking-wider font-bold&quot;>Imagen Próximamente</span></div>';">
+                        <img loading="lazy" src="https://iaworldcenter-creator.github.io/mi-puesto-bazar/${p.imagen}" alt="${p.nombre}" class="w-full h-full object-contain p-2 bg-slate-950 group-hover:scale-103 transition duration-300" width="150" height="150" onerror="this.onerror=null;this.parentNode.innerHTML='<div class=&quot;flex flex-col items-center justify-center w-full h-full text-slate-400&quot;><i class=&quot;fa-solid fa-box-open text-3xl mb-2&quot;></i><span class=&quot;text-[9px] font-mono uppercase tracking-wider font-bold&quot;>Imagen Próximamente</span></div>';">
                     </div>
                     <div class="flex flex-col gap-1 mt-1">
                         <div class="flex justify-between items-center gap-1">
-                            <span class="text-[9px] font-mono font-bold text-slate-500">${p.sku}</span>
+                            <span class="text-[9px] font-mono font-bold text-slate-400">${p.sku}</span>
                             <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Bazar</span>
                         </div>
                         <h4 class="text-xs font-black text-white leading-tight line-clamp-2 h-[32px] overflow-hidden hover:text-amber-400 transition">${p.nombre}</h4>
-                        <p class="text-[9px] text-slate-500 line-clamp-2 leading-snug h-[28px] overflow-hidden">${p.descripcion}</p>
+                        <p class="text-[9px] text-slate-400 line-clamp-2 leading-snug h-[28px] overflow-hidden">${p.descripcion}</p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 mt-4 pt-2.5 border-t border-slate-800/80">
                     <div class="flex items-baseline gap-1.5">
                         <span class="text-sm font-black text-white">$${p.precio} MXN</span>
-                        ${p.precio_original ? `<span class="text-[10px] text-slate-500 line-through">$${p.precio_original}</span>` : ''}
+                        ${p.precio_original ? `<span class="text-[10px] text-slate-400 line-through">$${p.precio_original}</span>` : ''}
                     </div>
                     <button onclick="addToCart('${p.sku}'); event.stopPropagation();" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-1.5 rounded-full text-[10px] text-center shadow-sm border border-amber-600 transition active:scale-97 cursor-pointer flex items-center justify-center gap-1 uppercase tracking-wider w-full">
                     Compra
@@ -2017,7 +2031,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-500 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -2068,7 +2082,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-500 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
                             <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
@@ -2089,7 +2103,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-500 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -2098,7 +2112,7 @@ window.addEventListener('storage', syncGlobalCartState);
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-500 text-[11px]">
+            <div class="pt-8 text-center text-slate-400 text-[11px]">
                 <p>&copy; 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>

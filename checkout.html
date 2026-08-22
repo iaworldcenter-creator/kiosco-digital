@@ -6,7 +6,8 @@
     <title>KIOSCO DIGITAL | Caja y Checkout</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <style>
         @keyframes marqueeContinuousMove {
             0% { transform: translateX(0%); }
@@ -341,6 +342,19 @@
 
     <!-- JAVASCRIPT ROBUSTO -->
     <script>
+// Global Error & Promise Rejection Guard (Safe Headless & Mobile Execution)
+window.addEventListener('error', function(e) {
+    if (e && e.message && (e.message.includes('play()') || e.message.includes('quicklink') || e.message.includes('ResizeObserver') || e.message.includes('SpeechRecognition'))) {
+        e.preventDefault();
+        return true;
+    }
+}, true);
+window.addEventListener('unhandledrejection', function(e) {
+    if (e && e.reason && (e.reason.name === 'NotAllowedError' || e.reason.name === 'AbortError' || e.reason.name === 'SecurityError')) {
+        e.preventDefault();
+    }
+});
+
     function getCleanCart() {
         try {
             const raw = localStorage.getItem('ecosystem_global_cart');
@@ -527,7 +541,7 @@
         if (cart.length === 0) {
             container.innerHTML = `
                 <div class="text-center py-12 px-4 bg-slate-950/60 border border-slate-800/80 rounded-2xl">
-                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-600 mb-3 block"></i>
+                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-400 mb-3 block"></i>
                     <p class="text-slate-400 font-semibold text-sm">Tu carrito está vacío.</p>
                     <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Explorar catálogo</a>
                 </div>
@@ -577,7 +591,7 @@
                             <span class="text-[10px] text-slate-400 font-semibold">$${price.toLocaleString()} c/u</span>
                             <span class="text-cyan-400 font-black text-sm">$${itemSub.toFixed(2)} MXN</span>
                         </div>
-                        <button onclick="deleteItem('${item.sku}')" class="text-slate-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
+                        <button onclick="deleteItem('${item.sku}')" class="text-slate-400 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
                     </div>
                 </div>
             `;
@@ -684,7 +698,7 @@
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-500 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -735,7 +749,7 @@
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-500 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
                             <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
@@ -756,7 +770,7 @@
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-500 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -765,7 +779,7 @@
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-500 text-[11px]">
+            <div class="pt-8 text-center text-slate-400 text-[11px]">
                 <p>&copy; 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>
