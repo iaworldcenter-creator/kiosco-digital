@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
+<meta name="google-site-verification" content="BwSy5nNuFFrHJUtxe189nJtPxM4h5QY-SxK1V8wqYDE" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KIOSCO DIGITAL | Caja y Checkout</title>
@@ -23,6 +24,7 @@
             animation-play-state: paused;
         }
     </style>
+<style>body{font-display:swap;}*{font-display:swap;}</style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
 
@@ -98,41 +100,41 @@
                     <form id="step-1-form" onsubmit="guardarDomicilio(event)" class="flex flex-col gap-4">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Nombre Completo *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Nombre Completo *</label>
                                 <input id="input-nombre" required type="text" placeholder="Ej. Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                             <div>
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Teléfono (WhatsApp) *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Teléfono (WhatsApp) *</label>
                                 <input id="input-tel" required type="tel" placeholder="Ej. 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                             <div>
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Correo (Para Cashback 5%) *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Correo (Para Cashback 5%) *</label>
                                 <input id="input-email" required type="email" placeholder="cliente@ejemplo.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
                             <div class="sm:col-span-6">
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Calle y Número Ext / Int *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Calle y Número Ext / Int *</label>
                                 <input id="input-calle" required type="text" placeholder="Ej. Av. Pedro Moreno 501 Int 2" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                             <div class="sm:col-span-3">
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Colonia / Zona *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Colonia / Zona *</label>
                                 <input id="input-colonia" required type="text" placeholder="Ej. Centro" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                             <div class="sm:col-span-3">
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Código Postal *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Código Postal *</label>
                                 <input id="input-cp" required type="text" maxlength="5" placeholder="44100" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Ciudad / Estado *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Ciudad / Estado *</label>
                                 <input id="input-ciudad" required type="text" value="Guadalajara, Jalisco" placeholder="Ej. Guadalajara, Jalisco" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                             <div>
-                                <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Referencias de Entrega (Puntos clave) *</label>
+                                <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Referencias de Entrega (Puntos clave) *</label>
                                 <input id="input-referencias" required type="text" placeholder="Ej. Cancel negro, frente a Zapatería, o puesto de revistas" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition" />
                             </div>
                         </div>
@@ -185,18 +187,18 @@
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                 <div>
-                                    <span class="text-slate-400 block text-[11px]">Banco Receptor:</span>
+                                    <span class="text-slate-300 block text-[11px]">Banco Receptor:</span>
                                     <strong class="text-white text-sm">BBVA México</strong>
                                 </div>
                                 <div>
-                                    <span class="text-slate-400 block text-[11px]">Beneficiario:</span>
+                                    <span class="text-slate-300 block text-[11px]">Beneficiario:</span>
                                     <strong class="text-white text-sm">Ecosistema Anti-Gravity</strong>
                                 </div>
                             </div>
 
                             <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-3">
                                 <div>
-                                    <span class="text-slate-400 text-[10px] uppercase font-mono block">CLABE Interbancaria:</span>
+                                    <span class="text-slate-300 text-[10px] uppercase font-mono block">CLABE Interbancaria:</span>
                                     <span id="txt-clabe-val" class="text-amber-400 font-mono font-black text-base tracking-wider">012 180 01542584394 9</span>
                                 </div>
                                 <button type="button" onclick="copiarClabe()" id="btn-copiar-clabe" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-lg text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95 shrink-0">
@@ -216,21 +218,21 @@
                             </span>
                             <div class="flex flex-col gap-3">
                                 <div>
-                                    <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Número de Tarjeta (16 dígitos) *</label>
+                                    <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Número de Tarjeta (16 dígitos) *</label>
                                     <input id="card-num" type="text" maxlength="19" placeholder="4500 0000 0000 0000" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white font-mono focus:border-cyan-500 focus:outline-none" />
                                 </div>
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Vencimiento (MM/AA) *</label>
+                                        <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Vencimiento (MM/AA) *</label>
                                         <input id="card-exp" type="text" maxlength="5" placeholder="12/28" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white font-mono focus:border-cyan-500 focus:outline-none" />
                                     </div>
                                     <div>
-                                        <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">CVV / CVC *</label>
+                                        <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">CVV / CVC *</label>
                                         <input id="card-cvv" type="password" maxlength="4" placeholder="123" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white font-mono focus:border-cyan-500 focus:outline-none" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="text-[11px] font-mono text-slate-400 uppercase block mb-1">Nombre en la Tarjeta *</label>
+                                    <label class="text-[11px] font-mono text-slate-300 uppercase block mb-1">Nombre en la Tarjeta *</label>
                                     <input id="card-name" type="text" placeholder="Ej. Juan Pérez" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:border-cyan-500 focus:outline-none" />
                                 </div>
                             </div>
@@ -246,7 +248,7 @@
                             </span>
                             <p class="text-xs text-slate-300">Dicta esta referencia numérica de 14 dígitos al cajero al momento de pagar:</p>
                             <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg text-center">
-                                <span class="text-[10px] font-mono text-slate-400 uppercase block">Referencia de Pago OXXO Pay:</span>
+                                <span class="text-[10px] font-mono text-slate-300 uppercase block">Referencia de Pago OXXO Pay:</span>
                                 <strong class="text-amber-400 font-mono text-lg tracking-widest block mt-1">9324 8102 4492 10</strong>
                             </div>
                             <button type="button" onclick="confirmarMetodoPago('Efectivo en Tienda OXXO (Ref: 93248102449210)')" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer mt-1">
@@ -317,11 +319,11 @@
                         <i class="fa-solid fa-lock"></i> Autorizar cargo y completar compra
                     </button>
 
-                    <a href="index.html" class="text-center text-xs text-slate-400 hover:text-white font-bold transition flex items-center justify-center gap-1.5">
+                    <a href="index.html" class="text-center text-xs text-slate-300 hover:text-white font-bold transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-arrow-left"></i> Seguir comprando
                     </a>
 
-                    <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-2.5 text-[11px] text-slate-400">
+                    <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-2.5 text-[11px] text-slate-300">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-shield-halved text-cyan-400"></i>
                             <span>Compra 100% Protegida y Encriptada</span>
@@ -514,7 +516,7 @@ window.addEventListener('unhandledrejection', function(e) {
                         <div class="flex items-center gap-2.5 min-w-0">
                             <i class="fa-solid fa-location-dot text-amber-400 text-base"></i>
                             <div class="truncate text-slate-200">
-                                <strong>${data.nombre || 'Datos guardados'}</strong> &bull; ${data.calle || ''}, ${data.col || ''} (CP ${data.cp || ''}) &bull; Ref: <span class="text-slate-400">${data.ref || 'Sin referencia'}</span>
+                                <strong>${data.nombre || 'Datos guardados'}</strong> &bull; ${data.calle || ''}, ${data.col || ''} (CP ${data.cp || ''}) &bull; Ref: <span class="text-slate-300">${data.ref || 'Sin referencia'}</span>
                             </div>
                         </div>
                         <button onclick="toggleDomicilioView(false)" class="text-cyan-400 hover:text-cyan-300 font-bold ml-2 underline cursor-pointer shrink-0">Editar</button>
@@ -541,8 +543,8 @@ window.addEventListener('unhandledrejection', function(e) {
         if (cart.length === 0) {
             container.innerHTML = `
                 <div class="text-center py-12 px-4 bg-slate-950/60 border border-slate-800/80 rounded-2xl">
-                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-400 mb-3 block"></i>
-                    <p class="text-slate-400 font-semibold text-sm">Tu carrito está vacío.</p>
+                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-300 mb-3 block"></i>
+                    <p class="text-slate-300 font-semibold text-sm">Tu carrito está vacío.</p>
                     <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Explorar catálogo</a>
                 </div>
             `;
@@ -585,13 +587,13 @@ window.addEventListener('unhandledrejection', function(e) {
                         <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl p-1">
                             <button onclick="${minusAction}" class="${minusBtnClass}" title="Reducir / Eliminar">${minusIcon}</button>
                             <span class="text-white font-black text-xs w-7 text-center font-mono">${qty}</span>
-                            <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer">+</button>
+                            <button onclick="changeQty('${item.sku}', 1)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center">+</button>
                         </div>
                         <div class="flex flex-col items-end">
-                            <span class="text-[10px] text-slate-400 font-semibold">$${price.toLocaleString()} c/u</span>
+                            <span class="text-[10px] text-slate-300 font-semibold">$${price.toLocaleString()} c/u</span>
                             <span class="text-cyan-400 font-black text-sm">$${itemSub.toFixed(2)} MXN</span>
                         </div>
-                        <button onclick="deleteItem('${item.sku}')" class="text-slate-400 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
+                        <button onclick="deleteItem('${item.sku}')" class="text-slate-300 hover:text-red-400 text-sm cursor-pointer shrink-0 transition p-2 ml-1" title="Eliminar"><i class="fa-solid fa-trash-can pointer-events-none"></i></button>
                     </div>
                 </div>
             `;
@@ -688,7 +690,7 @@ window.addEventListener('unhandledrejection', function(e) {
     
 
     <!-- FOOTER UNIVERSAL HOMOLOGADO (3 COLUMNAS) -->
-    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8 text-slate-400 text-xs mt-16">
+    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8 text-slate-300 text-xs mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-slate-800/80">
                 
@@ -698,7 +700,7 @@ window.addEventListener('unhandledrejection', function(e) {
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-300 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -710,7 +712,7 @@ window.addEventListener('unhandledrejection', function(e) {
                         <span>WhatsApp: <a href="https://wa.me/523337271440" target="_blank" rel="noopener" class="text-slate-200 hover:text-emerald-400 font-mono">+52 33 3727 1440</a></span>
                     </p>
                     
-                    <div class="flex flex-col gap-1.5 pt-2 border-t border-slate-900 text-[11px] text-slate-400">
+                    <div class="flex flex-col gap-1.5 pt-2 border-t border-slate-900 text-[11px] text-slate-300">
                         <a href="https://www.facebook.com/profile.php?id=61593020515115" target="_blank" rel="noopener" class="hover:text-blue-400 transition flex items-center gap-2">
                             <i class="fa-brands fa-facebook text-blue-500 w-4 text-center"></i> Facebook: Kiosco Digital
                         </a>
@@ -738,21 +740,21 @@ window.addEventListener('unhandledrejection', function(e) {
                         <i class="fa-solid fa-rotate-left text-amber-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Devoluciones Directas:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Permitidas físicamente en tienda dentro de las primeras 48 horas con empaque íntegro.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Permitidas físicamente en tienda dentro de las primeras 48 horas con empaque íntegro.</span>
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
                         <i class="fa-solid fa-certificate text-emerald-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Garantía Certificada:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Productos de calidad garantizada con soporte técnico local y reemplazo inmediato.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Productos de calidad garantizada con soporte técnico local y reemplazo inmediato.</span>
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-300 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
                         </div>
                     </div>
                 </div>
@@ -766,11 +768,11 @@ window.addEventListener('unhandledrejection', function(e) {
                         <i class="fa-solid fa-piggy-bank text-amber-400 text-base shrink-0"></i>
                         <span>5% de Cashback en cada compra de forma directa.</span>
                     </p>
-                    <p class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+                    <p class="text-[11px] text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-300 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -779,7 +781,7 @@ window.addEventListener('unhandledrejection', function(e) {
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-400 text-[11px]">
+            <div class="pt-8 text-center text-slate-300 text-[11px]">
                 <p>&copy; 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>

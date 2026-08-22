@@ -1,4 +1,5 @@
 <head>
+<meta name="google-site-verification" content="BwSy5nNuFFrHJUtxe189nJtPxM4h5QY-SxK1V8wqYDE" />
     <script>
 // Global Error & Promise Rejection Guard (Safe Headless & Mobile Execution)
 window.addEventListener('error', function(e) {
@@ -214,6 +215,7 @@ window.comprarAhoraDirecto = function() {
 }</script><link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+<style>body{font-display:swap;}*{font-display:swap;}</style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
 
@@ -331,7 +333,7 @@ window.comprarAhoraDirecto = function() {
 
 <main class="flex-grow py-8 px-4 md:px-12 bg-slate-950 text-slate-100">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" id="product-detail-root">
-        <div class="col-span-full py-12 text-center text-slate-400 font-bold">Cargando detalles del producto...</div>
+        <div class="col-span-full py-12 text-center text-slate-300 font-bold">Cargando detalles del producto...</div>
     </div>
 </main>
 
@@ -346,35 +348,35 @@ window.comprarAhoraDirecto = function() {
         <h2 class="text-lg font-black text-white mb-2 flex items-center gap-2">
             <i class="fa-solid fa-map-location-dot text-cyan-400"></i> Registrar Domicilio de Entrega
         </h2>
-        <p class="text-[11px] text-slate-400 mb-4 leading-relaxed">
+        <p class="text-[11px] text-slate-300 mb-4 leading-relaxed">
             ⚠️ <strong>Nota:</strong> Servicio disponible únicamente a no más de <strong>5 km de distancia</strong> de nuestra sucursal Centro.
         </p>
         <form onsubmit="saveDeliveryAddress(event)" class="flex flex-col gap-3">
             <div>
-                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Nombre Completo</label>
+                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Nombre Completo</label>
                 <input type="text" id="deliveryName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Teléfono</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Teléfono</label>
                     <input type="tel" id="deliveryPhone" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Correo Electrónico</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Correo Electrónico</label>
                     <input type="email" id="deliveryEmail" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                 </div>
             </div>
             <div>
-                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Calle y Número</label>
+                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Calle y Número</label>
                 <input type="text" id="deliveryStreet" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Colonia</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Colonia</label>
                     <input type="text" id="deliveryColonia" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ciudad / Estado</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Ciudad / Estado</label>
                     <input type="text" id="deliveryCity" required value="Guadalajara, Jalisco" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 min-h-[48px]">
                 </div>
             </div>
@@ -412,16 +414,16 @@ window.comprarAhoraDirecto = function() {
         </div>
         <form id="payment-card-form" onsubmit="confirmCardPayment(event)" class="hidden border-t border-slate-800 pt-4 flex flex-col gap-3">
             <div>
-                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Número de Tarjeta</label>
+                <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Número de Tarjeta</label>
                 <input type="text" id="cardNumber" placeholder="1234 5678 1234 5678" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Vencimiento</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">Vencimiento</label>
                     <input type="text" id="cardExpiry" placeholder="MM/AA" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">CVV</label>
+                    <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-300 mb-1">CVV</label>
                     <input type="text" id="cardCvv" placeholder="123" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 min-h-[48px]">
                 </div>
             </div>
@@ -438,7 +440,7 @@ window.comprarAhoraDirecto = function() {
     <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl relative text-slate-100 flex flex-col gap-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-1">
             <h3 class="text-base font-black text-white flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-cyan-400"></i> Historial de Mis Pedidos</h3>
-            <button class="text-slate-400 hover:text-white cursor-pointer text-xl" onclick="closeOrdersModal()"><i class="fa-solid fa-xmark"></i></button>
+            <button class="text-slate-300 hover:text-white cursor-pointer text-xl" onclick="closeOrdersModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-1" id="orders-modal-content">
             <!-- Rendered dynamically -->
@@ -475,15 +477,15 @@ window.comprarAhoraDirecto = function() {
         <div>
             <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
                 <h3 class="text-base font-black text-white flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-cyan-400"></i> Tu Carrito de Compras</h3>
-                <button class="text-2xl text-slate-400 hover:text-white cursor-pointer" onclick="closeCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="text-2xl text-slate-300 hover:text-white cursor-pointer" onclick="closeCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="bg-slate-950/40 border border-slate-800 rounded-xl p-4 mb-4 flex flex-col gap-2.5">
                 <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-400 font-bold">Registro de Entrega: <span id="drawer-delivery-status" class="text-cyan-400 font-bold">Pendiente</span></span>
+                    <span class="text-slate-300 font-bold">Registro de Entrega: <span id="drawer-delivery-status" class="text-cyan-400 font-bold">Pendiente</span></span>
                     <button onclick="openDeliveryModal()" class="text-cyan-400 hover:underline font-bold focus:outline-none">(Editar)</button>
                 </div>
                 <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-400 font-bold">Forma de Pago: <span id="drawer-payment-status" class="text-cyan-400 font-bold">No seleccionada</span></span>
+                    <span class="text-slate-300 font-bold">Forma de Pago: <span id="drawer-payment-status" class="text-cyan-400 font-bold">No seleccionada</span></span>
                     <button onclick="openPaymentModal()" class="text-cyan-400 hover:underline font-bold focus:outline-none">(Editar)</button>
                 </div>
             </div>
@@ -492,15 +494,15 @@ window.comprarAhoraDirecto = function() {
         <div class="border-t border-slate-800 pt-4 mt-4 flex flex-col gap-4">
             <div class="flex flex-col gap-2 text-xs">
                 <div class="flex justify-between">
-                    <span class="text-slate-400 font-bold">Productos:</span>
+                    <span class="text-slate-300 font-bold">Productos:</span>
                     <span class="text-white font-bold" id="drawer-total-qty">0</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-400 font-bold">Subtotal:</span>
+                    <span class="text-slate-300 font-bold">Subtotal:</span>
                     <span class="text-white font-bold" id="drawer-subtotal">$0.00 MXN</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-400 font-bold">Envío:</span>
+                    <span class="text-slate-300 font-bold">Envío:</span>
                     <span class="text-white font-bold" id="drawer-shipping">$0.00 MXN</span>
                 </div>
                 <div class="flex justify-between items-center border-t border-slate-800 pt-2 mt-2">
@@ -835,7 +837,7 @@ window.comprarAhoraDirecto = function() {
                 imgPath = './' + imgPath;
             }
             
-            let minusButtonHtml = `<button onclick="changeQuantity('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">-</button>`;
+            let minusButtonHtml = `<button onclick="changeQuantity('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">-</button>`;
             if (item.quantity === 1) {
                 minusButtonHtml = `<button onclick="changeQuantity('${item.sku}', -1)" class="w-8 h-8 rounded bg-red-650 text-white hover:bg-red-600 transition flex items-center justify-center text-[10px] cursor-pointer min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>`;
             }
@@ -851,10 +853,10 @@ window.comprarAhoraDirecto = function() {
                     <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded p-0.5">
                         ${minusButtonHtml}
                         <span class="text-white font-black text-xs w-4 text-center">${item.quantity}</span>
-                        <button onclick="changeQuantity('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">+</button>
+                        <button onclick="changeQuantity('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-xs cursor-pointer min-w-[32px] min-h-[32px]">+</button>
                     </div>
                     <span class="text-cyan-400 font-bold min-w-[70px] text-right text-xs">$${sub.toFixed(2)}</span>
-                    <button onclick="removeFromCart('${item.sku}')" class="text-slate-400 hover:text-red-500 text-xs transition cursor-pointer min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="removeFromCart('${item.sku}')" class="text-slate-300 hover:text-red-500 text-xs transition cursor-pointer min-w-[32px] min-h-[32px]" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `;
             container.appendChild(div);
@@ -1031,7 +1033,7 @@ window.comprarAhoraDirecto = function() {
                     <div class="flex items-center gap-3 text-xs">
                         <img src="${imgUrl}" class="w-8 h-8 object-contain bg-white rounded p-0.5 shrink-0" />
                         <span class="text-white font-bold flex-1 truncate">${item.nombre}</span>
-                        <span class="text-slate-400 shrink-0">Cant: ${item.quantity}</span>
+                        <span class="text-slate-300 shrink-0">Cant: ${item.quantity}</span>
                         <span class="text-amber-500 font-bold shrink-0">$${(parseFloat(item.precio) * item.quantity).toFixed(2)} MXN</span>
                     </div>
                 `;
@@ -1052,7 +1054,7 @@ window.comprarAhoraDirecto = function() {
                     let opacityClass = "";
                     let trashBtnHtml = "";
                     if (item.quantity === 0) {
-                        opacityClass = "opacity-40 grayscale text-slate-400 border-red-500/30 bg-red-950/5";
+                        opacityClass = "opacity-40 grayscale text-slate-300 border-red-500/30 bg-red-950/5";
                         trashBtnHtml = `
                             <button onclick="deleteHistoricalItem('${item.sku}')" class="text-red-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 min-h-[48px]" title="Eliminar del historial">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -1069,9 +1071,9 @@ window.comprarAhoraDirecto = function() {
                             <div class="flex items-center gap-2.5 shrink-0">
                                 ${trashBtnHtml}
                                 <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg p-0.5">
-                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none min-w-[32px] min-h-[32px]">-</button>
+                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none min-w-[32px] min-h-[32px]">-</button>
                                     <span class="text-white font-black text-sm w-5 text-center">${item.quantity}</span>
-                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none min-w-[32px] min-h-[32px]">+</button>
+                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none min-w-[32px] min-h-[32px]">+</button>
                                 </div>
                                 <span class="text-amber-500 font-bold min-w-[75px] text-right">$${sub.toFixed(2)} MXN</span>
                             </div>
@@ -1083,7 +1085,7 @@ window.comprarAhoraDirecto = function() {
                     <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
                         <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
                         <div class="flex flex-col gap-2">
-                            ${reorderRows || '<div class="text-center py-4 text-slate-400 text-xs">No hay productos seleccionados.</div>'}
+                            ${reorderRows || '<div class="text-center py-4 text-slate-300 text-xs">No hay productos seleccionados.</div>'}
                         </div>
                         ${reorderItems.length > 0 ? `
                         <div class="flex flex-row justify-between items-center bg-slate-900 border border-slate-850 rounded-xl p-4 mt-2 gap-4 w-full">
@@ -1096,7 +1098,7 @@ window.comprarAhoraDirecto = function() {
                                 </button>
                             </div>
                             <div class="text-right">
-                                <span class="text-[9px] text-slate-400 font-bold uppercase block tracking-wider">Total del Pedido</span>
+                                <span class="text-[9px] text-slate-300 font-bold uppercase block tracking-wider">Total del Pedido</span>
                                 <span class="text-base font-black text-cyan-400">$${reorderSubtotal.toFixed(2)} MXN</span>
                             </div>
                         </div>
@@ -1109,11 +1111,11 @@ window.comprarAhoraDirecto = function() {
                 <div class="flex justify-between items-start border-b border-slate-800/60 pb-3">
                     <div class="flex flex-col">
                         <span class="text-white font-black text-sm">Pedido #${order.orderId}</span>
-                        <span class="text-[10px] text-slate-400 font-semibold">${order.date}</span>
+                        <span class="text-[10px] text-slate-300 font-semibold">${order.date}</span>
                     </div>
                     <div class="flex flex-col items-end gap-1">
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusClass}">${order.status}</span>
-                        <span class="text-[10px] text-slate-400 font-semibold">${order.deliveryTime}</span>
+                        <span class="text-[10px] text-slate-300 font-semibold">${order.deliveryTime}</span>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2.5">
@@ -1174,7 +1176,7 @@ window.comprarAhoraDirecto = function() {
         if (!detailRoot) return;
         
         if (!product) {
-            detailRoot.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-bold">Producto no encontrado.</div>`;
+            detailRoot.innerHTML = `<div class="col-span-full py-12 text-center text-slate-300 font-bold">Producto no encontrado.</div>`;
             return;
         }
         
@@ -1203,11 +1205,11 @@ window.comprarAhoraDirecto = function() {
         
         if (!cashbackHtml) {
             cashbackHtml = `
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 flex flex-col gap-2 text-[11px] text-slate-400">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 flex flex-col gap-2 text-[11px] text-slate-300">
                     <span class="text-amber-500 font-black flex items-center gap-1.5"><i class="fa-solid fa-gift"></i> Desbloquear 5% de Cashback</span>
                     <span>Obtén <strong class="text-white">$${cashbackAmount} MXN</strong> de saldo de regalo en esta compra. Regístrate gratis o ingresa tus datos en el newsletter para activar el beneficio.</span>
                     <button onclick="openDeliveryModal()" class="bg-slate-800 hover:bg-slate-750 text-white font-bold py-1.5 rounded-lg text-[10px] transition cursor-pointer text-center min-h-[48px] w-full">Registrar Cuenta Gratis</button>
-                    <span class="text-[9px] text-slate-400 leading-tight">Nota: Sin registro de correo y teléfono no se genera cashback.</span>
+                    <span class="text-[9px] text-slate-300 leading-tight">Nota: Sin registro de correo y teléfono no se genera cashback.</span>
                 </div>
             `;
         }
@@ -1246,7 +1248,7 @@ window.comprarAhoraDirecto = function() {
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
-                    <span class="text-slate-400 font-semibold ml-1">(4.9 - 48 valoraciones en la zona)</span>
+                    <span class="text-slate-300 font-semibold ml-1">(4.9 - 48 valoraciones en la zona)</span>
                 </div>
 
                 <!-- Labor de Venta (Sales Copy) y Precio en Columna Central -->
@@ -1259,12 +1261,12 @@ window.comprarAhoraDirecto = function() {
                 <!-- Tabla de Especificaciones -->
                 <div class="border-t border-slate-850 pt-4">
                     <h4 class="text-xs font-black text-white mb-2 uppercase tracking-wider">Ficha Técnica</h4>
-                    <table class="w-full text-xs text-slate-400">
+                    <table class="w-full text-xs text-slate-300">
                         <tbody>
-                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Marca</td><td class="py-1.5 text-slate-400">Ecosistema Local</td></tr>
+                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Marca</td><td class="py-1.5 text-slate-300">Ecosistema Local</td></tr>
                             <tr class="border-b border-slate-850"><td class="py-1.5 font-semibold text-white font-mono">${product.sku}</td></tr>
-                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Categoría</td><td class="py-1.5 text-slate-400">${product.categoria}</td></tr>
-                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Disponibilidad</td><td class="py-1.5 text-slate-400">${product.inventario_tipo || 'En Stock'}</td></tr>
+                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Categoría</td><td class="py-1.5 text-slate-300">${product.categoria}</td></tr>
+                            <tr class="border-b border-slate-850"><td class="py-1.5 font-bold w-1/3 text-slate-200">Disponibilidad</td><td class="py-1.5 text-slate-300">${product.inventario_tipo || 'En Stock'}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1272,7 +1274,7 @@ window.comprarAhoraDirecto = function() {
                 <!-- Acerca de este artículo -->
                 <div class="border-t border-slate-850 pt-4 flex flex-col gap-2">
                     <h4 class="text-xs font-black text-white uppercase tracking-wider">Descripción del Producto</h4>
-                    <ul class="list-disc list-inside text-xs text-slate-400 flex flex-col gap-1.5 leading-relaxed">
+                    <ul class="list-disc list-inside text-xs text-slate-300 flex flex-col gap-1.5 leading-relaxed">
                         <li>${product.descripcion || 'Artículo premium seleccionado. Máximo rendimiento y calidad garantizada por el Ecosistema oficial.'}</li>
                         <li>Soporte local y garantía oficial directa en la zona Centro.</li>
                         <li>Empaque seguro con sellado hermético contra golpes.</li>
@@ -1283,15 +1285,15 @@ window.comprarAhoraDirecto = function() {
             <!-- Columna Derecha: Compra, Reglas y Conversión -->
             <div class="lg:col-span-3 bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col gap-4 text-slate-100 shadow-lg">
                 <div class="flex flex-col gap-1">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Precio Unitario</span>
+                    <span class="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Precio Unitario</span>
                     <span class="text-2xl font-black text-cyan-400">$${parseFloat(product.precio).toFixed(2)} MXN</span>
                 </div>
                 
                 <!-- Envío -->
                 <div class="border-t border-slate-800 pt-3 flex flex-col gap-0.5 text-xs">
-                    <span class="text-slate-400">Entrega Local:</span>
+                    <span class="text-slate-300">Entrega Local:</span>
                     <span class="font-black text-white flex items-center gap-1.5"><i class="fa-solid fa-truck text-emerald-400"></i> ${shippingText}</span>
-                    <span class="text-[9px] text-slate-400 leading-tight">${shippingSubnotice}</span>
+                    <span class="text-[9px] text-slate-300 leading-tight">${shippingSubnotice}</span>
                 </div>
                 
                 <!-- Mayoreo -->
@@ -1414,7 +1416,7 @@ window.comprarAhoraDirecto = function() {
     <i class="fa-solid fa-circle-check text-green-500 text-2xl animate-bounce"></i>
     <div class="flex flex-col text-left">
         <span class="text-xs font-black">¡Se ha agregado al carrito!</span>
-        <span class="text-[10px] text-slate-400 font-semibold" id="cartToastDetails"></span>
+        <span class="text-[10px] text-slate-300 font-semibold" id="cartToastDetails"></span>
     </div>
 </div>
 
@@ -1434,7 +1436,7 @@ window.comprarAhoraDirecto = function() {
     <!-- FOOTER UNIVERSAL HOMOLOGADO (3 COLUMNAS) -->
     
     <!-- FOOTER UNIVERSAL HOMOLOGADO (3 COLUMNAS) -->
-    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8 text-slate-400 text-xs mt-16">
+    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8 text-slate-300 text-xs mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-slate-800/80">
                 
@@ -1444,7 +1446,7 @@ window.comprarAhoraDirecto = function() {
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-300 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -1456,7 +1458,7 @@ window.comprarAhoraDirecto = function() {
                         <span>WhatsApp: <a href="https://wa.me/523337271440" target="_blank" rel="noopener" class="text-slate-200 hover:text-emerald-400 font-mono">+52 33 3727 1440</a></span>
                     </p>
                     
-                    <div class="flex flex-col gap-1.5 pt-2 border-t border-slate-900 text-[11px] text-slate-400">
+                    <div class="flex flex-col gap-1.5 pt-2 border-t border-slate-900 text-[11px] text-slate-300">
                         <a href="https://www.facebook.com/profile.php?id=61593020515115" target="_blank" rel="noopener" class="hover:text-blue-400 transition flex items-center gap-2">
                             <i class="fa-brands fa-facebook text-blue-500 w-4 text-center"></i> Facebook: Kiosco Digital
                         </a>
@@ -1484,21 +1486,21 @@ window.comprarAhoraDirecto = function() {
                         <i class="fa-solid fa-rotate-left text-amber-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Devoluciones Directas:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Permitidas físicamente en tienda dentro de las primeras 48 horas con empaque íntegro.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Permitidas físicamente en tienda dentro de las primeras 48 horas con empaque íntegro.</span>
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
                         <i class="fa-solid fa-certificate text-emerald-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Garantía Certificada:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Productos de calidad garantizada con soporte técnico local y reemplazo inmediato.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Productos de calidad garantizada con soporte técnico local y reemplazo inmediato.</span>
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-300 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
-                            <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
+                            <span class="text-slate-300 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
                         </div>
                     </div>
                 </div>
@@ -1512,11 +1514,11 @@ window.comprarAhoraDirecto = function() {
                         <i class="fa-solid fa-piggy-bank text-amber-400 text-base shrink-0"></i>
                         <span>5% de Cashback en cada compra de forma directa.</span>
                     </p>
-                    <p class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+                    <p class="text-[11px] text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-300 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -1525,7 +1527,7 @@ window.comprarAhoraDirecto = function() {
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-400 text-[11px]">
+            <div class="pt-8 text-center text-slate-300 text-[11px]">
                 <p>&copy; 2026 Kiosco Digital. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>
