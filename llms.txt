@@ -1,10 +1,14 @@
-# Kiosco Digital
+# Kiosco Digital | Ecosistema Comercial BAZAR NFL GDL
+> Arquitectura y Capacidades Operativas para Agentes Autónomos de Inteligencia Artificial (Lighthouse 13.4+ / WebMCP Standard).
 
-Machine-readable context for AI agents visiting kiosco-digital.
+## Descripción General
+Boutique oficial del ecosistema comercial en Guadalajara Centro (Pedro Moreno 501 A).
 
-## Description
-This website belongs to the brand ecosystem of Puesto de Revistas & Bazar, providing tech services, gadgets, and general store inventory in Guadalajara, Mexico.
+## Herramientas Agénticas Disponibles (WebMCP)
+- [Catálogo y Tienda](https://iaworldcenter-creator.github.io/kiosco-digital/)
+- [Checkout Unificado](https://iaworldcenter-creator.github.io/kiosco-digital/checkout.html)
 
-## Key Actions
-- [Homepage](index.html)
-- [Checkout & Cart](checkout.html)
+## Directrices de Navegación Machine-to-Machine
+- Cumplimiento estricto WCAG 2.2 AA (áreas táctiles >= 48px).
+- Estabilidad visual garantizada (CLS < 0.05).
+- Soporte para protocolo WebMCP declarativo e imperativo.
