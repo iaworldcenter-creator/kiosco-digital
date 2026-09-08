@@ -333,8 +333,8 @@
             return sum + (p * q);
         }, 0);
 
-        // Descuento de mayoreo aplicable si piezas totales >= 10 (8.57%)
-        const discountMayoreo = totalPieces >= 10 ? Math.round(subtotalBruto * 0.0857 * 100) / 100 : 0;
+        // Descuento de mayoreo aplicable si piezas totales >= 10 (10% adicional sobre precio de oferta)
+        const discountMayoreo = totalPieces >= 10 ? Math.round(subtotalBruto * 0.10 * 100) / 100 : 0;
         const subtotal = Math.max(0, subtotalBruto - discountMayoreo);
 
         const heavyData = detectHeavyOrVolumetricItems(items);
