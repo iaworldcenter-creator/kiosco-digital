@@ -94,6 +94,79 @@
         });
     }
 
+    
+    // -------------------------------------------------------------------------
+    // 1b. ACCIONES DIRECTAS DE COMPRA Y ADICIÓN MULTI-CATÁLOGO
+    // -------------------------------------------------------------------------
+    window.addToCartDirect = function(skuOrItem, qty = 1) {
+        let cart = getCart();
+        let prod = null;
+        if (typeof skuOrItem === 'object' && skuOrItem !== null) {
+            prod = skuOrItem;
+        } else {
+            const rawSku = String(skuOrItem || '').trim();
+            const cleanRaw = rawSku.replace(/^[AB]-/, '');
+            const sources = [
+                window.boutiqueProducts,
+                window.defaultAparador200,
+                window.CT_CATALOG_DATA,
+                window.CT_CATALOG_DATA_INITIAL,
+                window.searchCatalog,
+                window.inventory
+            ];
+            for (const src of sources) {
+                if (Array.isArray(src)) {
+                    prod = src.find(p => (p.sku === rawSku || p.sku === cleanRaw || p.s === rawSku || p.id === rawSku || p.id === cleanRaw));
+                    if (prod) break;
+                }
+            }
+        }
+
+        const targetSku = prod ? (prod.sku || prod.s || prod.id) : String(skuOrItem);
+        const existing = cart.find(i => (i.sku === targetSku || i.id === targetSku));
+
+        if (existing) {
+            const curQ = parseInt(existing.quantity || existing.qty || 1);
+            existing.quantity = curQ + qty;
+            existing.qty = existing.quantity;
+        } else {
+            const name = prod ? (prod.nombre || prod.name || prod.n || prod.title || 'Artículo') : targetSku;
+            const price = prod ? parseCleanPrice(prod.precio || prod.price || prod.p || 0) : 0;
+            const img = prod ? (prod.img || prod.imagen || prod.image || `https://iaworldcenter-creator.github.io/vectec/assets/img/${targetSku}.webp`) : `https://iaworldcenter-creator.github.io/vectec/assets/img/${targetSku}.webp`;
+            const cat = prod ? (prod.categoria || prod.c || 'general') : 'general';
+            cart.push({
+                id: targetSku,
+                sku: targetSku,
+                nombre: name,
+                name: name,
+                title: name,
+                precio: price,
+                price: price,
+                quantity: qty,
+                qty: qty,
+                imagen: img,
+                img: img,
+                image: img,
+                categoria: cat,
+                stk: (prod && (prod.stk || prod.stock)) || 15,
+                disponible: true
+            });
+        }
+        saveCart(cart);
+
+        const badge = document.getElementById("boutique-cart-badge");
+        if (badge) {
+            badge.classList.add("scale-125");
+            setTimeout(() => badge.classList.remove("scale-125"), 200);
+        }
+        return cart;
+    };
+
+    window.buyNowDirect = function(skuOrItem, qty = 1) {
+        window.addToCartDirect(skuOrItem, qty);
+        window.location.href = "checkout.html";
+    };
+
     // -------------------------------------------------------------------------
     // 2. GENERACIÓN Y GESTIÓN DEL PIN DE SEGURIDAD
     // -------------------------------------------------------------------------
@@ -253,11 +326,16 @@
     // 5. CÁLCULO LOGÍSTICO COMPLETO (SIN ENVÍO GRATIS CIEGO EN PESADOS)
     // -------------------------------------------------------------------------
     function calculateShippingDetails(items, addressData = {}) {
-        const subtotal = items.reduce((sum, i) => {
+        const totalPieces = items.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty || 1) || 1), 0);
+        const subtotalBruto = items.reduce((sum, i) => {
             const p = parseCleanPrice(i.price || i.precio || 0);
-            const q = parseInt(i.quantity || i.qty || 1);
-            return sum + (q >= 10 ? p * 0.9143 : p) * q;
+            const q = parseInt(i.quantity || i.qty || 1) || 1;
+            return sum + (p * q);
         }, 0);
+
+        // Descuento de mayoreo aplicable si piezas totales >= 10 (8.57%)
+        const discountMayoreo = totalPieces >= 10 ? Math.round(subtotalBruto * 0.0857 * 100) / 100 : 0;
+        const subtotal = Math.max(0, subtotalBruto - discountMayoreo);
 
         const heavyData = detectHeavyOrVolumetricItems(items);
         const uberEstimate = estimateUberFlashRate(
@@ -619,6 +697,8 @@
     // 7. EXPOSICIÓN GLOBAL
     // -------------------------------------------------------------------------
     window.SharedCart = {
+        addToCart: window.addToCartDirect,
+        buyNow: window.buyNowDirect,
         get: getCart,
         save: saveCart,
         getPin: getOrGeneratePin,

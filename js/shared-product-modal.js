@@ -240,22 +240,23 @@
         
         const fichaUrl = item.ficha_tecnica_url || item.ficha_url || "";
 
-        // Resolver galería de imágenes
+        // Resolver galería de imágenes con almacén central VECTEC
         let mainImg = item.imagen || item.img || (item.k && item.k[0]) || "";
-        if (!mainImg) {
-            mainImg = isClaveB ? `assets/img/B-${baseSku}.webp` : `assets/img/${baseSku}.webp`;
+        if (!mainImg || !mainImg.startsWith("http")) {
+            mainImg = `https://iaworldcenter-creator.github.io/vectec/assets/img/${baseSku}.webp`;
         }
 
+        const vista1 = mainImg;
+        const vista2 = (item.k && item.k[1]) ? item.k[1] : (item.imagen_secundaria || mainImg);
+
         // Armar lista de miniaturas para la galería
-        const galleryImgs = [];
-        if (Array.isArray(item.k) && item.k.length > 0) {
-            galleryImgs.push(...item.k);
+        const galleryImgs = [vista1];
+        if (vista2 && vista2 !== vista1) {
+            galleryImgs.push(vista2);
         } else {
-            galleryImgs.push(mainImg);
-            // Vistas complementarias para enriquecer la experiencia interactiva
-            galleryImgs.push(mainImg); // vista de detalle
-            galleryImgs.push("assets/img/fachada-oficial.webp"); // respaldo y garantía física
+            galleryImgs.push(vista1);
         }
+        galleryImgs.push("https://iaworldcenter-creator.github.io/vectec/assets/img/mascota_tigre.webp");
 
         // Deduplicar URLs conservando orden
         const uniqueGallery = [...new Set(galleryImgs)];
@@ -301,17 +302,39 @@
                         />
                     </div>
 
+                    <!-- SELECTOR DE VISTAS TÉCNICAS: VISTA 1 / VISTA 2 -->
+                    <div class="w-full mt-3 flex items-center justify-center gap-2 font-mono text-xs">
+                        <button 
+                            type="button" 
+                            onclick="window.switchModalImage('${vista1}', this)" 
+                            class="modal-view-btn active flex-1 py-1.5 px-3 rounded-xl bg-cyan-500/20 border-2 border-cyan-400 text-cyan-300 font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow"
+                            title="Ver fotografía técnica principal"
+                        >
+                            <i class="fa-solid fa-camera text-cyan-400"></i>
+                            <span>Vista 1 (Principal)</span>
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="window.switchModalImage('${vista2}', this)" 
+                            class="modal-view-btn flex-1 py-1.5 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-white font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow"
+                            title="Ver vista complementaria de empaque o ángulo"
+                        >
+                            <i class="fa-solid fa-images text-cyan-400"></i>
+                            <span>Vista 2 (Detalle)</span>
+                        </button>
+                    </div>
+
                     <!-- TIRA DE MINIATURAS INTERACTIVAS (THUMBNAILS STRIP) -->
-                    <div id="vectecModalThumbs" class="flex items-center gap-2 mt-3 w-full overflow-x-auto pb-1.5 no-scrollbar">
+                    <div id="vectecModalThumbs" class="flex items-center justify-center gap-2 mt-2 w-full overflow-x-auto pb-1.5 no-scrollbar">
                         ${uniqueGallery.map((imgSrc, idx) => `
                             <button 
                                 type="button" 
                                 onclick="window.switchModalImage('${imgSrc}', this)"
-                                class="thumb-btn w-14 h-14 rounded-xl bg-slate-950 border ${idx === 0 ? 'ring-2 ring-cyan-400 border-cyan-400 bg-cyan-950/40' : 'border-slate-800 hover:border-slate-600'} p-1 shrink-0 overflow-hidden transition cursor-pointer flex items-center justify-center shadow"
+                                class="thumb-btn w-12 h-12 rounded-xl bg-slate-950 border ${idx === 0 ? 'ring-2 ring-cyan-400 border-cyan-400 bg-cyan-950/40' : 'border-slate-800 hover:border-slate-600'} p-1 shrink-0 overflow-hidden transition cursor-pointer flex items-center justify-center shadow"
                                 title="Ver vista ${idx + 1}"
                                 aria-label="Vista ${idx + 1}"
                             >
-                                <img src="${imgSrc}" alt="Vista miniatura ${idx + 1}" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='assets/img/placeholders/acc_placeholder.jpg';" />
+                                <img src="${imgSrc}" alt="Vista miniatura ${idx + 1}" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://iaworldcenter-creator.github.io/vectec/assets/img/mascota_tigre.webp';" />
                             </button>
                         `).join('')}
                     </div>
@@ -326,8 +349,32 @@
 
                     <div class="mt-3 text-center text-[10.5px] font-mono text-slate-400 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-shield-halved text-cyan-400"></i>
-                        <span>Garantía Oficial VECTEC • Pedro Moreno 501 A</span>
+                        <span>Garant\u00eda Oficial VECTEC \u2022 Pedro Moreno 501 A</span>
                     </div>
+                        <!-- SELLOS DE CONFIANZA OFICIALES (VISA, MASTERCARD, AMEX, OXXO, MERCADO PAGO) -->
+                        <div class="pt-3 border-t border-slate-800/80">
+                            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider text-center mb-2 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-shield-check text-emerald-400"></i>
+                                <span>M\u00e9todos de Pago Seguros y Garantizados</span>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] font-mono font-bold">
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-slate-800 text-blue-400 flex items-center gap-1 shadow-sm">
+                                    <i class="fa-brands fa-cc-visa text-sm"></i> VISA
+                                </span>
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-slate-800 text-orange-400 flex items-center gap-1 shadow-sm">
+                                    <i class="fa-brands fa-cc-mastercard text-sm"></i> MasterCard
+                                </span>
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-slate-800 text-cyan-400 flex items-center gap-1 shadow-sm">
+                                    <i class="fa-brands fa-cc-amex text-sm"></i> AMEX
+                                </span>
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-amber-500/50 text-amber-300 flex items-center gap-1 shadow-sm">
+                                    <i class="fa-solid fa-money-bill-wave text-amber-400"></i> OXXO
+                                </span>
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-sky-500/50 text-sky-300 flex items-center gap-1 shadow-sm">
+                                    <i class="fa-solid fa-handshake text-sky-400"></i> Mercado Pago
+                                </span>
+                            </div>
+                        </div>
                 </div>
 
                 <!-- COLUMNA DERECHA: INFORMACIÓN TÉCNICA, USOS/APLICACIONES Y ACCIONES -->
@@ -466,18 +513,22 @@
     };
 
     window.modalAddToCart = function (sku) {
-        if (typeof window.addToCartCT === "function") {
+        if (typeof window.addToCartDirect === "function") {
+            window.addToCartDirect(sku, 1);
+        } else if (typeof window.addToCartCT === "function") {
             window.addToCartCT(sku);
         } else if (typeof window.quickAddFromSearch === "function") {
-            window.quickAddFromSearch(sku, "Artículo VECTEC", 0, "");
+            window.quickAddFromSearch(sku, "Art\u00edculo VECTEC", 0, "");
         } else if (window.SharedCart) {
             window.SharedCart.save([...window.SharedCart.get(), { sku: sku, qty: 1, stock: 1, disponible: true }]);
-            alert("✓ Producto agregado al carrito.");
+            alert("\u2713 Producto agregado al carrito.");
         }
     };
 
     window.modalBuyNow = function (sku) {
-        if (typeof window.buyNowCT === "function") {
+        if (typeof window.buyNowDirect === "function") {
+            window.buyNowDirect(sku, 1);
+        } else if (typeof window.buyNowCT === "function") {
             window.buyNowCT(sku);
         } else {
             window.modalAddToCart(sku);
