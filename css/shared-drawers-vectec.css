@@ -1,0 +1,107 @@
+/* =========================================================================
+ * shared-drawers-vectec.css
+ * ESTILOS MAESTROS HOMOLOGADOS: GAVETA IZQUIERDA (DEPARTAMENTOS) Y DERECHA (CARRITO)
+ * Basado al 100% en el estándar áureo de VECTEC (pc-custom-lab)
+ * ========================================================================= */
+
+.no-scrollbar::-webkit-scrollbar { display: none !important; }
+.no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+
+.neon-glow-pc {
+    border: 1px solid rgba(6,182,212,0.9) !important;
+    box-shadow: 0 0 16px rgba(6,182,212,0.6), inset 0 0 10px rgba(6,182,212,0.3) !important;
+}
+
+/* GAVETA IZQUIERDA: 67 DEPARTAMENTOS SLIDE-OVER */
+#mobile-departments-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    width: 380px !important;
+    max-width: 88vw !important;
+    background-color: #0f172a !important;
+    border-right: 1px solid rgba(6, 182, 212, 0.4) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85) !important;
+    z-index: 260 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transform: translate3d(-100%, 0, 0) !important;
+    -webkit-transform: translate3d(-100%, 0, 0) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    pointer-events: none !important;
+    will-change: transform;
+}
+#mobile-departments-drawer.drawer-open {
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    pointer-events: auto !important;
+}
+
+#mobile-departments-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background-color: rgba(2, 6, 23, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 255 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
+    -webkit-transition: opacity 0.3s ease !important;
+}
+#mobile-departments-backdrop.backdrop-open {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* GAVETA DERECHA: CARRITO SLIDE-OVER */
+#cart-slide-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    width: 440px !important;
+    max-width: 95vw !important;
+    background-color: #0f172a !important;
+    border-left: 1px solid rgba(6, 182, 212, 0.4) !important;
+    box-shadow: -10px 0 50px -12px rgba(0, 0, 0, 0.85) !important;
+    z-index: 260 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transform: translate3d(100%, 0, 0) !important;
+    -webkit-transform: translate3d(100%, 0, 0) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    pointer-events: none !important;
+    will-change: transform;
+}
+#cart-slide-drawer.drawer-open,
+#cart-slide-drawer.translate-x-0 {
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    pointer-events: auto !important;
+}
+
+#cart-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background-color: rgba(2, 6, 23, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 255 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
+    -webkit-transition: opacity 0.3s ease !important;
+}
+#cart-backdrop.backdrop-open,
+#cart-backdrop.opacity-100 {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}

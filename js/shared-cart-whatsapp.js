@@ -15,34 +15,82 @@
     const ORDERS_LOG_KEY = "vectec_submitted_orders_log";
     const WEBHOOK_ENDPOINT = window.VECTEC_ORDER_WEBHOOK || "https://httpbin.org/post";
 
+    const KNOWN_CART_KEYS = [
+        "IAWC_MASTER_CART",
+        "ecosystem_global_cart",
+        "vectec_cart",
+        "cart_items",
+        "pc_custom_cart"
+    ];
+
+    function parseCleanPrice(val) {
+        if (typeof val === 'number') return isNaN(val) ? 0 : val;
+        if (!val) return 0;
+        const clean = String(val).replace(/[^0-9.-]+/g, '');
+        const num = parseFloat(clean);
+        return isNaN(num) ? 0 : num;
+    }
+    window.parseCleanPrice = parseCleanPrice;
+
     // -------------------------------------------------------------------------
     // 1. GESTIÓN DEL CARRITO
     // -------------------------------------------------------------------------
     function getCart() {
         try {
-            const raw = localStorage.getItem(CART_KEY) || localStorage.getItem(ALT_CART_KEY) || "[]";
-            return JSON.parse(raw);
+            for (const key of KNOWN_CART_KEYS) {
+                const raw = localStorage.getItem(key);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        return parsed.map(item => {
+                            const p = parseCleanPrice(item.price || item.precio || 0);
+                            const q = parseInt(item.quantity || item.qty || 1) || 1;
+                            return {
+                                ...item,
+                                price: p,
+                                precio: p,
+                                quantity: q,
+                                qty: q
+                            };
+                        });
+                    }
+                }
+            }
+            return [];
         } catch (e) {
             return [];
         }
     }
 
     function saveCart(items) {
-        localStorage.setItem(CART_KEY, JSON.stringify(items));
-        localStorage.setItem(ALT_CART_KEY, JSON.stringify(items));
+        const json = JSON.stringify(items);
+        KNOWN_CART_KEYS.forEach(k => {
+            try { localStorage.setItem(k, json); } catch(e) {}
+        });
         updateCartBadges();
+        if (typeof window.renderDrawerItems === 'function') {
+            window.renderDrawerItems();
+        }
     }
 
     function updateCartBadges() {
         const items = getCart();
-        const count = items.reduce((acc, i) => acc + (parseInt(i.quantity || i.qty || 1)), 0);
-        document.querySelectorAll(".cart-counter-badge, #cartBadge, #cart-count, #cartCount, #items-count-badge, #chk-item-count").forEach(el => {
+        const count = items.reduce((acc, i) => acc + (parseInt(i.quantity || i.qty || 1) || 1), 0);
+        const totalNeto = items.reduce((acc, i) => acc + (parseCleanPrice(i.price || i.precio || 0) * (parseInt(i.quantity || i.qty || 1) || 1)), 0);
+
+        document.querySelectorAll(".cart-counter-badge, #cartBadge, #cart-count, #cartCount, #items-count-badge, #chk-item-count, #drawer-cart-count, #boutique-cart-badge").forEach(el => {
             if (el.id === "chk-item-count" || el.id === "items-count-badge") {
                 el.innerText = `${count} artículo${count === 1 ? '' : 's'}`;
+            } else if (el.id === "drawer-cart-count") {
+                el.innerText = `${count} artículo${count === 1 ? ' seleccionado' : 's seleccionados'}`;
             } else {
                 el.innerText = count;
-                el.classList.toggle("hidden", count === 0);
+                el.classList.toggle("hidden", count === 0 && !el.id.includes('boutique'));
             }
+        });
+
+        document.querySelectorAll("#boutique-cart-total, .cart-total, #drawer-cart-total-badge").forEach(el => {
+            el.innerText = `$${totalNeto.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MXN`;
         });
     }
 
@@ -206,7 +254,7 @@
     // -------------------------------------------------------------------------
     function calculateShippingDetails(items, addressData = {}) {
         const subtotal = items.reduce((sum, i) => {
-            const p = parseFloat(i.price || i.precio || 0);
+            const p = parseCleanPrice(i.price || i.precio || 0);
             const q = parseInt(i.quantity || i.qty || 1);
             return sum + (q >= 10 ? p * 0.9143 : p) * q;
         }, 0);
@@ -438,7 +486,7 @@
             const clave = isClaveB ? "B" : "A";
             const name = item.nombre || item.name || item.title || "Artículo";
             const qty = parseInt(item.quantity || item.qty || 1);
-            const price = parseFloat(item.precio || item.price || 0);
+            const price = parseCleanPrice(item.precio || item.price || 0);
             const itemTotal = price * qty;
             subtotal += itemTotal;
             return {
