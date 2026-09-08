@@ -427,20 +427,37 @@
             </div>
           </div>
         </div>
-
-        <!-- OPCIÓN 3: DEPÓSITO O ABONO EN EFECTIVO (OXXO / TIENDAS) -->
+        <!-- OPCIÓN 3: DEPÓSITO EN EFECTIVO (RED NACIONAL MULTITIENDA) -->
         <div class="p-4 bg-slate-950 border-2 border-slate-800 hover:border-amber-500/60 rounded-2xl transition cursor-pointer" onclick="selectPaymentMethod('oxxo')">
           <div class="flex items-center justify-between mb-2">
             <label class="flex items-center gap-2.5 cursor-pointer font-bold text-white text-xs sm:text-sm">
-              <input type="radio" name="payment_method_radio" id="pay_oxxo" value="oxxo" class="accent-amber-400 w-4 h-4 cursor-pointer" />
+              <input type="radio" name="payment_method_radio" id="pay_oxxo" value="oxxo" aria-label="Depósito en Efectivo OXXO y Red Nacional" class="accent-amber-400 w-4 h-4 cursor-pointer" />
               <i class="fa-solid fa-store text-amber-400 text-base"></i>
-              <span>Depósito / Abono en Efectivo (OXXO, 7-Eleven, Farmacias)</span>
+              <span>Depósito en Efectivo (Tiendas de Conveniencia, Farmacias y Autoservicio)</span>
             </label>
-            <span class="bg-amber-500/20 text-amber-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">Efectivo</span>
+            <span class="bg-amber-500/20 text-amber-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">Red Nacional</span>
           </div>
-          <p class="text-slate-300 text-[11px] leading-relaxed pl-6">
-            Paga en efectivo en más de 20,000 establecimientos autorizados generando tu referencia digital de abono.
+          <p class="text-slate-300 text-[11px] leading-relaxed pl-6 mb-3">
+            Paga al instante en más de 25,000 puntos: OXXO, 7-Eleven, Farmacias Guadalajara, Benavides, Soriana, Chedraui, Farmacias del Ahorro y más.
           </p>
+          <!-- BADGES OFICIALES DE COMERCIOS AFILIADOS -->
+          <div class="pl-6 flex flex-wrap items-center gap-2 pt-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-600/20 border border-red-500/40 text-red-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-red-500"></span> OXXO
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 7-Eleven
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span> Farmacias Guadalajara
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-600/20 border border-orange-500/40 text-orange-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-orange-500"></span> Soriana
+            </span>
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-800 border border-slate-700/60 text-slate-400 font-medium text-[10px]">
+              + Farmacias del Ahorro, Benavides, Chedraui
+            </span>
+          </div>
         </div>
 
         <!-- Botón de Confirmación de Pago -->
@@ -668,6 +685,7 @@
   
 
   <!-- SCRIPT OFICIAL DE CHECKOUT DINÁMICO & PERSISTENCIA CRM -->
+  <script src="js/shared-cart-whatsapp.js"></script>
   <script>
     let currentPaymentMethod = 'tarjeta';
     let isAddressCollapsed = false;
@@ -753,7 +771,7 @@
       if (btnLabel) {
         if (method === 'tarjeta') btnLabel.innerText = "Pagar con Tarjeta (Mercado Pago)";
         else if (method === 'spei') btnLabel.innerText = "Confirmar Pago SPEI (WhatsApp)";
-        else btnLabel.innerText = "Generar Ficha de Pago OXXO";
+        else btnLabel.innerText = "Generar Ficha de Pago en Efectivo (OXXO / Red Nacional)";
       }
     }
 
@@ -768,7 +786,7 @@
         if (payTitle) payTitle.innerText = "Transferencia SPEI Directa (BBVA México - 0% Comisión)";
         if (payIcon) payIcon.className = "fa-solid fa-building-columns text-emerald-400 text-xl shrink-0";
       } else {
-        if (payTitle) payTitle.innerText = "Depósito / Abono en Efectivo (OXXO / 7-Eleven)";
+        if (payTitle) payTitle.innerText = "Depósito en Efectivo (OXXO, 7-Eleven, Farmacias GDL, Soriana)";
         if (payIcon) payIcon.className = "fa-solid fa-store text-amber-400 text-xl shrink-0";
       }
 
@@ -986,7 +1004,15 @@
     function executeFinalCheckoutFlow() {
       const items = getCartItems();
       if (items.length === 0) {
-        alert("⚠️ Tu carrito está vacío. Agrega productos antes de pagar.");
+        alert("⚠️ Tu carrito está vacío. Agrega productos antes de realizar tu pedido.");
+        return;
+      }
+
+      // CANDADO DE SEGURIDAD: Artículos con stock cero / bajo pedido
+      const backordered = items.filter(i => i.stock === 0 || i.stk === 0 || i.disponible === false || i.estado_comercial === 'bajo_pedido');
+      if (backordered.length > 0) {
+        const backorderedNames = backordered.map(i => `• [${i.sku || 'SKU'}] ${i.nombre || i.name || 'Artículo'}`).join('\n');
+        alert(`⚠️ ACCIÓN BLOQUEADA: Tu canasta contiene artículos bajo pedido (sin stock inmediato):\n\n${backorderedNames}\n\nPor favor retíralos para continuar con la compra directa a domicilio, o comunícate con nuestro mostrador vía WhatsApp (+52 33 3727 1440) para programar su pedido especial.`);
         return;
       }
 
@@ -994,56 +1020,31 @@
       const phone = (document.getElementById("custPhone").value || '').trim();
       const email = (document.getElementById("custEmail").value || '').trim();
       const address = (document.getElementById("custAddress").value || '').trim();
+      const colonia = (document.getElementById("custColonia") ? document.getElementById("custColonia").value : 'Centro / Área Metropolitana').trim() || 'Centro';
+      const city = (document.getElementById("custCity") ? document.getElementById("custCity").value : 'Guadalajara, Jalisco').trim();
       const cp = (document.getElementById("custCP").value || '').trim();
+      const references = (document.getElementById("custReferences") ? document.getElementById("custReferences").value : address).trim();
 
-      if (!name || !phone || !email || !address) {
+      if (!name || !phone || !email || !address || !cp) {
+        alert("⚠️ Para cumplir con el modelo de entrega a domicilio, es obligatorio completar:\n- Nombre de quien recibe\n- WhatsApp / Teléfono\n- Correo Electrónico\n- Dirección (Calle, Número, Colonia)\n- Código Postal (5 dígitos)");
         expandAddressForm();
-        alert("⚠️ Por favor ingresa y confirma tu nombre, teléfono, correo y domicilio de entrega.");
-        document.getElementById("custName").focus();
         return;
       }
 
-      // Guardar Lead de Cliente en Base de Datos Local de Clientes (CRM)
-      const customerLead = {
-        fecha: new Date().toISOString().replace('T', ' ').substring(0, 16),
-        tienda: "KIOSCO DIGITAL",
-        nombre: name,
-        telefono: phone,
-        email: email,
-        direccion: address,
-        cp: cp,
-        articulos_comprados: items.map(i => `${i.quantity || 1}x ${i.nombre || i.title} (${i.sku})`).join('; '),
-        total_mxn: document.getElementById("chk-total").innerText,
-        metodo_pago: currentPaymentMethod.toUpperCase()
-      };
-
-      let crmList = JSON.parse(localStorage.getItem('ecosystem_crm_leads') || '[]');
-      crmList.unshift(customerLead);
-      localStorage.setItem('ecosystem_crm_leads', JSON.stringify(crmList));
-
-      // Si es SPEI -> Enviar por WhatsApp con formato profesional
-      if (currentPaymentMethod === 'spei') {
-        const msg = `*NUEVO PEDIDO EN KIOSCO DIGITAL*%0A` +
-          `👤 *Cliente:* ${name}%0A` +
-          `📱 *Tel:* ${phone}%0A` +
-          `✉️ *Email:* ${email}%0A` +
-          `📍 *Entrega:* ${address} (CP ${cp})%0A` +
-          `💳 *Pago:* SPEI Directo BBVA (012 180 01542584394 9)%0A` +
-          `📦 *Artículos:*%0A` +
-          items.map(i => `• (${i.quantity || 1}) ${i.nombre || i.title} - $${((i.precio || 0)*(i.quantity || 1)).toLocaleString('es-MX')}`).join('%0A') +
-          `%0A💰 *${document.getElementById("chk-total").innerText}*%0A` +
-          `Adjunto mi comprobante de transferencia.`;
-
-        window.open(`https://wa.me/523337271440?text=${msg}`, '_blank');
-      } 
-      // Si es Tarjeta / Mercado Pago
-      else if (currentPaymentMethod === 'tarjeta') {
-        alert("💳 Redirigiendo a la pasarela segura de Mercado Pago para procesar tu pago de forma encriptada...");
-        window.location.href = "https://www.mercadopago.com.mx/";
-      } 
-      // Si es OXXO
-      else {
-        alert("🏪 Ficha de pago generada. Presenta el código de convenio en cualquier tienda OXXO o 7-Eleven.");
+      if (window.SharedCart && typeof window.SharedCart.processOrderDispatch === 'function') {
+        window.SharedCart.processOrderDispatch({
+          storeName: "KIOSCO DIGITAL",
+          clientName: name,
+          clientPhone: phone,
+          clientEmail: email,
+          address: address,
+          colonia: colonia,
+          city: city,
+          cp: cp,
+          references: references,
+          paymentMethod: currentPaymentMethod,
+          items: items
+        });
       }
     }
   </script>
