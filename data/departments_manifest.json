@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-09-07T14:50:00Z",
-  "totalProducts": 18151,
+  "totalProducts": 18222,
   "departmentsCount": 67,
   "departments": {
     "procesadores": {
@@ -18,7 +18,7 @@
       "name": "2. Tarjetas Madre (Motherboards)",
       "icon": "fa-chess-board",
       "order": 2,
-      "count": 107,
+      "count": 109,
       "files": [
         "data/departments/tarjetas_madre.json"
       ]
@@ -48,7 +48,7 @@
       "name": "5. Tarjetas de Video (GPUs)",
       "icon": "fa-vr-cardboard",
       "order": 5,
-      "count": 46,
+      "count": 53,
       "files": [
         "data/departments/tarjetas_video.json"
       ]
@@ -68,7 +68,7 @@
       "name": "7. Fuentes de Poder Certificadas",
       "icon": "fa-bolt",
       "order": 7,
-      "count": 86,
+      "count": 88,
       "files": [
         "data/departments/fuentes_energia.json"
       ]
@@ -98,7 +98,7 @@
       "name": "10. Monitores & Pantallas PC",
       "icon": "fa-desktop",
       "order": 10,
-      "count": 569,
+      "count": 585,
       "files": [
         "data/departments/monitores_pantallas_part_1.json",
         "data/departments/monitores_pantallas_part_2.json"
@@ -129,7 +129,7 @@
       "name": "13. Kits de Teclado y Ratón",
       "icon": "fa-keyboard",
       "order": 13,
-      "count": 172,
+      "count": 173,
       "files": [
         "data/departments/combos_teclado_mouse.json"
       ]
@@ -139,7 +139,7 @@
       "name": "14. Laptops & Computadoras Portátiles",
       "icon": "fa-laptop",
       "order": 14,
-      "count": 327,
+      "count": 330,
       "files": [
         "data/departments/laptops_portatiles_part_1.json",
         "data/departments/laptops_portatiles_part_2.json"
@@ -150,7 +150,7 @@
       "name": "15. Mini PCs Ultracompactas & NUCs",
       "icon": "fa-cube",
       "order": 15,
-      "count": 81,
+      "count": 86,
       "files": [
         "data/departments/mini_pcs_nuc.json"
       ]
@@ -170,7 +170,7 @@
       "name": "17. Computadoras All-in-One (AIO)",
       "icon": "fa-tv",
       "order": 17,
-      "count": 55,
+      "count": 56,
       "files": [
         "data/departments/computadoras_all_in_one.json"
       ]
@@ -180,7 +180,7 @@
       "name": "18. Servidores Torre & Rack Enterprise",
       "icon": "fa-server",
       "order": 18,
-      "count": 41,
+      "count": 42,
       "files": [
         "data/departments/servidores_enterprise.json"
       ]
@@ -201,7 +201,7 @@
       "name": "20. Reguladores de Voltaje & Supresores",
       "icon": "fa-bolt",
       "order": 20,
-      "count": 110,
+      "count": 113,
       "files": [
         "data/departments/reguladores_voltaje.json"
       ]
@@ -211,7 +211,7 @@
       "name": "21. Cargadores, Baterías & Power Banks",
       "icon": "fa-plug-circle-bolt",
       "order": 21,
-      "count": 439,
+      "count": 440,
       "files": [
         "data/departments/cargadores_baterias_powerbanks.json"
       ]
@@ -231,7 +231,7 @@
       "name": "23. Tarjetas de Memoria MicroSD & SD",
       "icon": "fa-sd-card",
       "order": 23,
-      "count": 392,
+      "count": 395,
       "files": [
         "data/departments/tarjetas_microsd.json"
       ]
@@ -251,7 +251,7 @@
       "name": "25. Memorias RAM para Laptop (SODIMM)",
       "icon": "fa-laptop",
       "order": 25,
-      "count": 68,
+      "count": 72,
       "files": [
         "data/departments/memorias_ram_laptop.json"
       ]
@@ -261,7 +261,7 @@
       "name": "26. Memorias RAM para Servidor (ECC)",
       "icon": "fa-server",
       "order": 26,
-      "count": 108,
+      "count": 107,
       "files": [
         "data/departments/memorias_ram_servidor.json"
       ]
@@ -321,7 +321,7 @@
       "name": "32. Cámaras de Seguridad (IP, Bala, Domo)",
       "icon": "fa-video",
       "order": 32,
-      "count": 423,
+      "count": 424,
       "files": [
         "data/departments/camaras_seguridad_cctv.json"
       ]
@@ -371,7 +371,7 @@
       "name": "37. Switches Ethernet & PoE+",
       "icon": "fa-network-wired",
       "order": 37,
-      "count": 412,
+      "count": 414,
       "files": [
         "data/departments/switches_red_part_1.json",
         "data/departments/switches_red_part_2.json"
@@ -402,7 +402,7 @@
       "name": "40. Bobinas UTP, Patch Cords & Conectores RJ45",
       "icon": "fa-network-wired",
       "order": 40,
-      "count": 175,
+      "count": 177,
       "files": [
         "data/departments/cableado_estructurado.json"
       ]
@@ -545,7 +545,7 @@
       "name": "54. Sistemas de Punto de Venta (POS)",
       "icon": "fa-barcode",
       "order": 54,
-      "count": 327,
+      "count": 330,
       "files": [
         "data/departments/punto_de_venta.json"
       ]
@@ -585,7 +585,7 @@
       "name": "58. Aire Comprimido, Espumas & Limpieza",
       "icon": "fa-spray-can-sparkles",
       "order": 58,
-      "count": 84,
+      "count": 86,
       "files": [
         "data/departments/limpieza_mantenimiento.json"
       ]
@@ -595,7 +595,7 @@
       "name": "59. Cables de Video, USB & Adaptadores",
       "icon": "fa-plug",
       "order": 59,
-      "count": 975,
+      "count": 976,
       "files": [
         "data/departments/cables_adaptadores_part_1.json",
         "data/departments/cables_adaptadores_part_2.json",
@@ -607,7 +607,7 @@
       "name": "60. Mochilas, Fundas & Maletines para Laptop",
       "icon": "fa-briefcase",
       "order": 60,
-      "count": 272,
+      "count": 273,
       "files": [
         "data/departments/mochilas_fundas_maletines.json"
       ]
@@ -675,7 +675,7 @@
       "name": "67. Accesorios de Cómputo & Misceláneos",
       "icon": "fa-boxes-stacked",
       "order": 67,
-      "count": 5370,
+      "count": 5381,
       "files": [
         "data/departments/accesorios_perifericos_part_1.json",
         "data/departments/accesorios_perifericos_part_2.json",
