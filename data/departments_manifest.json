@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-09-07T14:50:00Z",
-  "totalProducts": 18222,
+  "totalProducts": 18260,
   "departmentsCount": 67,
   "departments": {
     "procesadores": {
@@ -48,7 +48,7 @@
       "name": "5. Tarjetas de Video (GPUs)",
       "icon": "fa-vr-cardboard",
       "order": 5,
-      "count": 53,
+      "count": 54,
       "files": [
         "data/departments/tarjetas_video.json"
       ]
@@ -88,7 +88,7 @@
       "name": "9. Discos Duros Internos HDD",
       "icon": "fa-hard-drive",
       "order": 9,
-      "count": 148,
+      "count": 149,
       "files": [
         "data/departments/discos_duros_hdd_internos.json"
       ]
@@ -98,7 +98,7 @@
       "name": "10. Monitores & Pantallas PC",
       "icon": "fa-desktop",
       "order": 10,
-      "count": 585,
+      "count": 586,
       "files": [
         "data/departments/monitores_pantallas_part_1.json",
         "data/departments/monitores_pantallas_part_2.json"
@@ -129,7 +129,7 @@
       "name": "13. Kits de Teclado y Ratón",
       "icon": "fa-keyboard",
       "order": 13,
-      "count": 173,
+      "count": 174,
       "files": [
         "data/departments/combos_teclado_mouse.json"
       ]
@@ -139,7 +139,7 @@
       "name": "14. Laptops & Computadoras Portátiles",
       "icon": "fa-laptop",
       "order": 14,
-      "count": 330,
+      "count": 331,
       "files": [
         "data/departments/laptops_portatiles_part_1.json",
         "data/departments/laptops_portatiles_part_2.json"
@@ -150,7 +150,7 @@
       "name": "15. Mini PCs Ultracompactas & NUCs",
       "icon": "fa-cube",
       "order": 15,
-      "count": 86,
+      "count": 87,
       "files": [
         "data/departments/mini_pcs_nuc.json"
       ]
@@ -160,7 +160,7 @@
       "name": "16. Computadoras de Escritorio & Gaming PCs",
       "icon": "fa-computer",
       "order": 16,
-      "count": 122,
+      "count": 123,
       "files": [
         "data/departments/computadoras_ensambladas.json"
       ]
@@ -190,7 +190,7 @@
       "name": "19. No-Breaks & Sistemas UPS",
       "icon": "fa-car-battery",
       "order": 19,
-      "count": 413,
+      "count": 417,
       "files": [
         "data/departments/no_breaks_ups_part_1.json",
         "data/departments/no_breaks_ups_part_2.json"
@@ -201,7 +201,7 @@
       "name": "20. Reguladores de Voltaje & Supresores",
       "icon": "fa-bolt",
       "order": 20,
-      "count": 113,
+      "count": 114,
       "files": [
         "data/departments/reguladores_voltaje.json"
       ]
@@ -211,7 +211,7 @@
       "name": "21. Cargadores, Baterías & Power Banks",
       "icon": "fa-plug-circle-bolt",
       "order": 21,
-      "count": 440,
+      "count": 443,
       "files": [
         "data/departments/cargadores_baterias_powerbanks.json"
       ]
@@ -231,7 +231,7 @@
       "name": "23. Tarjetas de Memoria MicroSD & SD",
       "icon": "fa-sd-card",
       "order": 23,
-      "count": 395,
+      "count": 399,
       "files": [
         "data/departments/tarjetas_microsd.json"
       ]
@@ -261,7 +261,7 @@
       "name": "26. Memorias RAM para Servidor (ECC)",
       "icon": "fa-server",
       "order": 26,
-      "count": 107,
+      "count": 108,
       "files": [
         "data/departments/memorias_ram_servidor.json"
       ]
@@ -281,7 +281,7 @@
       "name": "28. Bocinas, Barras de Sonido & Bafles",
       "icon": "fa-volume-high",
       "order": 28,
-      "count": 306,
+      "count": 308,
       "files": [
         "data/departments/bocinas_sonido.json"
       ]
@@ -432,7 +432,7 @@
       "name": "43. Impresoras de Inyección & Multifuncionales",
       "icon": "fa-print",
       "order": 43,
-      "count": 296,
+      "count": 301,
       "files": [
         "data/departments/impresoras_multifuncionales_part_1.json",
         "data/departments/impresoras_multifuncionales_part_2.json"
@@ -595,7 +595,7 @@
       "name": "59. Cables de Video, USB & Adaptadores",
       "icon": "fa-plug",
       "order": 59,
-      "count": 976,
+      "count": 977,
       "files": [
         "data/departments/cables_adaptadores_part_1.json",
         "data/departments/cables_adaptadores_part_2.json",
@@ -665,7 +665,7 @@
       "name": "66. Sillas Gamer, Consolas & Videojuegos",
       "icon": "fa-gamepad",
       "order": 66,
-      "count": 222,
+      "count": 225,
       "files": [
         "data/departments/gaming_consolas_sillas.json"
       ]
@@ -675,7 +675,7 @@
       "name": "67. Accesorios de Cómputo & Misceláneos",
       "icon": "fa-boxes-stacked",
       "order": 67,
-      "count": 5381,
+      "count": 5388,
       "files": [
         "data/departments/accesorios_perifericos_part_1.json",
         "data/departments/accesorios_perifericos_part_2.json",
