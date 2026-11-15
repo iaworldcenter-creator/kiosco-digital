@@ -574,9 +574,13 @@
             });
         }
 
-        const currentOrigin = window.location.origin && window.location.origin !== "null" 
+        let currentOrigin = window.location.origin && window.location.origin !== "null" 
             ? window.location.origin 
             : "https://iaworldcenter-creator.github.io";
+        // Blindaje contra 400 Bad Request de Mercado Pago en entornos de desarrollo local
+        if (!currentOrigin.startsWith("https://") || currentOrigin.includes("localhost") || currentOrigin.includes("127.0.0.1")) {
+            currentOrigin = "https://iaworldcenter-creator.github.io";
+        }
         const currentPath = window.location.pathname || "/sitios-web/checkout.html";
         const returnUrl = `${currentOrigin}${currentPath}`;
 
@@ -608,26 +612,17 @@
             statement_descriptor: "VECTEC"
         };
 
-        // INTENTO 1: Microservicio Serverless (/api/create-preference)
-        const endpoints = [];
-        if (window.MP_PREFERENCE_ENDPOINT) {
-            endpoints.push(window.MP_PREFERENCE_ENDPOINT);
-        }
-        endpoints.push("/api/create-preference");
-        endpoints.push("./api/create-preference");
-
-        for (const ep of endpoints) {
+        // INTENTO 1: Microservicio Serverless opcional (si existe backend dedicado)
+        if (window.MP_PREFERENCE_ENDPOINT && typeof window.MP_PREFERENCE_ENDPOINT === 'string') {
             try {
-                const res = await fetch(ep, {
+                const res = await fetch(window.MP_PREFERENCE_ENDPOINT, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.init_point) {
-                        return data;
-                    }
+                    if (data.init_point) return data;
                 }
             } catch (e) {}
         }
@@ -953,8 +948,141 @@
         updateBadges: updateCartBadges
     };
 
+    // -------------------------------------------------------------------------
+    // 8. DETECCIÓN AUTOMÁTICA DE RETORNO MERCADO PAGO (SUCCESS / FAILURE / PENDING)
+    // -------------------------------------------------------------------------
+    function checkMercadoPagoReturnStatus() {
+        if (typeof window === "undefined" || !window.location || !window.location.search) return;
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get("status") || params.get("collection_status");
+        const orderId = params.get("order") || params.get("external_reference");
+        const paymentId = params.get("payment_id") || params.get("collection_id") || "N/A";
+        
+        if (!status) return;
+
+        if (status === "approved") {
+            // Vaciar carrito tras pago acreditado
+            saveCart([]);
+            try { localStorage.removeItem("cart"); } catch(e) {}
+            try { localStorage.removeItem("shared_cart_items"); } catch(e) {}
+            updateCartBadges();
+
+            let orderPin = "0000";
+            try {
+                const log = JSON.parse(localStorage.getItem(ORDERS_LOG_KEY) || "[]");
+                const found = log.find(o => o.orderId === orderId);
+                if (found && found.pin) orderPin = found.pin;
+                else orderPin = getOrGeneratePin();
+            } catch(e) {
+                orderPin = getOrGeneratePin();
+            }
+
+            const waMsg = `✅ *PAGO CONFIRMADO MERCADO PAGO - VECTEC*\n` +
+                          `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                          `🆔 *Orden:* ${orderId || 'VT-CONFIRMADO'}\n` +
+                          `💳 *No. Operación MP:* ${paymentId}\n` +
+                          `🔐 *PIN de Entrega:* ${orderPin}\n` +
+                          `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                          `Hola, acabo de pagar mi pedido mediante Mercado Pago. Por favor confirmen la preparación para el despacho a domicilio.`;
+
+            const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(waMsg)}`;
+
+            const modal = document.createElement("div");
+            modal.id = "mp-success-modal";
+            modal.innerHTML = `
+                <div style="position:fixed;inset:0;background:rgba(2,6,23,0.95);backdrop-filter:blur(14px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+                    <div style="background:#0f172a;border:1px solid #10b981;border-radius:24px;max-width:520px;width:100%;padding:32px 28px;box-shadow:0 25px 60px -15px rgba(16,185,129,0.3);text-align:center;color:#ffffff;position:relative;">
+                        <div style="width:72px;height:72px;background:rgba(16,185,129,0.15);border:2px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px auto;color:#10b981;font-size:32px;font-weight:900;">
+                            ✓
+                        </div>
+                        <h2 style="font-size:24px;font-weight:900;margin:0 0 8px 0;letter-spacing:-0.03em;color:#ffffff;">¡Pago Acreditado con Éxito!</h2>
+                        <p style="color:#94a3b8;font-size:14px;margin:0 0 24px 0;line-height:1.5;">Tu transacción ha sido validada y confirmada en tiempo real por Mercado Pago.</p>
+                        
+                        <div style="background:#1e293b;border-radius:16px;padding:18px;margin-bottom:24px;text-align:left;font-size:13px;line-height:1.8;">
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:8px;margin-bottom:8px;">
+                                <span style="color:#94a3b8;">No. de Orden:</span>
+                                <strong style="color:#38bdf8;font-family:monospace;font-size:15px;">${orderId || 'VT-DIRECT'}</strong>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:8px;margin-bottom:8px;">
+                                <span style="color:#94a3b8;">Referencia MP:</span>
+                                <strong style="color:#cbd5e1;font-family:monospace;">${paymentId}</strong>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:8px;margin-bottom:8px;">
+                                <span style="color:#94a3b8;">PIN de Entrega (Uber):</span>
+                                <strong style="color:#10b981;font-family:monospace;font-size:16px;background:rgba(16,185,129,0.1);padding:2px 8px;border-radius:6px;">${orderPin}</strong>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;">
+                                <span style="color:#94a3b8;">Plazo de Entrega:</span>
+                                <strong style="color:#f1f5f9;">24 a 48 horas hábiles</strong>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <a href="${waLink}" target="_blank" style="background:#10b981;color:#ffffff;text-decoration:none;padding:14px 20px;border-radius:14px;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 25px -5px rgba(16,185,129,0.4);transition:all 0.2s;">
+                                <span>Notificar Mostrador por WhatsApp</span>
+                            </a>
+                            <a href="index.html" style="background:#334155;color:#f8fafc;text-decoration:none;padding:12px 20px;border-radius:14px;font-weight:600;font-size:13px;display:inline-block;transition:all 0.2s;">
+                                Regresar al Catálogo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+        } else if (status === "failure") {
+            const modal = document.createElement("div");
+            modal.id = "mp-failure-modal";
+            modal.innerHTML = `
+                <div style="position:fixed;inset:0;background:rgba(2,6,23,0.95);backdrop-filter:blur(14px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+                    <div style="background:#0f172a;border:1px solid #ef4444;border-radius:24px;max-width:500px;width:100%;padding:32px 28px;box-shadow:0 25px 60px -15px rgba(239,68,68,0.3);text-align:center;color:#ffffff;">
+                        <div style="width:72px;height:72px;background:rgba(239,68,68,0.15);border:2px solid #ef4444;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px auto;color:#ef4444;font-size:32px;font-weight:900;">
+                            ✕
+                        </div>
+                        <h2 style="font-size:22px;font-weight:900;margin:0 0 8px 0;letter-spacing:-0.03em;color:#ffffff;">No se pudo procesar el pago</h2>
+                        <p style="color:#94a3b8;font-size:14px;margin:0 0 24px 0;line-height:1.5;">El emisor declinó la operación o la sesión fue cancelada. No se aplicó ningún cobro.</p>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <a href="checkout.html" style="background:#0284c7;color:#ffffff;text-decoration:none;padding:14px 20px;border-radius:14px;font-weight:700;font-size:14px;display:inline-block;">
+                                Intentar Nuevamente o Cambiar Tarjeta
+                            </a>
+                            <a href="https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent('Hola, tuve un detalle al pagar en línea la orden ' + (orderId || '') + ' y requiero asistencia.')}" target="_blank" style="background:#334155;color:#f8fafc;text-decoration:none;padding:12px 20px;border-radius:14px;font-weight:600;font-size:13px;display:inline-block;">
+                                Solicitar Asistencia por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+        } else if (status === "pending") {
+            const modal = document.createElement("div");
+            modal.id = "mp-pending-modal";
+            modal.innerHTML = `
+                <div style="position:fixed;inset:0;background:rgba(2,6,23,0.95);backdrop-filter:blur(14px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+                    <div style="background:#0f172a;border:1px solid #f59e0b;border-radius:24px;max-width:500px;width:100%;padding:32px 28px;box-shadow:0 25px 60px -15px rgba(245,158,11,0.3);text-align:center;color:#ffffff;">
+                        <div style="width:72px;height:72px;background:rgba(245,158,11,0.15);border:2px solid #f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px auto;color:#f59e0b;font-size:32px;font-weight:900;">
+                            ⏳
+                        </div>
+                        <h2 style="font-size:22px;font-weight:900;margin:0 0 8px 0;letter-spacing:-0.03em;color:#ffffff;">Pago Pendiente de Acreditación</h2>
+                        <p style="color:#94a3b8;font-size:14px;margin:0 0 24px 0;line-height:1.5;">Si seleccionaste pago en OXXO, 7-Eleven o ventanilla bancaria, conserva tu ficha. Tu pedido se despachará en cuanto se acredite el pago.</p>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <a href="https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent('Hola, generé ficha de pago en efectivo para la orden ' + (orderId || '') + '.')}" target="_blank" style="background:#10b981;color:#ffffff;text-decoration:none;padding:14px 20px;border-radius:14px;font-weight:700;font-size:14px;display:inline-block;">
+                                Enviar Ficha por WhatsApp
+                            </a>
+                            <a href="index.html" style="background:#334155;color:#f8fafc;text-decoration:none;padding:12px 20px;border-radius:14px;font-weight:600;font-size:13px;display:inline-block;">
+                                Regresar al Catálogo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         updateCartBadges();
         syncPinDisplay();
+        checkMercadoPagoReturnStatus();
     });
 })();
