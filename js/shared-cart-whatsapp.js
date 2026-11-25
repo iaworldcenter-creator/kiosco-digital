@@ -8,7 +8,8 @@
 
 (function () {
     const WHATSAPP_PHONE = "523337271440";
-    const ADMIN_EMAIL = "pedromoreno501a@gmail.com";
+    const ADMIN_EMAIL = "iaworldcenter@gmail.com";
+    const SECONDARY_EMAIL = "nfl.gdl@hotmail.com";
     const CART_KEY = "ecosystem_global_cart";
     const ALT_CART_KEY = "cart_items";
     const PIN_KEY = "checkout_uber_pin";
@@ -717,7 +718,7 @@
         const clabeClean = "012180015425843949";
         const emailSubject = encodeURIComponent(`Nuevo Pedido ${orderId} - ${storeName}`);
         const emailBody = encodeURIComponent(orderData.rawMessageText || "");
-        const mailUrl = `mailto:${ADMIN_EMAIL}?subject=${emailSubject}&body=${emailBody}`;
+        const mailUrl = `mailto:${ADMIN_EMAIL}?cc=${SECONDARY_EMAIL}&subject=${emailSubject}&body=${emailBody}`;
 
         let paymentSpecificHtml = "";
         if (paymentMethod === "spei") {
@@ -824,7 +825,11 @@
                             </button>
                         </div>
 
-                        <button type="button" onclick="document.getElementById('order-success-modal').remove();" style="background:transparent;border:none;color:#64748b;font-size:12px;margin-top:6px;padding:6px;cursor:pointer;">
+                        <div style="font-size:11px;color:#94a3b8;margin-top:6px;line-height:1.5;border-top:1px solid #1e293b;padding-top:10px;">
+                            📧 <strong>Pedidos:</strong> <a href="mailto:${ADMIN_EMAIL}" style="color:#38bdf8;text-decoration:none;font-weight:bold;">${ADMIN_EMAIL}</a><br>
+                            📩 <strong>Respaldo / Soporte:</strong> <a href="mailto:${SECONDARY_EMAIL}" style="color:#cbd5e1;text-decoration:none;font-weight:bold;">${SECONDARY_EMAIL}</a>
+                        </div>
+                        <button type="button" onclick="document.getElementById('order-success-modal').remove();" style="background:transparent;border:none;color:#64748b;font-size:12px;margin-top:4px;padding:6px;cursor:pointer;">
                             Cerrar ventana
                         </button>
                     </div>
