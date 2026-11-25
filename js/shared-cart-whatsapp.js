@@ -73,6 +73,19 @@
         }
     }
 
+    function clearCart() {
+        KNOWN_CART_KEYS.forEach(k => {
+            try { localStorage.removeItem(k); } catch(e) {}
+        });
+        try { localStorage.removeItem(CART_KEY); } catch(e) {}
+        try { localStorage.removeItem(ALT_CART_KEY); } catch(e) {}
+        updateCartBadges();
+        if (typeof window.renderDrawerItems === 'function') {
+            window.renderDrawerItems();
+        }
+        window.dispatchEvent(new Event('storage'));
+    }
+
     function updateCartBadges() {
         const items = getCart();
         const count = items.reduce((acc, i) => acc + (parseInt(i.quantity || i.qty || 1) || 1), 0);
@@ -345,6 +358,32 @@
             addressData.city || ""
         );
 
+        // SOPORTE OFICIAL: RECOLECCIÓN EN TIENDA / MOSTRADOR (GRATIS $0.00 MXN)
+        if (addressData.deliveryMethod === 'tienda' || addressData.isPickup === true) {
+            return {
+                cost: 0,
+                subtotal: subtotal,
+                total: subtotal,
+                carrier: "Recolección en Mostrador (Pedro Moreno 501 A)",
+                label: "Recoger en Tienda - Gratis ($0.00 MXN)",
+                isHeavy: heavyData.isHeavy,
+                heavyData: heavyData,
+                uberEstimate: uberEstimate,
+                isFreeShipping: true,
+                requiresCustomLogistics: false,
+                pin: getOrGeneratePin(),
+                noticeHtml: `
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                        <i class="fa-solid fa-store text-emerald-400"></i>
+                        <span>🏬 RECOLECCIÓN DIRECTA EN MOSTRADOR (GRATIS)</span>
+                    </div>
+                    <p class="text-emerald-200 text-[11px]">
+                        Recoge tu pedido sin costo de envío en <strong>Pedro Moreno 501 A, Col. Centro, Guadalajara, Jalisco</strong>. Horario: Lunes a Sábado de 10:00 a 19:00 hrs.
+                    </p>
+                `
+            };
+        }
+
         let finalCost = 0;
         let carrierName = "";
         let shippingLabel = "";
@@ -547,11 +586,12 @@
     }
 
     async function createMercadoPagoPreference(orderData) {
-        const { items, customer, shipping, orderId, paymentMethod } = orderData;
+        const { items, customer, shipping, orderId, paymentMethod, discountFactor } = orderData;
+        const factor = (typeof discountFactor === "number" && discountFactor > 0 && discountFactor <= 1) ? discountFactor : 1.0;
 
         // Sanitización y armado de artículos para Mercado Pago
         const mpItems = (items || []).map((item, idx) => {
-            const rawPrice = parseFloat(item.unitPrice || item.price || item.precio || 0);
+            const rawPrice = parseCleanPrice(item.unitPrice || item.price || item.precio || 0) * factor;
             const qty = parseInt(item.qty || item.quantity || 1);
             return {
                 id: String(item.sku || `ITEM-${idx + 1}`),
@@ -574,29 +614,35 @@
             });
         }
 
-        let currentOrigin = window.location.origin && window.location.origin !== "null" 
-            ? window.location.origin 
+        let currentOrigin = (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin !== "null")
+            ? window.location.origin
             : "https://iaworldcenter-creator.github.io";
-        // Blindaje contra 400 Bad Request de Mercado Pago en entornos de desarrollo local
+        // Blindaje contra 400 Bad Request de Mercado Pago en entornos de desarrollo local o file://
         if (!currentOrigin.startsWith("https://") || currentOrigin.includes("localhost") || currentOrigin.includes("127.0.0.1")) {
             currentOrigin = "https://iaworldcenter-creator.github.io";
         }
-        const currentPath = window.location.pathname || "/sitios-web/checkout.html";
+        let currentPath = (typeof window !== "undefined" && window.location && window.location.pathname) ? window.location.pathname : "/sitios-web/checkout.html";
+        if (!currentPath || currentPath.includes(":") || currentPath.includes("\\") || currentPath === "/") {
+            currentPath = "/sitios-web/checkout.html";
+        }
         const returnUrl = `${currentOrigin}${currentPath}`;
+
+        const cleanPhone = String(customer?.phone || "").replace(/[^0-9]/g, "");
+        const payerObj = {
+            name: customer?.name || "Cliente VECTEC",
+            email: customer?.email || "cliente@ejemplo.com",
+            address: {
+                street_name: `${customer?.street || 'Pedro Moreno 501 A'} ${customer?.colonia || 'Centro'}`.trim(),
+                zip_code: String(customer?.cp || "44100").replace(/[^0-9]/g, "").slice(0, 5) || "44100"
+            }
+        };
+        if (cleanPhone.length >= 7) {
+            payerObj.phone = { number: cleanPhone };
+        }
 
         const payload = {
             items: mpItems,
-            payer: {
-                name: customer?.name || "Cliente VECTEC",
-                email: customer?.email || "cliente@ejemplo.com",
-                phone: {
-                    number: String(customer?.phone || "").replace(/[^0-9]/g, "") || undefined
-                },
-                address: {
-                    street_name: `${customer?.street || ''} ${customer?.colonia || ''}`.trim(),
-                    zip_code: customer?.cp || ""
-                }
-            },
+            payer: payerObj,
             payment_methods: {
                 excluded_payment_methods: [],
                 excluded_payment_types: [],
@@ -628,7 +674,6 @@
         }
 
         // INTENTO 2: Fallback directo oficial con CORS a la API de Mercado Pago
-        // (Certificado en producción: Access-Control-Allow-Origin: * y Token Válido)
         try {
             const directRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
                 method: "POST",
@@ -649,7 +694,7 @@
                     };
                 }
             } else {
-                const errData = await directRes.json();
+                const errData = await directRes.json().catch(() => ({}));
                 console.error("Error respuesta Mercado Pago API:", errData);
             }
         } catch (err) {
@@ -660,8 +705,151 @@
     }
 
     // -------------------------------------------------------------------------
-    // 6. DOBLE NOTIFICACIÓN ASÍNCRONA & CIERRE DE ORDEN CON CHECKOUT PRO
+    // 6. DOBLE NOTIFICACIÓN ASÍNCRONA, MODAL SIN POPUP-BLOCKERS & CIERRE DE ORDEN
     // -------------------------------------------------------------------------
+    function showOrderSuccessModal(orderData, waUrl, paymentDetails = {}) {
+        hidePaymentLoader();
+        const existing = document.getElementById("order-success-modal");
+        if (existing) existing.remove();
+
+        const { orderId, pin, grandTotal, storeName, paymentMethod, isPickup } = orderData;
+        const mpInitPoint = paymentDetails.mpInitPoint || null;
+        const clabeClean = "012180015425843949";
+        const emailSubject = encodeURIComponent(`Nuevo Pedido ${orderId} - ${storeName}`);
+        const emailBody = encodeURIComponent(orderData.rawMessageText || "");
+        const mailUrl = `mailto:${ADMIN_EMAIL}?subject=${emailSubject}&body=${emailBody}`;
+
+        let paymentSpecificHtml = "";
+        if (paymentMethod === "spei") {
+            paymentSpecificHtml = `
+                <div style="background:rgba(16,185,129,0.1);border:1px solid #10b981;border-radius:16px;padding:16px;margin:16px 0;text-align:left;">
+                    <div style="font-size:12px;color:#34d399;font-weight:bold;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+                        <span>🏦 DATOS PARA TRANSFERENCIA SPEI BBVA (0% COMISIÓN)</span>
+                    </div>
+                    <div style="font-size:13px;color:#f1f5f9;line-height:1.6;font-family:monospace;">
+                        <div><strong>Banco:</strong> BBVA México</div>
+                        <div><strong>Beneficiario:</strong> VECTEC / Ecosistema Vía MX</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin:6px 0;flex-wrap:wrap;">
+                            <strong>CLABE:</strong> <span style="background:#020617;padding:3px 8px;border-radius:6px;border:1px solid #334155;color:#38bdf8;">${clabeClean}</span>
+                            <button type="button" onclick="navigator.clipboard.writeText('${clabeClean}');this.innerText='¡Copiada!';" style="background:#0284c7;color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:bold;cursor:pointer;">Copiar CLABE</button>
+                        </div>
+                        <div><strong>Monto Exacto:</strong> <span style="color:#4ade80;font-weight:bold;">$${grandTotal.toLocaleString('es-MX', {minimumFractionDigits:2})} MXN</span></div>
+                        <div><strong>Concepto / Referencia:</strong> <span style="color:#f59e0b;font-weight:bold;">${orderId}</span></div>
+                    </div>
+                </div>
+            `;
+        } else if (mpInitPoint) {
+            paymentSpecificHtml = `
+                <div style="background:rgba(6,182,212,0.12);border:1px solid #06b6d4;border-radius:16px;padding:16px;margin:16px 0;text-align:left;">
+                    <div style="font-size:12px;color:#22d3ee;font-weight:bold;text-transform:uppercase;margin-bottom:8px;">
+                        <span>💳 PASARELA MERCADO PAGO CHECKOUT PRO LISTA</span>
+                    </div>
+                    <p style="font-size:12.5px;color:#cbd5e1;margin:0;line-height:1.5;">
+                        Tu enlace oficial de cobro por <strong>$${grandTotal.toLocaleString('es-MX', {minimumFractionDigits:2})} MXN</strong> está activo. Serás redirigido automáticamente en un instante o pulsa el botón azul inferior para pagar con Tarjeta o en Efectivo (OXXO / Red Nacional).
+                    </p>
+                </div>
+            `;
+        } else if (paymentMethod === "tarjeta") {
+            paymentSpecificHtml = `
+                <div style="background:rgba(6,182,212,0.1);border:1px solid #06b6d4;border-radius:16px;padding:16px;margin:16px 0;text-align:left;">
+                    <div style="font-size:12px;color:#22d3ee;font-weight:bold;text-transform:uppercase;margin-bottom:8px;">
+                        <span>💳 PAGO CON TARJETA DE CRÉDITO / DÉBITO (MERCADO PAGO)</span>
+                    </div>
+                    <p style="font-size:12.5px;color:#cbd5e1;margin:0;line-height:1.5;">
+                        Tu orden ha sido registrada. Al pulsar el botón de WhatsApp se enviará tu pedido al mostrador para proporcionarte atención y confirmar tu link directo de pago.
+                    </p>
+                </div>
+            `;
+        } else {
+            paymentSpecificHtml = `
+                <div style="background:rgba(245,158,11,0.1);border:1px solid #f59e0b;border-radius:16px;padding:16px;margin:16px 0;text-align:left;">
+                    <div style="font-size:12px;color:#fbbf24;font-weight:bold;text-transform:uppercase;margin-bottom:8px;">
+                        <span>💵 PAGO EN EFECTIVO (RED NACIONAL OXXO / TIENDAS)</span>
+                    </div>
+                    <p style="font-size:12.5px;color:#cbd5e1;margin:0;line-height:1.5;">
+                        Tu orden ha sido registrada. Envía tu pedido por WhatsApp o correo para generar tu referencia oficial en OXXO, 7-Eleven, Farmacias Guadalajara o liquidar en tienda.
+                    </p>
+                </div>
+            `;
+        }
+
+        let deliverySpecificHtml = "";
+        if (isPickup) {
+            deliverySpecificHtml = `
+                <div style="background:rgba(59,130,246,0.1);border:1px solid #3b82f6;border-radius:16px;padding:14px;margin-bottom:16px;text-align:left;">
+                    <div style="font-size:12px;color:#60a5fa;font-weight:bold;text-transform:uppercase;margin-bottom:4px;">
+                        🏬 RECOLECCIÓN EN TIENDA / MOSTRADOR GUADALAJARA
+                    </div>
+                    <div style="font-size:12px;color:#e2e8f0;line-height:1.5;">
+                        📍 <strong>Dirección:</strong> Pedro Moreno 501 A, Col. Centro, Guadalajara, Jal.<br>
+                        🕒 <strong>Horario:</strong> Lunes a Sábado de 10:00 a 19:00 hrs.<br>
+                        🔑 <strong>PIN de Entrega en Mostrador:</strong> <span style="font-family:monospace;background:#020617;padding:2px 8px;border-radius:4px;color:#34d399;font-weight:bold;">${pin}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        const primaryMpBtnHtml = mpInitPoint ? `
+            <a href="${mpInitPoint}" id="btn-modal-mp" target="_top" style="background:linear-gradient(135deg, #0284c7, #2563eb);color:#ffffff;text-decoration:none;padding:15px 20px;border-radius:14px;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 25px -5px rgba(37,99,235,0.5);cursor:pointer;">
+                <span>💳 Pagar Ahora en Mercado Pago ($${grandTotal.toLocaleString('es-MX', {minimumFractionDigits:2})})</span>
+            </a>
+        ` : "";
+
+        const modal = document.createElement("div");
+        modal.id = "order-success-modal";
+        modal.innerHTML = `
+            <div style="position:fixed;inset:0;background:rgba(2,6,23,0.92);backdrop-filter:blur(12px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+                <div style="background:#0f172a;border:2px solid #38bdf8;border-radius:24px;max-width:540px;width:100%;max-height:92vh;overflow-y:auto;padding:28px 24px;box-shadow:0 25px 60px -15px rgba(56,189,248,0.3);text-align:center;color:#ffffff;">
+                    <div style="width:68px;height:68px;background:rgba(16,185,129,0.15);border:2px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px auto;font-size:32px;">
+                        ✅
+                    </div>
+                    <h2 style="font-size:22px;font-weight:900;margin:0 0 6px 0;letter-spacing:-0.02em;color:#ffffff;">¡Orden ${orderId} Registrada!</h2>
+                    <p style="color:#94a3b8;font-size:13px;margin:0 0 16px 0;">Total a Liquidar: <strong style="color:#38bdf8;font-size:16px;">$${grandTotal.toLocaleString('es-MX', {minimumFractionDigits:2})} MXN</strong></p>
+                    
+                    ${deliverySpecificHtml}
+                    ${paymentSpecificHtml}
+
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        ${primaryMpBtnHtml}
+                        <a href="${waUrl}" id="btn-modal-wa" target="_top" style="background:linear-gradient(135deg, #10b981, #059669);color:#ffffff;text-decoration:none;padding:14px 20px;border-radius:14px;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 25px -5px rgba(16,185,129,0.4);cursor:pointer;">
+                            <span>📲 Enviar Pedido por WhatsApp (+52 33 3727 1440)</span>
+                        </a>
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <a href="${mailUrl}" style="background:#1e293b;color:#e2e8f0;text-decoration:none;padding:11px 14px;border-radius:12px;font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #334155;">
+                                <span>📧 Enviar por Correo</span>
+                            </a>
+                            <button type="button" id="btn-modal-copy" onclick="navigator.clipboard.writeText(decodeURIComponent('${encodeURIComponent(orderData.rawMessageText || '')}'));this.innerText='¡Copiado!';" style="background:#1e293b;color:#e2e8f0;border:1px solid #334155;padding:11px 14px;border-radius:12px;font-weight:600;font-size:12px;cursor:pointer;">
+                                📋 Copiar Resumen
+                            </button>
+                        </div>
+
+                        <button type="button" onclick="document.getElementById('order-success-modal').remove();" style="background:transparent;border:none;color:#64748b;font-size:12px;margin-top:6px;padding:6px;cursor:pointer;">
+                            Cerrar ventana
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Limpiar carrito solo cuando NO va pendiente de pago en Mercado Pago (en MP se limpia al volver con status=approved)
+        if (!mpInitPoint && typeof clearCart === 'function') {
+            clearCart();
+        }
+
+        // Auto-navegación directa sin popup-blockers (salvo en modo test automatizado)
+        if (!window.__DISABLE_CHECKOUT_AUTOREDIRECT) {
+            const targetUrl = mpInitPoint || waUrl;
+            const delayMs = mpInitPoint ? 1200 : 1800;
+            setTimeout(() => {
+                try {
+                    window.location.href = targetUrl;
+                } catch(e) {}
+            }, delayMs);
+        }
+    }
+
     async function processOrderDispatch(options = {}) {
         const items = (options.items && Array.isArray(options.items) && options.items.length > 0)
             ? options.items
@@ -680,15 +868,16 @@
             return;
         }
 
+        const isPickup = options.deliveryMethod === "tienda" || options.isPickup === true;
         const storeName = options.storeName || "VECTEC";
         const clientName = (options.clientName || "").trim();
         const clientPhone = (options.clientPhone || "").trim();
         const clientEmail = (options.clientEmail || "").trim();
-        const street = (options.address || options.street || "").trim();
-        const colonia = (options.colonia || "").trim() || "Centro / Área Metropolitana";
-        const city = (options.city || "Guadalajara, Jalisco").trim();
-        const cp = (options.cp || "").trim();
-        const references = (options.references || "").trim() || street;
+        const street = isPickup ? "Pedro Moreno 501 A" : ((options.address || options.street || "").trim());
+        const colonia = isPickup ? "Centro" : ((options.colonia || "").trim() || "Centro / Área Metropolitana");
+        const city = isPickup ? "Guadalajara, Jalisco" : ((options.city || "Guadalajara, Jalisco").trim());
+        const cp = isPickup ? "44100" : ((options.cp || "").trim());
+        const references = isPickup ? "Recolección en Mostrador por el titular" : ((options.references || "").trim() || street);
         const paymentMethod = options.paymentMethod || "tarjeta";
         const notes = (options.notes || "").trim();
 
@@ -704,15 +893,25 @@
             alert("⚠️ Por favor ingresa tu correo electrónico para confirmación.");
             return;
         }
-        if (!street || !cp) {
+        if (!isPickup && (!street || !cp)) {
             alert("⚠️ Para entrega a domicilio es obligatorio ingresar tu Domicilio Completo y Código Postal (5 dígitos).");
             return;
         }
 
         const pin = getOrGeneratePin();
-        const calc = calculateShippingDetails(items, { street, colonia, cp, city });
+        const calc = calculateShippingDetails(items, { 
+            street, 
+            colonia, 
+            cp, 
+            city, 
+            deliveryMethod: isPickup ? 'tienda' : 'domicilio',
+            isPickup: isPickup 
+        });
 
-        let subtotal = 0;
+        const totalPieces = items.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty || 1) || 1), 0);
+        const discountFactor = totalPieces >= 10 ? 0.90 : 1.0;
+
+        let subtotalBruto = 0;
         const itemsBreakdown = items.map((item) => {
             let rawSku = item.sku || item.id || "SKU";
             const isClaveB = rawSku.startsWith("B-") || item.prov === "B" || item.clave_proveedor === "B";
@@ -724,7 +923,7 @@
             const qty = parseInt(item.quantity || item.qty || 1);
             const price = parseCleanPrice(item.precio || item.price || 0);
             const itemTotal = price * qty;
-            subtotal += itemTotal;
+            subtotalBruto += itemTotal;
             return {
                 sku: cleanSku,
                 clave_proveedor: clave,
@@ -736,7 +935,9 @@
             };
         });
 
-        const shippingCost = calc.cost;
+        const discountMayoreo = totalPieces >= 10 ? Math.round(subtotalBruto * 0.10 * 100) / 100 : 0;
+        const subtotal = Math.max(0, subtotalBruto - discountMayoreo);
+        const shippingCost = isPickup ? 0 : calc.cost;
         const grandTotal = subtotal + shippingCost;
         const orderId = "VT-" + Date.now().toString().slice(-6);
         const orderDate = new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" });
@@ -746,7 +947,11 @@
             pin: pin,
             timestamp: new Date().toISOString(),
             dateFormatted: orderDate,
-            store: storeName,
+            storeName: storeName,
+            isPickup: isPickup,
+            deliveryMethod: isPickup ? 'tienda' : 'domicilio',
+            discountFactor: discountFactor,
+            discountMayoreo: discountMayoreo,
             customer: {
                 name: clientName,
                 phone: clientPhone,
@@ -758,67 +963,19 @@
                 references: references
             },
             shipping: {
-                carrier: calc.carrier,
-                label: calc.label,
                 cost: shippingCost,
-                isHeavy: calc.isHeavy,
-                estimatedWeightKg: calc.heavyData ? calc.heavyData.estimatedWeightKg : 0,
-                pin: pin,
-                dispatchNotice: "Despacho a domicilio en 24 a 48 hrs hábiles. No contamos con mostrador inmediato."
+                carrier: isPickup ? "Recolección en Mostrador" : calc.carrier,
+                label: isPickup ? "Recolección en Tienda (Gratis)" : calc.label,
+                isHeavy: calc.isHeavy
             },
-            payment: {
-                method: paymentMethod
-            },
-            items: itemsBreakdown,
+            items: items,
+            itemsBreakdown: itemsBreakdown,
             subtotal: subtotal,
-            total: grandTotal,
+            grandTotal: grandTotal,
+            paymentMethod: paymentMethod,
             notes: notes
         };
 
-        // Persistencia en bitácora local y CRM de leads
-        try {
-            let log = JSON.parse(localStorage.getItem(ORDERS_LOG_KEY) || "[]");
-            log.unshift(orderData);
-            if (log.length > 50) log = log.slice(0, 50);
-            localStorage.setItem(ORDERS_LOG_KEY, JSON.stringify(log));
-
-            // Guardar Lead de Cliente en Base de Datos Local de Clientes (CRM en Lotes de 10k)
-            const customerLead = {
-                fecha: orderData.timestamp.replace('T', ' ').substring(0, 16),
-                tienda: storeName,
-                orden: orderId,
-                nombre: clientName,
-                telefono: clientPhone,
-                email: clientEmail,
-                direccion: `${street}, ${colonia}, ${city} (CP ${cp})`,
-                cp: cp,
-                articulos_comprados: itemsBreakdown.map(i => `${i.qty}x ${i.name} (${i.sku})`).join('; '),
-                total_mxn: `$${grandTotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`,
-                metodo_pago: paymentMethod.toUpperCase(),
-                pin: pin
-            };
-            let crmList = JSON.parse(localStorage.getItem('ecosystem_crm_leads') || '[]');
-            crmList.unshift(customerLead);
-            if (crmList.length > 10000) crmList = crmList.slice(0, 10000);
-            localStorage.setItem('ecosystem_crm_leads', JSON.stringify(crmList));
-        } catch (e) {}
-
-        // ALERTA 1: Transmisión Asíncrona Backend / Webhook
-        try {
-            fetch(WEBHOOK_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    alert: "NUEVA_VENTA_VECTEC_CONFIRMADA",
-                    order: orderData,
-                    adminEmailTarget: ADMIN_EMAIL
-                }),
-                mode: "cors",
-                keepalive: true
-            }).catch(() => {});
-        } catch (e) {}
-
-        // ALERTA 2: Construcción de Mensaje de WhatsApp (+52 33 3727 1440)
         const paymentLabelMap = {
             tarjeta: "Tarjeta de Crédito / Débito (Mercado Pago)",
             spei: "Transferencia SPEI Directa BBVA (0% Comisión)",
@@ -827,101 +984,95 @@
         const paymentLabel = paymentLabelMap[paymentMethod] || paymentMethod;
 
         const messageLines = [
-            `🚨 *NUEVO PEDIDO CONFIRMADO - ${storeName.toUpperCase()}*`,
-            `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-            `🆔 *Orden:* ${orderId}`,
-            `📅 *Fecha:* ${orderDate}`,
-            `🔐 *PIN ENTREGA UBER:* ${pin}`,
+            `🛍️ *PEDIDO OFICIAL — ${storeName}*`,
+            `🆔 *Folio de Orden:* ${orderId}`,
+            `📅 *Fecha y Hora:* ${orderDate}`,
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
             `👤 *DATOS DEL CLIENTE:*`,
             `• *Nombre:* ${clientName}`,
-            `• *Teléfono / WhatsApp:* ${clientPhone}`,
+            `• *WhatsApp / Tel:* ${clientPhone}`,
             `• *Correo:* ${clientEmail}`,
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-            `📍 *DOMICILIO DE ENTREGA (100% A DOMICILIO):*`,
-            `🏠 *Calle y Núm:* ${street}`,
-            `🏘️ *Colonia:* ${colonia}`,
-            `🏙️ *Ciudad/Estado:* ${city}`,
-            `📮 *Código Postal:* ${cp}`,
-            `🧭 *Referencias:* ${references}`,
+            isPickup ? `🏬 *MODALIDAD: RECOLECCIÓN EN TIENDA / MOSTRADOR*` : `📍 *DOMICILIO DE ENTREGA (A DOMICILIO):*`,
+            isPickup ? `• *Punto de Recolección:* Pedro Moreno 501 A, Col. Centro, Guadalajara, Jal.` : `• *Calle y Núm:* ${street}`,
+            isPickup ? `• *Horario:* Lunes a Sábado de 10:00 a 19:00 hrs` : `• *Colonia:* ${colonia}`,
+            isPickup ? `• *Ciudad:* Guadalajara, Jalisco` : `• *Ciudad/Estado:* ${city} (CP: ${cp})`,
+            isPickup ? `• *PIN de Entrega en Mostrador:* ${pin}` : `• *Referencias:* ${references}`,
+            !isPickup ? `• *PIN de Chofer Uber:* ${pin}` : null,
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
             `🚚 *LOGÍSTICA Y TRANSPORTE:*`,
-            `• *Modalidad:* ${calc.carrier}`,
-            `• *Tarifa:* $${shippingCost.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`,
-            calc.isHeavy ? `⚠️ *Peso Estimado:* ~${calc.heavyData.estimatedWeightKg} kg (${calc.heavyData.reasons.join(', ')})` : `🛵 *Zona Uber:* ${calc.uberEstimate.zoneName} (${calc.uberEstimate.distanceKm})`,
-            `⏱️ *Plazo de Entrega:* 24 a 48 horas hábiles`,
-            `ℹ️ _Recolección en Pedro Moreno 501 A requiere coordinación previa por WhatsApp de 24 hrs hábiles para surtido de almacén._`,
+            `• *Modalidad:* ${isPickup ? "Recolección Personal en Mostrador" : calc.carrier}`,
+            `• *Costo de Envío:* $${shippingCost.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN${isPickup ? " (GRATIS)" : ""}`,
+            (!isPickup && calc.isHeavy) ? `⚠️ *Peso Estimado:* ~${calc.heavyData.estimatedWeightKg} kg (${calc.heavyData.reasons.join(', ')})` : null,
+            (!isPickup && !calc.isHeavy) ? `🛵 *Zona Uber:* ${calc.uberEstimate.zoneName}` : null,
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
             `📦 *DESGLOSE DE ARTÍCULOS:*`,
             itemsBreakdown.map(i => i.lineText).join('\n'),
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+            discountMayoreo > 0 ? `🏷️ *Descuento Mayoreo (-10%):* -$${discountMayoreo.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN` : null,
             `💵 *Subtotal:* $${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`,
             `🚚 *Envío:* $${shippingCost.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`,
             `💰 *TOTAL A LIQUIDAR: $${grandTotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN*`,
             `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
             `💳 *Forma de Pago:* ${paymentLabel}`,
+            paymentMethod === 'spei' ? `🏦 *Datos Bancarios BBVA:*\n• Banco: BBVA México\n• Beneficiario: VECTEC / Ecosistema Vía MX\n• CLABE: 012180015425843949\n• Concepto: ${orderId}` : null,
             notes ? `📝 *Instrucciones:* ${notes}\n━━━━━━━━━━━━━━━━━━━━━━━━━━` : null,
-            `⚠️ *ACCIÓN REQUERIDA:* Procesar pedido y generar despacho con PIN de seguridad.`
+            `⚠️ *ACCIÓN REQUERIDA:* Procesar pedido y confirmar orden.`
         ].filter(Boolean);
 
-        // DISPARADOR DE PAGO MERCADO PAGO O SPEI
+        // Enviar webhook asíncrono si no está en modo stub
+        try {
+            fetch(WEBHOOK_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderData),
+                mode: "no-cors"
+            }).catch(() => {});
+        } catch(e) {}
+
+        let mpInitPoint = null;
         if (paymentMethod === "tarjeta" || paymentMethod === "oxxo") {
             const loaderTitle = paymentMethod === "tarjeta"
                 ? "Conectando con Pasarela Segura de Tarjetas..."
                 : "Conectando con Red Nacional de Efectivo...";
             const loaderSub = paymentMethod === "tarjeta"
-                ? "Generando orden encriptada para Tarjeta de Débito / Crédito en Mercado Pago..."
-                : "Habilitando referencia para pago en OXXO, 7-Eleven, Farmacias Guadalajara, Soriana y Benavides...";
+                ? "Generando preferencia cifrada en Mercado Pago Checkout Pro..."
+                : "Habilitando ficha de pago en OXXO, 7-Eleven, Farmacias GDL y Soriana...";
             showPaymentLoader(loaderTitle, loaderSub);
 
             let pref = null;
             try {
                 pref = await createMercadoPagoPreference(orderData);
-            } catch (err) {
-                console.error("Error creando preferencia Mercado Pago:", err);
-            }
+            } catch(e) {}
 
+            hidePaymentLoader();
             if (pref && pref.init_point) {
-                // Agregar enlace oficial al mensaje de WhatsApp
-                const waLinesWithLink = [...messageLines];
-                waLinesWithLink.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-                waLinesWithLink.push(`🔗 *ENLACE CHECKOUT PRO OFICIAL:*`);
-                waLinesWithLink.push(pref.init_point);
-                waLinesWithLink.push(`🆔 *ID Preferencia:* ${pref.preferenceId || 'N/A'}`);
-
-                const fullMessage = waLinesWithLink.join('\n');
-                const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`;
-
-                // Disparo dual simultáneo: WhatsApp en nueva pestaña
-                try {
-                    window.open(waUrl, "_blank");
-                } catch(e) {}
-
-                // Redirección directa e inmediata a Mercado Pago Checkout Pro
-                setTimeout(() => {
-                    window.location.href = pref.init_point;
-                }, 750);
-
-                return orderData;
+                mpInitPoint = pref.init_point;
+                orderData.mpInitPoint = pref.init_point;
+                orderData.mpPreferenceId = pref.preferenceId || null;
+                messageLines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+                messageLines.push(`🔗 *ENLACE MERCADO PAGO CHECKOUT PRO:*`);
+                messageLines.push(pref.init_point);
+            } else if (paymentMethod === "tarjeta") {
+                messageLines.push(`ℹ️ _Solicitud de Link de Pago Seguro Mercado Pago para liquidar con tarjeta._`);
             } else {
-                hidePaymentLoader();
-                alert("ℹ️ Tu orden " + orderId + " ha sido registrada con éxito.\n\nTe conectaremos con nuestro mostrador oficial por WhatsApp (+52 33 3727 1440) para enviarte tu enlace de pago directo.");
-                const fullMessage = messageLines.join('\n');
-                const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`;
-                window.open(waUrl, "_blank");
-                return orderData;
+                messageLines.push(`ℹ️ _Solicitud de Ficha de Depósito en Efectivo OXXO / Red Nacional._`);
             }
-        } else {
-            // SPEI BBVA DIRECTO
-            const fullMessage = messageLines.join('\n');
-            const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`;
-            alert(`✅ ¡PEDIDO ${orderId} REGISTRADO!\n\nPIN de Entrega: ${pin}\n\nSe abrirá WhatsApp para que envíes los datos de tu orden y tu comprobante de transferencia SPEI BBVA.\nCLABE: 012 180 01542584394 9`);
-            window.open(waUrl, "_blank");
-            return orderData;
         }
+
+        const fullMessage = messageLines.join('\n');
+        orderData.rawMessageText = fullMessage;
+        const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`;
+
+        // Persistencia en CRM y logs locales
+        try {
+            saveOrderToHistory(orderData);
+        } catch(e) {}
+
+        showOrderSuccessModal(orderData, waUrl, { paymentMethod, mpInitPoint });
+        return orderData;
     }
 
-    // -------------------------------------------------------------------------
     // 7. EXPOSICIÓN GLOBAL
     // -------------------------------------------------------------------------
     window.SharedCart = {
@@ -935,6 +1086,7 @@
         estimateUberFlashRate: estimateUberFlashRate,
         calculateShippingDetails: calculateShippingDetails,
         processOrderDispatch: processOrderDispatch,
+        clear: clearCart,
         checkoutViaWhatsApp: processOrderDispatch,
         createMercadoPagoPreference: createMercadoPagoPreference,
         showPaymentLoader: showPaymentLoader,
@@ -983,7 +1135,7 @@
                           `💳 *No. Operación MP:* ${paymentId}\n` +
                           `🔐 *PIN de Entrega:* ${orderPin}\n` +
                           `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                          `Hola, acabo de pagar mi pedido mediante Mercado Pago. Por favor confirmen la preparación para el despacho a domicilio.`;
+                          `Hola, acabo de pagar mi pedido mediante Mercado Pago. Por favor confirmen la preparación (${found && found.isPickup ? "para recolección en mostrador Pedro Moreno 501 A" : "para despacho a domicilio"}).`;
 
             const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(waMsg)}`;
 
