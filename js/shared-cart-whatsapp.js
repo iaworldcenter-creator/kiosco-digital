@@ -546,7 +546,8 @@
 
 
     const MP_PUBLIC_KEY = "APP_USR-2bad8b39-5c44-496d-a69c-93adfa377472";
-    const MP_ACCESS_TOKEN = "APP_USR-783757506325362-082612-60b30fdf842397608a8cfcc2a9221837-202684121";
+    // Endpoint serverless de Cloudflare Worker (MP_ACCESS_TOKEN almacenado únicamente como Cloudflare Secret)
+    const DEFAULT_MP_WORKER_ENDPOINT = "";
 
     function showPaymentLoader(title = "Conectando con pasarela segura...", subtitle = "Generando orden cifrada y habilitando pago con Tarjeta y Red Nacional de Efectivo (OXXO, 7-Eleven, Farmacias GDL, Soriana)...") {
         let loader = document.getElementById("mp-payment-loader");
@@ -659,47 +660,27 @@
             statement_descriptor: "VECTEC"
         };
 
-        // INTENTO 1: Microservicio Serverless opcional (si existe backend dedicado)
-        if (window.MP_PREFERENCE_ENDPOINT && typeof window.MP_PREFERENCE_ENDPOINT === 'string') {
+        // Llamada segura al proxy Cloudflare Worker / Endpoint Serverless (sin tokens privados en frontend)
+        const endpoint = (typeof window !== "undefined" && window.MP_PREFERENCE_ENDPOINT && typeof window.MP_PREFERENCE_ENDPOINT === "string")
+            ? window.MP_PREFERENCE_ENDPOINT.trim()
+            : DEFAULT_MP_WORKER_ENDPOINT;
+
+        if (endpoint) {
             try {
-                const res = await fetch(window.MP_PREFERENCE_ENDPOINT, {
+                const res = await fetch(endpoint, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.init_point) return data;
+                    if (data && data.init_point) return data;
+                } else {
+                    console.warn("Endpoint Mercado Pago respondió con estado:", res.status);
                 }
-            } catch (e) {}
-        }
-
-        // INTENTO 2: Fallback directo oficial con CORS a la API de Mercado Pago
-        try {
-            const directRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${MP_ACCESS_TOKEN}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-            if (directRes.ok) {
-                const directData = await directRes.json();
-                if (directData.init_point) {
-                    return {
-                        success: true,
-                        preferenceId: directData.id,
-                        init_point: directData.init_point,
-                        sandbox_init_point: directData.sandbox_init_point
-                    };
-                }
-            } else {
-                const errData = await directRes.json().catch(() => ({}));
-                console.error("Error respuesta Mercado Pago API:", errData);
+            } catch (e) {
+                console.warn("No se pudo contactar con el Cloudflare Worker de Mercado Pago:", e);
             }
-        } catch (err) {
-            console.error("Error al invocar API de Mercado Pago:", err);
         }
 
         return null;
