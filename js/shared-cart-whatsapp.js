@@ -546,8 +546,8 @@
 
 
     const MP_PUBLIC_KEY = "APP_USR-2bad8b39-5c44-496d-a69c-93adfa377472";
-    // Endpoint serverless de Cloudflare Worker (MP_ACCESS_TOKEN almacenado únicamente como Cloudflare Secret)
-    const DEFAULT_MP_WORKER_ENDPOINT = "";
+    // Endpoint serverless oficial de Cloudflare Worker (MP_ACCESS_TOKEN almacenado exclusivamente como Cloudflare Secret)
+    const DEFAULT_MP_WORKER_ENDPOINT = "https://vectec-mp-checkout.iaworldcenter.workers.dev";
 
     function showPaymentLoader(title = "Conectando con pasarela segura...", subtitle = "Generando orden cifrada y habilitando pago con Tarjeta y Red Nacional de Efectivo (OXXO, 7-Eleven, Farmacias GDL, Soriana)...") {
         let loader = document.getElementById("mp-payment-loader");
